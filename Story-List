@@ -1,0 +1,56 @@
+
+Level of Difficulty(1(easy)-5(hard)):
+
+Register/Login                      2pts
+  -create password and username login
+  -view will be able to capture either sign-in info or registration info
+
+Profile                             2pts
+  -create classes that make up a person using the application
+  -create a bag (data structure) to store data(ArrayList)
+  -use controller to control data between view and model
+
+Make Events                         3pts
+  -allow establishment to make events
+  -allow customers to view and buy
+
+Buy Tickets/tables                  3pts
+  -Using composite design pattern, ticket/table class is made which implements IProduct interface
+
+Cancel/Refund Tickets/tables        3pts
+sell tickets/tables                 3pts
+track ticket/table inv.             4pts
+financial info.                     3pts
+customer invoice and history        3pts
+employee records                    2pts
+Search transaction history          2pts
+Event recommendations               4pts
+
+34 pts/ 6 weeks
+
+5.6 pts a week
+
+
+
+
+
+
+Prioritization:
+
+Week 1:
+-profile 
+-enroll/ login
+-event stuff
+
+
+Week 2:
+-tickets/tables
+-exchange tickets
+-transaction history
+
+Week 3:
+-customer history
+-employer history
+-financial information
+-event recommendation
+-employee records
