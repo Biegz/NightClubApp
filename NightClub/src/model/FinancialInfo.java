@@ -41,6 +41,38 @@ public class FinancialInfo implements Serializable {
 		return revenue - costOGoods;
 	}
 	
+	public double getRevenue() {
+		return revenue;
+	}
+
+	public void setRevenue(double revenue) {
+		this.revenue = revenue;
+	}
+
+	public double getCostOGoods() {
+		return costOGoods;
+	}
+
+	public void setCostOGoods(double costOGoods) {
+		this.costOGoods = costOGoods;
+	}
+
+	public double getSaleTaxTotal() {
+		return saleTaxTotal;
+	}
+
+	public void setSaleTaxTotal(double saleTaxTotal) {
+		this.saleTaxTotal = saleTaxTotal;
+	}
+
+	public double getSaleTax() {
+		return saleTax;
+	}
+
+	public void setProfit(double profit) {
+		this.profit = profit;
+	}
+
 	public String display(){
 		String display = ("Total revenue: $" + revenue + ". Cost of goods sold: $" + costOGoods + ". For a total profit of: $" 
 				+ getProfit() + ". Total sales tax: $" + saleTaxTotal);

@@ -69,7 +69,7 @@ public class MainMenu {
 
 		editAccount.setOnAction(e -> {
 			PaneForCustomer customer = new PaneForCustomer();
-			MainWindow.setCenter(customer.getCustomerEditPane());
+			MainWindow.setCenter(customer.getUpdatePane());
 		});
 
 		return editAccount;
@@ -79,7 +79,8 @@ public class MainMenu {
 		MenuItem editAccount = new MenuItem("Edit Account");
 
 		editAccount.setOnAction(e -> {
-			MainWindow.setCenter(null);
+			PaneForBusiness business = new PaneForBusiness();
+			MainWindow.setCenter(business.getUpdatePane());
 		});
 
 		return editAccount;

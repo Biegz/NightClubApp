@@ -1,5 +1,6 @@
 package view;
 
+import controller.Current;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -74,10 +75,18 @@ public class EstablishmentHLPane {
 		Hyperlink employeeHl = new Hyperlink("Employee");
 
 		employeeHl.setOnAction(e -> {
-
+			Boolean list = false;
 			mainWindow.setCenter(null);
 			main.getChildren().clear();
 			pane2.getChildren().clear();
+			if(Current.getBusiness().getEmployees() != null){
+				PaneForEmployees employees = new PaneForEmployees();
+				MainWindow.setCenter(employees.getPane());
+				
+			} else {
+				PaneForEmployee employee = new PaneForEmployee();
+				MainWindow.setCenter(employee.getCreatePane());
+			}
 
 			main.getChildren().addAll(pane1);
 		});
@@ -90,10 +99,11 @@ public class EstablishmentHLPane {
 		Hyperlink financeHl = new Hyperlink("Financial Info");
 
 		financeHl.setOnAction(e -> {
-
+			PaneForFinancialInfo info = new PaneForFinancialInfo();
 			mainWindow.setCenter(null);
 			main.getChildren().clear();
 			pane2.getChildren().clear();
+			mainWindow.setCenter(info.getPane());
 
 			main.getChildren().addAll(pane1);
 

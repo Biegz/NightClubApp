@@ -11,10 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import model.Employee;
 
 public class PaneForAddress {
 
 	private Pane addressPane;
+	private Employee employee;
 	public static TextField numField;
 	public static TextField nameField;
 	public static TextField cityField;
@@ -33,28 +35,60 @@ public class PaneForAddress {
 	        "Wisconsin", "Wyoming"
 	    	};
 	List<String> stateList = new ArrayList<String>(Arrays.asList(stateArr));
-
+	
 	public PaneForAddress(){
 		addressPane = new Pane();
 	}
-
+	
 	public Pane getCreatePane(){
 		addressPane.getChildren().add(view());
 		return addressPane;
 	}
-
+	
 	public Pane getUpdatePane(){
 		addressPane.getChildren().addAll(view());
 		updateTextFields();
 		return addressPane;
 	}
-
+	
+//	public Pane getEmployeeCreatePane(){
+//		addressPane.getChildren().add(employeeView());
+//		return addressPane;
+//	}
+	
+	public Pane getEmployeeUpdatePane(Employee employee){
+		this.employee = employee;
+		addressPane.getChildren().add(employeeUpdateView());
+		return addressPane;
+	}
+	
+//	private VBox employeeView(){
+//		VBox view = new VBox(5);
+//		view.getChildren().addAll(stNum(), stName(), city(), state(), zipcode());
+//		return view;
+//	}
+	
+	private VBox employeeUpdateView(){
+		VBox view = new VBox(5);
+		view.getChildren().addAll(stNum(), stName(), city(), state(), zipcode());
+		employeeUpdateInfo();
+		return view;
+	}
+	
+	private void employeeUpdateInfo(){
+		numField.setText(employee.getAddress().getNumber());
+		nameField.setText(employee.getAddress().getStreet());
+		cityField.setText(employee.getAddress().getCity());
+		stateField.getSelectionModel().select(employee.getAddress().getState());
+		zipcodeField.setText(employee.getAddress().getZipcode());
+	}
+	
 	private VBox view(){
 		VBox view = new VBox(5);
 		view.getChildren().addAll(stNum(), stName(), city(), state(), zipcode());
 		return view;
 	}
-
+	
 	private HBox stNum(){
 		HBox stNum = new HBox(5);
 		Label numLabel = new Label("Street Number:\t");
@@ -62,7 +96,7 @@ public class PaneForAddress {
 		stNum.getChildren().addAll(numLabel, numField);
 		return stNum;
 	}
-
+	
 	private HBox stName(){
 		HBox stName = new HBox(5);
 		Label nameLabel = new Label("Street Name:\t\t");
@@ -70,7 +104,7 @@ public class PaneForAddress {
 		stName.getChildren().addAll(nameLabel, nameField);
 		return stName;
 	}
-
+	
 	private HBox city(){
 		HBox cityName = new HBox(5);
 		Label cityLabel = new Label("City Name:\t\t");
@@ -78,7 +112,7 @@ public class PaneForAddress {
 		cityName.getChildren().addAll(cityLabel, cityField);
 		return cityName;
 	}
-
+	
 	private HBox state(){
 		HBox stateName = new HBox(5);
 		Label stateLabel = new Label("State:\t\t\t");
@@ -88,7 +122,7 @@ public class PaneForAddress {
 		stateName.getChildren().addAll(stateLabel, stateField);
 		return stateName;
 	}
-
+	
 	private HBox zipcode(){
 		HBox zipcode = new HBox(5);
 		Label zipcodeLabel = new Label("Zipcode:\t\t\t");
@@ -96,7 +130,7 @@ public class PaneForAddress {
 		zipcode.getChildren().addAll(zipcodeLabel, zipcodeField);
 		return zipcode;
 	}
-
+	
 	public void saveInfo(){
 		Current.getUser().getAddress().setNumber(numField.getText());
 		Current.getUser().getAddress().setStreet(nameField.getText());
@@ -104,7 +138,7 @@ public class PaneForAddress {
 		Current.getUser().getAddress().setState((String) stateField.getSelectionModel().getSelectedItem());
 		Current.getUser().getAddress().setZipcode(zipcodeField.getText());
 	}
-
+	
 	private void updateTextFields(){
 		numField.setText(Current.getUser().getAddress().getNumber());
 		nameField.setText(Current.getUser().getAddress().getStreet());
@@ -112,6 +146,6 @@ public class PaneForAddress {
 		stateField.getSelectionModel().select(Current.getUser().getAddress().getState());
 		zipcodeField.setText(Current.getUser().getAddress().getZipcode());
 	}
-
-
+	
+	
 }

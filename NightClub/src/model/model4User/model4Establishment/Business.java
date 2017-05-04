@@ -16,14 +16,18 @@ public class Business extends User {
 	private ArrayList<Employee> employees;
 	private FinancialInfo financeInfo;
 
-
 	public Business(String username, double passwordHash) {
 		super(username, passwordHash);
 		financeInfo = new FinancialInfo();
 	}
 
 	public void addEmployee(Employee employee) {
-		employees.add(employee);
+		if (employees != null) {
+			employees.add(employee);
+		} else {
+			employees = new ArrayList<>();
+			employees.add(employee);
+		}
 	}
 
 	public void removeEmployee(String name) {
@@ -60,12 +64,20 @@ public class Business extends User {
 		events.remove(event);
 	}
 
-	public ArrayList<Event> getEventList(){
+	public ArrayList<Event> getEventList() {
 		return events;
 	}
 
 	public FinancialInfo getFinanceInfo() {
 		return this.financeInfo;
+	}
+
+	public ArrayList<Event> getEvents() {
+		return events;
+	}
+
+	public ArrayList<Employee> getEmployees() {
+		return employees;
 	}
 
 	@Override
@@ -74,6 +86,5 @@ public class Business extends User {
 		display = "Username: " + getUsername() + ". Name: " + name + ". ";
 		return display;
 	}
-
 
 }

@@ -1,14 +1,16 @@
 package model;
 
+import java.io.Serializable;
+
 import model.model4Address.Address;
 
-public class Employee {
+public class Employee implements Serializable{
 
 	private String title;
 	private double salary;
 	private String name;
-	private Address address;
-	private int ssn;
+	private Address address =  new Address();
+	private String ssn;
 	private String phoneNumber;
 	private String dateOfBirth;
 	private String email;
@@ -43,11 +45,11 @@ public class Employee {
 		this.title = title;
 	}
 
-	public double getSlaray() {
+	public double getSalary() {
 		return salary;
 	}
 
-	public void setSlaray(double slaray) {
+	public void setSalary(double slaray) {
 		this.salary = slaray;
 	}
 
@@ -67,11 +69,11 @@ public class Employee {
 		this.address = address;
 	}
 
-	public int getSsn() {
+	public String getSsn() {
 		return ssn;
 	}
 
-	public void setSsn(int ssn) {
+	public void setSsn(String ssn) {
 		this.ssn = ssn;
 	}
 
