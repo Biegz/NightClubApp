@@ -1,12 +1,12 @@
 package view;
 
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import controller.Current;
-import controller.EventCreator;
 import controller.SignInUp;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

@@ -2,6 +2,7 @@ package view;
 
 import javafx.scene.control.Label;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -11,11 +12,13 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import controller.CreateEventListener;
 import controller.Current;
+import controller.DeleteEventListener;
 import controller.Pane4EventEvent;
 import controller.Pane4EventListener;
 import controller.Pane4EventsEvent;
-import controller.Pane4EventsListener;
+import controller.UpdateEventListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -51,6 +54,7 @@ public class Pane4Events {
 	private Pane4EventCreation p;
 	private Button createEventButton;
 	private Button deleteEventButton;
+	private Button updateEventButton;
 	
 	
 	
@@ -65,8 +69,12 @@ public class Pane4Events {
 	private HBox pane;
 	private Pane4Event paneEv;
 
-	private Pane4EventsListener pane4EventsListener;
 	private Pane4EventListener pane4EventListener;
+	private CreateEventListener createEventListener;
+	private DeleteEventListener deleteEventListener;
+	private UpdateEventListener updateEventListener;
+
+	
 	
 	private Current c = new Current();
 	
@@ -123,15 +131,16 @@ public class Pane4Events {
 			
 			TableRow<Event> row = new TableRow<Event>();
 			row.setOnMouseClicked(ev ->{
-				if(ev.getClickCount() >= 2 && (!row.isEmpty())){  //set so if you double click it will delete that event, will change to delete event button soon
+				if(ev.getClickCount() >= 1 && (!row.isEmpty())){  //set so if you double click it will delete that event, will change to delete event button soon
 					System.out.println("Detected clicks");
 					Event rowData = row.getItem();
+					Current.setEvent(rowData);
 					Pane4EventEvent ev2 = new Pane4EventEvent(this, rowData);
 					if(pane4EventListener != null){
 						pane4EventListener.rowSelected(ev2);
 					}	
-					eventsBag.delete(ev2.getEvent());
-					eventsBag.save();
+//					eventsBag.delete(ev2.getEvent());
+//					eventsBag.save();
 					
 
 					
@@ -246,8 +255,9 @@ public class Pane4Events {
 					Current.getBusiness(),
 					p.getName(), p.getGenre(), p.getDescription(), new Address(p.getAddress(), null, p.getZip(), p.getState(), p.getCity()),
 					p.getDate(), p.getTotalTickets(), p.getTicketPrice(), p.getTotalTables(), p.getTablePrice()));
-			if(pane4EventsListener != null){
-				pane4EventsListener.buttonClicked(ev);
+			if(createEventListener != null){
+				System.out.println("Not null");
+				createEventListener.createButtonClicked(ev);
 			}
 			
 			eventsBag.add(ev.getEvent());
@@ -263,20 +273,33 @@ public class Pane4Events {
 	public Button getDeleteEventButton(){
 		deleteEventButton = new Button("Cancel Event");
 		deleteEventButton.setOnAction(e ->{
-
+			Pane4EventsEvent ev = new Pane4EventsEvent(this, ((Event) this.getMyEventsTable().getSelectionModel().getSelectedItem()));	
+			System.out.println("Is null");
 			
+			if(deleteEventListener != null){
+				System.out.println("Not null");
+				deleteEventListener.deleteButtonClicked(ev);
+			}
 		});
+		
 		return deleteEventButton;
 		
 	}
 	
 	public Button getUpdateEventButton(){
-		Button updateEventButton = new Button("Update Event");
+		updateEventButton = new Button("Update Event");
 		updateEventButton.setOnAction(e ->{
+			Pane4EventsEvent ev = new Pane4EventsEvent(e);
 			
+			if(updateEventListener != null){
+				updateEventListener.updateButtonClicked(ev);
+			}
 		});
 		return updateEventButton;
 	}
+	
+	
+	
 	
 	public Pane getSearchBox(){
 		HBox pane = new HBox();
@@ -292,15 +315,18 @@ public class Pane4Events {
 	
 	
 	
+	
+	
 	public Pane getCustomerEventPane(){
 		VBox pane = new VBox();
 		pane.getChildren().addAll(getTable(),getSearchBox());
 		return pane;
 	}
 	
-
-
-
+	
+	
+	
+	
 	
 	
 
@@ -308,8 +334,16 @@ public class Pane4Events {
 		this.pane4EventListener = pane4EventListener;
 	}
 
-	public void setPane4EventsListener(Pane4EventsListener pane4EventsListener) {
-		this.pane4EventsListener = pane4EventsListener;
+	public void setCreateEventListener(CreateEventListener createEventListener) {
+		this.createEventListener = createEventListener;
+	}
+	
+	public void setDeleteEventListener(DeleteEventListener deleteEventListener){
+		this.deleteEventListener = deleteEventListener;
+	}
+	
+	public void setUpdateEventListener(UpdateEventListener updateEventListener){
+		this.updateEventListener = updateEventListener;
 	}
 
 	// have all objects from events bag(ArrayList) print out into their own row
