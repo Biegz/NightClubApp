@@ -28,7 +28,7 @@ public class EventController {
 
 			@Override
 			public void createButtonClicked(Pane4EventsEvent ev) {
-				System.out.print("In controller");
+				System.out.print("Hit the controller!");
 				model = ev.getEvent();
 				modelAddress = new Address();
 
@@ -64,34 +64,34 @@ public class EventController {
 
 			});
 		
-		view2.setDeleteEventListener(new DeleteEventListener(){
-			
-			@Override
-			public void deleteButtonClicked(Pane4EventsEvent ev){
-				model = ev.getEvent();
-				modelBag.delete(model);
-				System.out.println("reached delete");
-				//need to refresh observ list that populates myeventstable
-				view.getMyEventsTable().refresh();
-				
-				emptyPane();
-			}
-		});
-		
-		view3.setUpdateEventListener(new UpdateEventListener(){
-
-			@Override
-			public void updateButtonClicked(Pane4EventsEvent ev) {
-				
-			}
-			
-		});
-		
-	
-		
-		
-		
-		
+//		view2.setDeleteEventListener(new DeleteEventListener(){
+//			
+//			@Override
+//			public void deleteButtonClicked(Pane4EventsEvent ev){
+//				model = ev.getEvent();
+//				modelBag.delete(model);
+//				System.out.println("reached delete");
+//				//need to refresh observ list that populates myeventstable
+//				view.getMyEventsTable().refresh();
+//				
+//				emptyPane();
+//			}
+//		});
+//		
+//		view3.setUpdateEventListener(new UpdateEventListener(){
+//
+//			@Override
+//			public void updateButtonClicked(Pane4EventsEvent ev) {
+//				
+//			}
+//			
+//		});
+//		
+//	
+//		
+//		
+//		
+//		
 		
 		
 		

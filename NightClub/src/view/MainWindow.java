@@ -1,5 +1,6 @@
 package view;
 
+import controller.EventController;
 import controller.ExpandEventController;
 import javafx.scene.Node;
 import javafx.scene.control.TableView;

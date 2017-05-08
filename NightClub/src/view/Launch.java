@@ -14,10 +14,10 @@ public class Launch extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		IO.loadAll();
 		new PrimaryView(primaryStage);
-//		 Application.setUserAgentStylesheet(getClass().getResource("BieglerStyleSheet.css")
-//			        .toExternalForm());
-//		
-		Application.setUserAgentStylesheet(STYLESHEET_CASPIAN);
+		 Application.setUserAgentStylesheet(getClass().getResource("BieglerStyleSheet2.css")
+			        .toExternalForm());
+		
+		//Application.setUserAgentStylesheet(STYLESHEET_CASPIAN);
 	}
 
 }

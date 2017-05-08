@@ -16,9 +16,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>src/images/logo3.png</name>
+			<type>1</type>
+			<location>/Users/austin/Desktop/logo3.png</location>
+		</link>
+		<link>
 			<name>src/view/background.jpg</name>
 			<type>1</type>
-			<location>/Users/austin/Desktop/background.jpg</location>
+			<location>/Users/austin/Desktop/artsfon.com-27292.jpg</location>
 		</link>
 	</linkedResources>
 </projectDescription>

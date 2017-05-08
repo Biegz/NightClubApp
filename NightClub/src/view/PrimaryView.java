@@ -47,9 +47,17 @@ public class PrimaryView {
 		AnchorPane anchor = new AnchorPane();
 		Node temp = node;
 		anchor.getChildren().addAll(temp);
-		anchor.setTopAnchor(temp, height / 3);
-		anchor.setLeftAnchor(temp, width / 3);
+		anchor.setTopAnchor(temp, height / 4.75);
+		anchor.setLeftAnchor(temp, width / 3.125);
 		primaryPane.setCenter(anchor);
+	}
+	
+	public double getHeight(){
+		return height;
+	}
+	
+	public double getWidth(){
+		return width;
 	}
 
 }

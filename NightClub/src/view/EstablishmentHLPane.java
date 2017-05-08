@@ -1,6 +1,7 @@
 package view;
 
 import controller.Current;
+import controller.EventController;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -18,8 +19,9 @@ public class EstablishmentHLPane {
 	private VBox pane1 = new VBox();
 	private VBox pane2 = new VBox();
 	private HBox buttonsPane = new HBox();
+	
 	Pane4Events pane4Events = new Pane4Events();
-
+	
 	public Pane getHyperlinkPane() {
 
 		pane1.getChildren().addAll(getEventsHl(), getFinanceHl(), getEmployeeHl());
@@ -35,6 +37,12 @@ public class EstablishmentHLPane {
 	
 
 	public Hyperlink getMyEventsHl() {
+		
+		EventController eventsController = new EventController(pane4Events);
+		
+
+		
+
 		Hyperlink viewMyHl = new Hyperlink("View My Events");
 
 		viewMyHl.setOnAction(e -> {
@@ -55,6 +63,9 @@ public class EstablishmentHLPane {
 	}
 
 	public Hyperlink getAllEventsHl() {
+		Pane4Events pane4Events = new Pane4Events();
+		EventController eventsController = new EventController(pane4Events);
+
 		Hyperlink viewAllHl = new Hyperlink("View All Events");
 
 		viewAllHl.setOnAction(e -> {

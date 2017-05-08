@@ -8,6 +8,7 @@ import controller.SignInUp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -15,6 +16,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -30,13 +32,16 @@ public class PaneForRegister {
 	private RadioButton customerBtn;
 	private RadioButton establishmentBtn;
 	private Label exceptionLabel;
+	private PrimaryView primaryView;
 
 	public PaneForRegister() {
-		registerPane = new Pane();
+		registerPane = new HBox();
 	}
 
 	public Pane getPane() {
+		registerPane.setPadding(new Insets(145, 0, 0, 290));
 		registerPane.getChildren().add(registerBox());
+		
 		return registerPane;
 	}
 
@@ -50,7 +55,7 @@ public class PaneForRegister {
 	}
 
 	private HBox userInfoQuery() {
-		Label userLabel = new Label("Username:\t\t");
+		Label userLabel = new Label("Username:\t\t\t");
 		userField = new TextField();
 		HBox userInfoQuery = new HBox();
 		userInfoQuery.getChildren().addAll(userLabel, userField);

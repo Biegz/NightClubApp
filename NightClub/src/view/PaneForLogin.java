@@ -1,16 +1,20 @@
 package view;
 
 import controller.Current;
+
 import controller.SignInUp;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -22,12 +26,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 
 public class PaneForLogin {
 
 	private Pane loginPane;
 	private PasswordField passwordField;
 	private TextField userField;
+	private ImageView image = new ImageView(new Image("images/logo3.png"));
 
 	public PaneForLogin(){
 		loginPane = new Pane();
@@ -38,12 +44,33 @@ public class PaneForLogin {
 		loginPane.getChildren().add(launchView());
 		return loginPane;
 	}
+	
+	
 
 	private VBox launchView(){
 		VBox launchView = new VBox();
-		launchView.getChildren().addAll(userInfoQuery(), passwordQuery(), buttonQuery());
+		Label singleSpace = new Label("\n");
+		launchView.getChildren().addAll(getLogo(),singleSpace,  userInfoQuery(), passwordQuery(), buttonQuery());
 		launchView.setPadding(new Insets(10));
 		return launchView;
+	}
+	
+	private HBox getTitle(){
+		HBox pane = new HBox();
+		Label title = new Label("Owlzzz");
+		title.setFont(Font.font ("Calibri",FontPosture.ITALIC, 32));
+		pane.getChildren().add(title);
+		pane.setAlignment(Pos.BASELINE_CENTER);
+		
+		return pane;
+	}
+	
+	private HBox getLogo(){
+		HBox pane = new HBox();
+		pane.setAlignment(Pos.BASELINE_CENTER);
+		pane.getChildren().addAll(image);
+		
+		return pane;
 	}
 
 	private HBox userInfoQuery(){
@@ -57,7 +84,7 @@ public class PaneForLogin {
 	}
 
 	private HBox passwordQuery(){
-		Label passwordLabel = new Label("Password:\t\t");
+		Label passwordLabel = new Label("Password:\t");
 		passwordLabel.setFont(new Font(20));
 		passwordField = new PasswordField();
 		HBox passwordQuery = new HBox();
@@ -69,7 +96,9 @@ public class PaneForLogin {
 	private HBox buttonQuery(){
 		HBox buttonQuery = new HBox(5);
 		buttonQuery.getChildren().addAll(loginButton(), registerButton());
-		buttonQuery.setPadding(new Insets(5));
+		buttonQuery.setAlignment(Pos.BASELINE_CENTER);
+		buttonQuery.setSpacing(20);
+		buttonQuery.setPadding(new Insets(20));
 		return buttonQuery;
 	}
 

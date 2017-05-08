@@ -21,7 +21,7 @@ import javafx.scene.paint.Color;
 
 public class PaneForBusiness {
 
-	private Pane businessPane;
+	private HBox businessPane;
 	private MainWindow mainWindow;
 	public static TextField nameField;
 	private String username;
@@ -29,16 +29,17 @@ public class PaneForBusiness {
 	private static PaneForUser user = new PaneForUser();
 
 	public PaneForBusiness(){
-		businessPane = new Pane();
+		businessPane = new HBox();
 	}
 
 	public PaneForBusiness(String username, String password) {
 		this.username = username;
 		this.password = password;
-		businessPane = new Pane();
+		businessPane = new HBox();
 	}
 
-	public Pane getCreatePane() {
+	public HBox getCreatePane() {
+		businessPane.setPadding(new Insets(145,0,0,290));
 		businessPane.getChildren().add(view());
 		return businessPane;
 	}
@@ -65,7 +66,7 @@ public class PaneForBusiness {
 
 	private HBox name() {
 		HBox name = new HBox(5);
-		Label nameLabel = new Label("Name of Establishment:\t");
+		Label nameLabel = new Label("Club Name:\t\t");
 		nameField = new TextField();
 		name.getChildren().addAll(nameLabel, nameField);
 		return name;
@@ -108,85 +109,6 @@ public class PaneForBusiness {
 		return user;
 	}
 
-	public Pane getHyperlinkPane() {
 
-		Pane4Events pane4Events = new Pane4Events();
 
-		HBox main = new HBox();
-		VBox pane1 = new VBox();
-		VBox pane2 = new VBox();
-		HBox buttonsPane = new HBox();
-
-		Hyperlink eventsHl = new Hyperlink("Events");
-		Hyperlink financeHl = new Hyperlink("Financial Info");
-		Hyperlink employeeHl = new Hyperlink("Employee");
-
-		Hyperlink viewAllHl = new Hyperlink("View All Events");
-		Hyperlink viewMyHl = new Hyperlink("View My Events");
-
-		pane1.getChildren().addAll(eventsHl, financeHl, employeeHl);
-		main.getChildren().addAll(pane1);
-
-		eventsHl.setOnAction(e -> {
-
-			mainWindow.setCenter(null);
-			main.getChildren().clear();
-			pane2.getChildren().clear();
-
-			pane2.getChildren().addAll(viewAllHl, viewMyHl);
-
-			main.getChildren().addAll(pane1, pane2);
-		});
-
-		financeHl.setOnAction(e -> {
-
-			mainWindow.setCenter(null);
-			main.getChildren().clear();
-			pane2.getChildren().clear();
-
-			main.getChildren().addAll(pane1);
-
-		});
-
-		employeeHl.setOnAction(e -> {
-
-			mainWindow.setCenter(null);
-			main.getChildren().clear();
-			pane2.getChildren().clear();
-
-			main.getChildren().addAll(pane1);
-		});
-
-		viewAllHl.setOnAction(e -> {
-			main.getChildren().clear();
-
-			pane2.getChildren().clear();
-
-			pane2.getChildren().add(pane4Events.getTable());
-			main.getChildren().addAll(pane1, pane2);
-
-		});
-
-		// make sure to change the table this action calls to set to correct
-		// table (events for particular business)
-		viewMyHl.setOnAction(e -> {
-			main.getChildren().clear();
-			pane2.getChildren().clear();
-			buttonsPane.getChildren().clear();
-
-			buttonsPane.getChildren().addAll(pane4Events.getAddButton(), pane4Events.getDeleteButton(), pane4Events.getUpdateButton());
-			pane2.getChildren().addAll(pane4Events.getMyEventsTable(), buttonsPane);
-
-			main.getChildren().addAll(pane1, pane2);
-
-		});
-
-		main.setBorder(
-				new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
-
-		return main;
-
-	}
-
-	// public Table
 }

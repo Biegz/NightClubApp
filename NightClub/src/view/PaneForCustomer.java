@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 
 public class PaneForCustomer {
 
-	private Pane customerPane;
+	private HBox customerPane;
 	public static TextField firstField;
 	public static TextField lastField;
 	public static TextField ageField;
@@ -27,14 +27,15 @@ public class PaneForCustomer {
 	public PaneForCustomer(String username, String password) {
 		this.username = username;
 		this.password = password;
-		customerPane = new Pane();
+		customerPane = new HBox();
 	}
 	
 	public PaneForCustomer(){
-		customerPane = new Pane();
+		customerPane = new HBox();
 	}
 
-	public Pane getCreatePane() {
+	public HBox getCreatePane() {
+		customerPane.setPadding(new Insets(145,0,0,290));
 		customerPane.getChildren().add(view());
 		return customerPane;
 	}

@@ -248,6 +248,7 @@ public class Pane4Events {
 	public Button getCreateEventButton(){
 		myEvents = FXCollections.observableArrayList(EventsBag.getCurrentBusinessEvents());//Could not get the current business' events list to print (tried getEventsList from business model)
 
+		
 		p = new Pane4EventCreation();
 		createEventButton = new Button("Create Event");
 		createEventButton.setOnAction(e ->{
@@ -256,7 +257,7 @@ public class Pane4Events {
 					p.getName(), p.getGenre(), p.getDescription(), new Address(p.getAddress(), null, p.getZip(), p.getState(), p.getCity()),
 					p.getDate(), p.getTotalTickets(), p.getTicketPrice(), p.getTotalTables(), p.getTablePrice()));
 			if(createEventListener != null){
-				System.out.println("Not null");
+				System.out.println("Hit the if statement within getCreateEventButton method!");
 				createEventListener.createButtonClicked(ev);
 			}
 			
@@ -270,47 +271,56 @@ public class Pane4Events {
 		
 	}
 	
-	public Button getDeleteEventButton(){
-		deleteEventButton = new Button("Cancel Event");
-		deleteEventButton.setOnAction(e ->{
-			Pane4EventsEvent ev = new Pane4EventsEvent(this, ((Event) this.getMyEventsTable().getSelectionModel().getSelectedItem()));	
-			System.out.println("Is null");
-			
-			if(deleteEventListener != null){
-				System.out.println("Not null");
-				deleteEventListener.deleteButtonClicked(ev);
-			}
-		});
-		
-		return deleteEventButton;
-		
-	}
+//	public Button getDeleteEventButton(){
+//		deleteEventButton = new Button("Cancel Event");
+//		deleteEventButton.setOnAction(e ->{
+//			Pane4EventsEvent ev = new Pane4EventsEvent(this, ((Event) this.getMyEventsTable().getSelectionModel().getSelectedItem()));	
+//			System.out.println("Is null");
+//			
+//			if(deleteEventListener != null){
+//				System.out.println("Not null");
+//				deleteEventListener.deleteButtonClicked(ev);
+//			}
+//		});
+//		
+//		return deleteEventButton;
+//		
+//	}
 	
-	public Button getUpdateEventButton(){
-		updateEventButton = new Button("Update Event");
-		updateEventButton.setOnAction(e ->{
-			Pane4EventsEvent ev = new Pane4EventsEvent(e);
-			
-			if(updateEventListener != null){
-				updateEventListener.updateButtonClicked(ev);
-			}
-		});
-		return updateEventButton;
-	}
+//	public Button getUpdateEventButton(){
+//		updateEventButton = new Button("Update Event");
+//		updateEventButton.setOnAction(e ->{
+//			Pane4EventsEvent ev = new Pane4EventsEvent(e);
+//			
+//			if(updateEventListener != null){
+//				updateEventListener.updateButtonClicked(ev);
+//			}
+//		});
+//		return updateEventButton;
+//	}
 	
 	
 	
 	
 	public Pane getSearchBox(){
-		HBox pane = new HBox();
 		
-		Label searchLbl = new Label("Search Club by Zipcode: ");
-		TextField searchTF = new TextField("Enter a 5 digit zipcode");
+		HBox pane = new HBox();
+		HBox pane2 = new HBox();
+		HBox pane3 = new HBox();
+		VBox mainPane = new VBox();
+		
+		
+		
+		Label searchLbl = new Label("Search Club by Zipcode:");
+		TextField searchTF = new TextField("Zipcode");
 		Button searchButton = new Button("Search");
 		
-		pane.getChildren().addAll(searchLbl, searchTF, searchButton);
+		pane.getChildren().addAll(searchLbl);
+		pane2.getChildren().addAll(searchTF);
+		pane3.getChildren().addAll(searchButton);
+		mainPane.getChildren().addAll(pane, pane2, pane3);
 		
-		return pane;
+		return mainPane;
 	}
 	
 	
@@ -334,8 +344,9 @@ public class Pane4Events {
 		this.pane4EventListener = pane4EventListener;
 	}
 
-	public void setCreateEventListener(CreateEventListener createEventListener) {
-		this.createEventListener = createEventListener;
+	public void setCreateEventListener(CreateEventListener ya) {
+		System.out.println("Hit the setCreateEventListener method!");
+		this.createEventListener = ya;
 	}
 	
 	public void setDeleteEventListener(DeleteEventListener deleteEventListener){

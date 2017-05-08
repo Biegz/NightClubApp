@@ -17,8 +17,8 @@ public class Pane4EventsEvent extends EventObject {
 		this.event = event;
 
 	}
-	
-	public Event getEvent(){
+
+	public Event getEvent() {
 		return event;
 	}
 

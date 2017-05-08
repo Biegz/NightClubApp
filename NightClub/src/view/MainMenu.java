@@ -29,6 +29,7 @@ public class MainMenu {
 	//Menus
 	private Menu customerHome(){
 		Menu home = new Menu("Home " + house);
+		home.setId("menuText");
 		home.getItems().addAll(customerGoHome());
 		return home;
 	}
