@@ -66,7 +66,7 @@ public class MainMenu {
 
 	//Menu Items
 	private MenuItem customerEditAccount(){
-		MenuItem editAccount = new MenuItem("Edit Account");
+		MenuItem editAccount = new MenuItem("  Edit Account");
 
 		editAccount.setOnAction(e -> {
 			PaneForCustomer customer = new PaneForCustomer();
@@ -77,7 +77,7 @@ public class MainMenu {
 	}
 
 	private MenuItem businessEditAccount(){
-		MenuItem editAccount = new MenuItem("Edit Account");
+		MenuItem editAccount = new MenuItem("  Edit Account ");
 
 		editAccount.setOnAction(e -> {
 			PaneForBusiness business = new PaneForBusiness();
@@ -88,7 +88,7 @@ public class MainMenu {
 	}
 
 	private MenuItem logOut(){
-		MenuItem logOut = new MenuItem("Log Out");
+		MenuItem logOut = new MenuItem("  Log Out ");
 
 		logOut.setOnAction(e -> {
 			PaneForLogin login = new PaneForLogin();
@@ -99,7 +99,7 @@ public class MainMenu {
 	}
 
 	private MenuItem customerGoHome(){
-		MenuItem goHome = new MenuItem("Main Window");
+		MenuItem goHome = new MenuItem("  Main Window ");
 
 		goHome.setOnAction(e -> {
 			MainWindow main = new MainWindow();
@@ -110,7 +110,7 @@ public class MainMenu {
 	}
 
 	private MenuItem businessGoHome(){
-		MenuItem goHome = new MenuItem("Main Window");
+		MenuItem goHome = new MenuItem("  Main Window ");
 
 		goHome.setOnAction(e -> {
 			MainWindow main = new MainWindow();
@@ -121,7 +121,7 @@ public class MainMenu {
 	}
 
 	private MenuItem displayUsers(){
-		MenuItem displayUsers = new MenuItem("Display Users");
+		MenuItem displayUsers = new MenuItem("  Display Users ");
 
 		displayUsers.setOnAction(e -> {
 			PaneDisplayAllUsers users = new PaneDisplayAllUsers();
@@ -132,7 +132,7 @@ public class MainMenu {
 	}
 
 	private MenuItem displayEvents(){
-		MenuItem displayEvents = new MenuItem("Display Events");
+		MenuItem displayEvents = new MenuItem("  Display Events ");
 
 		displayEvents.setOnAction(e -> {
 			PaneDisplayAllEvents events = new PaneDisplayAllEvents();

@@ -9,7 +9,9 @@
 
 .root {
 	
-	    -fx-background-image:url("background.jpg");
+		
+	    -fx-background-image:url("background3.jpg");
+	    
 	
     /***************************************************************************
      *                                                                         *
@@ -311,6 +313,8 @@
     
 }
 
+
+
 .mnemonic-underline {
     -fx-stroke: transparent;
 }
@@ -447,11 +451,18 @@
  ******************************************************************************/
 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI Bold";
-    -fx-text-fill: black;
-    -fx-opacity: 1;
+    -fx-text-fill: white;
+    -fx-background-color:#1e1d1e;
+    -fx-background-radius:12px 0 12px 0;
+    -fx-padding: 5 10 5 10;   
+     
 }
+
+
+
+
 
 .label:disabled {
     -fx-opacity: -fx-disabled-opacity;
@@ -706,15 +717,17 @@
     -fx-padding: 0.166667em; /* 2 */
     -fx-cursor: hand;
     -fx-content-display: LEFT;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-border-color: transparent;
     -fx-border-width: 1px;
     -fx-font-size:14pt;
+    -fx-background-color:#1e1d1e;
+    -fx-background-radius:12px 0 12px 0;
     
 }
 
 .hyperlink:visited {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
 .hyperlink:focused {
@@ -2063,7 +2076,8 @@
  ******************************************************************************/
 
 .table-view {
-    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+	
+    -fx-background-color: #303030, #303030;
     -fx-background-insets: 0,1;
 
     /* There is some oddness if padding is in em values rather than pixels,
@@ -2073,9 +2087,24 @@
     /* Constants used throughout the tableview.
      * TODO: Should these be derived from the palette in .scene?
      */
-    -fx-table-header-border-color: #959595;
+    -fx-table-header-border-color: #303030;
+    
+    
 /*    -fx-table-header-background-color: linear (0%,0%) to (0%,100%) stops (80%, #bbbbbb) (10%, #f6f6f6);*/
-    -fx-table-cell-border-color: #bbbbbb;
+    -fx-table-cell-border-color: #303030; 
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-color: linear-gradient(to bottom, derive(#303030,50%), derive(black,-30%));
+}
+
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-color:transparent;
 }
 
 /** Draws focus border around tableview */
@@ -2116,7 +2145,8 @@
 /* Each row in the table is a table-row-cell. Inside a table-row-cell is any
    number of table-cell. */
 .table-row-cell {
-    -fx-background-color: -fx-table-cell-border-color, #d6dbc9;
+	/*second color below changes every other row color */
+    -fx-background-color: -fx-table-cell-border-color, #eadbf9;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
     -fx-text-fill: -fx-text-inner-color;

@@ -19,6 +19,7 @@ public class MainWindow {
 	public BorderPane getCustomerWindow() {
 		Pane4Events pane4Events = new Pane4Events();
 		ExpandEventController controller = new ExpandEventController(pane4Events);
+		System.out.println("Just Created the controller object in view!");
 		MainMenu menuBar = new MainMenu();
 		mainWindow.setLeft(pane4Events.getCustomerEventPane());
 		mainWindow.setTop(menuBar.getCustomerMenuBar());
@@ -26,6 +27,7 @@ public class MainWindow {
 	}
 	
 	public BorderPane getBusinessWindow() {
+		
 		MainMenu menuBar = new MainMenu();
 		EstablishmentHLPane establishmentHLPane = new EstablishmentHLPane();
 		mainWindow.setLeft(establishmentHLPane.getHyperlinkPane());

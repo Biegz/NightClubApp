@@ -35,7 +35,8 @@ public class PaneForLogin {
 	private Pane loginPane;
 	private PasswordField passwordField;
 	private TextField userField;
-	private ImageView image = new ImageView(new Image("view"+File.separator+"logo3.png"));
+	private ImageView image = new ImageView(new Image("images"+File.separator+"logo3.png"));
+
 
 	public PaneForLogin(){
 		loginPane = new Pane();
@@ -52,7 +53,7 @@ public class PaneForLogin {
 	private VBox launchView(){
 		VBox launchView = new VBox();
 		Label singleSpace = new Label("\n");
-		launchView.getChildren().addAll(getLogo(),singleSpace,  userInfoQuery(), passwordQuery(), buttonQuery());
+		launchView.getChildren().addAll(getLogo(),  userInfoQuery(), passwordQuery(), buttonQuery());
 		launchView.setPadding(new Insets(10));
 		return launchView;
 	}
@@ -76,8 +77,8 @@ public class PaneForLogin {
 	}
 
 	private HBox userInfoQuery(){
-		Label userLabel = new Label("Username:\t");
-		userLabel.setFont(new Font(20));
+		Label userLabel = new Label("Username:");
+		userLabel.setFont(new Font(26));
 		userField = new TextField();
 		HBox userInfoQuery = new HBox();
 		userInfoQuery.getChildren().addAll(userLabel, userField);
@@ -86,8 +87,8 @@ public class PaneForLogin {
 	}
 
 	private HBox passwordQuery(){
-		Label passwordLabel = new Label("Password:\t");
-		passwordLabel.setFont(new Font(20));
+		Label passwordLabel = new Label("Password:");
+		passwordLabel.setFont(new Font(26));
 		passwordField = new PasswordField();
 		HBox passwordQuery = new HBox();
 		passwordQuery.getChildren().addAll(passwordLabel, passwordField);

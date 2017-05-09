@@ -10,8 +10,7 @@ import view.Pane4Events;
 public class EventController {
 
 	private Pane4Events view;
-	private Pane4Events view2;
-	private Pane4Events view3;
+	
 
 	
 	private MainWindow viewMain;
@@ -21,14 +20,15 @@ public class EventController {
 
 	public EventController(Pane4Events view) {
 		this.view = view;
-		this.view2 = new Pane4Events();
-		this.view3 = new Pane4Events();
+		
+		
+		System.out.println("In the Controller!");
 
-		view.setCreateEventListener(new CreateEventListener() {
+		view.setCreateEventListener(new EventsListener() {
 
 			@Override
-			public void createButtonClicked(Pane4EventsEvent ev) {
-				System.out.print("Hit the controller!");
+			public void createButtonClicked(CreateButtonEvent ev) {
+				
 				model = ev.getEvent();
 				modelAddress = new Address();
 
@@ -64,28 +64,28 @@ public class EventController {
 
 			});
 		
-//		view2.setDeleteEventListener(new DeleteEventListener(){
-//			
-//			@Override
-//			public void deleteButtonClicked(Pane4EventsEvent ev){
-//				model = ev.getEvent();
-//				modelBag.delete(model);
-//				System.out.println("reached delete");
-//				//need to refresh observ list that populates myeventstable
-//				view.getMyEventsTable().refresh();
-//				
-//				emptyPane();
-//			}
-//		});
-//		
-//		view3.setUpdateEventListener(new UpdateEventListener(){
-//
-//			@Override
-//			public void updateButtonClicked(Pane4EventsEvent ev) {
-//				
-//			}
-//			
-//		});
+		view.setDeleteEventListener(new EventsListener(){
+			
+			@Override
+			public void deleteButtonClicked(DeleteButtonEvent ev){
+				model = ev.getEvent();
+				modelBag.delete(model);
+				System.out.println("reached delete");
+				//need to refresh observ list that populates myeventstable
+				view.getMyEventsTable().refresh();
+				
+				emptyPane();
+			}
+		});
+		
+		view.setUpdateEventListener(new EventsListener(){
+
+			@Override
+			public void updateButtonClicked(UpdateButtonEvent ev) {
+				
+			}
+			
+		});
 		
 	
 		
@@ -106,5 +106,6 @@ public class EventController {
 		System.out.println(model.getEventName());
 	}
 	
+
 
 }

@@ -20,7 +20,7 @@ public class EstablishmentHLPane {
 	private VBox pane2 = new VBox();
 	private HBox buttonsPane = new HBox();
 	
-	Pane4Events pane4Events = new Pane4Events();
+	
 	
 	public Pane getHyperlinkPane() {
 
@@ -37,11 +37,11 @@ public class EstablishmentHLPane {
 	
 
 	public Hyperlink getMyEventsHl() {
-		
-		EventController eventsController = new EventController(pane4Events);
-		
+		Pane4Events pane4Events = new Pane4Events();
+		EventController eventController = new EventController(pane4Events);
+		System.out.println("Event Controller object Just Created!");
 
-		
+
 
 		Hyperlink viewMyHl = new Hyperlink("View My Events");
 
@@ -64,7 +64,6 @@ public class EstablishmentHLPane {
 
 	public Hyperlink getAllEventsHl() {
 		Pane4Events pane4Events = new Pane4Events();
-		EventController eventsController = new EventController(pane4Events);
 
 		Hyperlink viewAllHl = new Hyperlink("View All Events");
 

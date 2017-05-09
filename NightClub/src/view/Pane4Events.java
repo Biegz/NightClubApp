@@ -3,6 +3,7 @@ package view;
 import javafx.scene.control.Label;
 
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -12,13 +13,13 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-import controller.CreateEventListener;
+import controller.CreateButtonEvent;
 import controller.Current;
-import controller.DeleteEventListener;
+import controller.DeleteButtonEvent;
+import controller.EventsListener;
 import controller.Pane4EventEvent;
 import controller.Pane4EventListener;
-import controller.Pane4EventsEvent;
-import controller.UpdateEventListener;
+import controller.UpdateButtonEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -70,9 +71,8 @@ public class Pane4Events {
 	private Pane4Event paneEv;
 
 	private Pane4EventListener pane4EventListener;
-	private CreateEventListener createEventListener;
-	private DeleteEventListener deleteEventListener;
-	private UpdateEventListener updateEventListener;
+	
+	private EventsListener eventsListener;
 
 	
 	
@@ -98,14 +98,14 @@ public class Pane4Events {
 
 	public TableColumn getDateColumn() {
 		TableColumn dateColumn = new TableColumn("Date");
-		dateColumn.impl_setWidth(95);
+		//dateColumn.impl_setWidth(95);
 		dateColumn.setCellValueFactory(new PropertyValueFactory<Event, LocalDate>("date"));
 		return dateColumn;
 	}
 
 	public TableColumn getEventNameColumn() {
 		TableColumn eventNameColumn = new TableColumn("Event Name");
-		eventNameColumn.impl_setWidth(155);
+		//eventNameColumn.impl_setWidth(155);
 		eventNameColumn.setCellValueFactory(new PropertyValueFactory<Event, String>("eventName"));
 		return eventNameColumn;
 	}
@@ -123,6 +123,7 @@ public class Pane4Events {
 		myEventsTable = new TableView<Event>();
 		myEventsTable.setEditable(false);
 		myEventsTable.setMaxHeight(400);
+		myEventsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		myEventsTable.getColumns().addAll(getDateColumn(), getEventNameColumn());
 		myEventsTable.setItems(myEvents);
 		
@@ -137,6 +138,7 @@ public class Pane4Events {
 					Current.setEvent(rowData);
 					Pane4EventEvent ev2 = new Pane4EventEvent(this, rowData);
 					if(pane4EventListener != null){
+						System.out.println("In the if statement in myEventsTable");
 						pane4EventListener.rowSelected(ev2);
 					}	
 //					eventsBag.delete(ev2.getEvent());
@@ -178,6 +180,7 @@ public class Pane4Events {
 					Event rowData = row.getItem();
 					Pane4EventEvent ev3 = new Pane4EventEvent(this, rowData);
 					if (pane4EventListener != null) {
+						System.out.println("In the if statement in myTable");
 						pane4EventListener.rowSelected(ev3);
 					}
 					 
@@ -252,18 +255,13 @@ public class Pane4Events {
 		p = new Pane4EventCreation();
 		createEventButton = new Button("Create Event");
 		createEventButton.setOnAction(e ->{
-			Pane4EventsEvent ev = new Pane4EventsEvent(this, new Event(
+			CreateButtonEvent ev = new CreateButtonEvent(this, new Event(
 					Current.getBusiness(),
 					p.getName(), p.getGenre(), p.getDescription(), new Address(p.getAddress(), null, p.getZip(), p.getState(), p.getCity()),
 					p.getDate(), p.getTotalTickets(), p.getTicketPrice(), p.getTotalTables(), p.getTablePrice()));
-<<<<<<< Updated upstream
-			if(createEventListener != null){
+			if(eventsListener != null){
 				System.out.println("Hit the if statement within getCreateEventButton method!");
-=======
-			if (createEventListener != null) {
-				System.out.println("Not null");
->>>>>>> Stashed changes
-				createEventListener.createButtonClicked(ev);
+				eventsListener.createButtonClicked(ev);
 			}
 			
 			eventsBag.add(ev.getEvent());
@@ -276,33 +274,34 @@ public class Pane4Events {
 		
 	}
 	
-//	public Button getDeleteEventButton(){
-//		deleteEventButton = new Button("Cancel Event");
-//		deleteEventButton.setOnAction(e ->{
-//			Pane4EventsEvent ev = new Pane4EventsEvent(this, ((Event) this.getMyEventsTable().getSelectionModel().getSelectedItem()));	
-//			System.out.println("Is null");
-//			
-//			if(deleteEventListener != null){
-//				System.out.println("Not null");
-//				deleteEventListener.deleteButtonClicked(ev);
-//			}
-//		});
-//		
-//		return deleteEventButton;
-//		
-//	}
+	public Button getDeleteEventButton(){
+		deleteEventButton = new Button("Cancel Event");
+		deleteEventButton.setOnAction(e ->{
+			DeleteButtonEvent ev = new DeleteButtonEvent(this, ((Event) this.getMyEventsTable().getSelectionModel().getSelectedItem()));	
+			System.out.println("Is null");
+			
+			if(eventsListener != null){
+				System.out.println("Not null");
+				eventsListener.deleteButtonClicked(ev);
+			}
+		});
+		
+		return deleteEventButton;
+		
+	}
 	
-//	public Button getUpdateEventButton(){
-//		updateEventButton = new Button("Update Event");
-//		updateEventButton.setOnAction(e ->{
-//			Pane4EventsEvent ev = new Pane4EventsEvent(e);
-//			
-//			if(updateEventListener != null){
-//				updateEventListener.updateButtonClicked(ev);
-//			}
-//		});
-//		return updateEventButton;
-//	}
+	public Button getUpdateEventButton(){
+		updateEventButton = new Button("Update Event");
+		updateEventButton.setOnAction(e ->{
+			UpdateButtonEvent ev = new UpdateButtonEvent(e);
+			
+			if(eventsListener != null){
+				System.out.println("not null");
+				eventsListener.updateButtonClicked(ev);
+			}
+		});
+		return updateEventButton;
+	}
 	
 	
 	
@@ -346,20 +345,21 @@ public class Pane4Events {
 	
 
 	public void setPane4EventListener(Pane4EventListener pane4EventListener) {
+		System.out.println("in the setPane4EventListener method!");
 		this.pane4EventListener = pane4EventListener;
 	}
 
-	public void setCreateEventListener(CreateEventListener ya) {
+	public void setCreateEventListener(EventsListener createEventsListener) {
 		System.out.println("Hit the setCreateEventListener method!");
-		this.createEventListener = ya;
+		this.eventsListener = createEventsListener;
 	}
 	
-	public void setDeleteEventListener(DeleteEventListener deleteEventListener){
-		this.deleteEventListener = deleteEventListener;
+	public void setDeleteEventListener(EventsListener deleteEventsListener){
+		this.eventsListener = deleteEventsListener;
 	}
 	
-	public void setUpdateEventListener(UpdateEventListener updateEventListener){
-		this.updateEventListener = updateEventListener;
+	public void setUpdateEventListener(EventsListener updateEventsListener){
+		this.eventsListener = updateEventsListener;
 	}
 
 	// have all objects from events bag(ArrayList) print out into their own row

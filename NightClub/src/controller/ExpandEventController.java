@@ -34,6 +34,8 @@ public class ExpandEventController {
 		this.view5 = new Pane4Payment();
 		this.view6 = new Pane4Receipt();
 		
+		System.out.println("In the controller!");
+		
 		view.setPane4EventListener(new Pane4EventListener() {
 			
 			public void rowSelected(Pane4EventEvent ev) {
