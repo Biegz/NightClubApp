@@ -256,8 +256,13 @@ public class Pane4Events {
 					Current.getBusiness(),
 					p.getName(), p.getGenre(), p.getDescription(), new Address(p.getAddress(), null, p.getZip(), p.getState(), p.getCity()),
 					p.getDate(), p.getTotalTickets(), p.getTicketPrice(), p.getTotalTables(), p.getTablePrice()));
+<<<<<<< Updated upstream
 			if(createEventListener != null){
 				System.out.println("Hit the if statement within getCreateEventButton method!");
+=======
+			if (createEventListener != null) {
+				System.out.println("Not null");
+>>>>>>> Stashed changes
 				createEventListener.createButtonClicked(ev);
 			}
 			

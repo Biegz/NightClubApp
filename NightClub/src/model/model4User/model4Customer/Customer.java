@@ -22,7 +22,10 @@ public class Customer extends User{
 
 	public Customer(String username, double passwordHash) {
 		super(username, passwordHash);
-		tickets = new ArrayList<Ticket>();	}
+		tickets = new ArrayList<Ticket>();
+		tables = new ArrayList<Table>();
+		
+	}
 
 	public String getFirstName() {
 		return firstName;

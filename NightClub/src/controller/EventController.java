@@ -1,6 +1,6 @@
 package controller;
 
-import javafx.scene.control.Label;
+import javafx.scene.control.Label; 
 import model.Event;
 import model.EventsBag;
 import model.model4Address.Address;
@@ -86,12 +86,12 @@ public class EventController {
 //			}
 //			
 //		});
-//		
-//	
-//		
-//		
-//		
-//		
+		
+	
+		
+		
+		
+		
 		
 		
 		

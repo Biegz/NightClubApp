@@ -4,17 +4,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import controller.Current;
+import controller.Pane4EventListener;
+import controller.PlaceOrderEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -31,7 +41,11 @@ public class Pane4Payment {
 	private Label tablesDisplayLabel;
 	private Label taxDisplayLabel;
 	private Label totalDisplayLabel;
+	private Label errorLabel = new Label("");
 	private ComboBox<String> stateCombo;
+	private int ticketCount;
+	private int tableCount;
+	private Pane4EventListener pane4EventListener;
 	
 	
 	 String[] stateArr = new String[]{
@@ -49,6 +63,7 @@ public class Pane4Payment {
 	 List<String> stateList = new ArrayList<String>(Arrays.asList(stateArr));
 	
 	
+	
 	public Pane4Payment(){
 		checkoutPane = new GridPane();
 	}
@@ -64,7 +79,7 @@ public class Pane4Payment {
 		GridPane checkoutBox2 = new GridPane();
 		checkoutBox2.setVgap(20);
 		checkoutBox2.setAlignment(Pos.TOP_LEFT);
-		checkoutBox2.setPadding(new Insets(20,50,50,50));
+		checkoutBox2.setPadding(new Insets(10,50,50,30));
 		//checkoutBox.add(checkoutLabel(), 0, 0);
 		checkoutBox2.setHalignment(addressPane(), HPos.RIGHT);
 		checkoutBox2.addColumn(0,checkoutLabel(),billingLabel(),addressPane(),paymentInfoLabel(),paymentPane());
@@ -74,23 +89,25 @@ public class Pane4Payment {
 	//--------------------------------- top of VBox ---------------------------------
 	public Label checkoutLabel() {
 		Label checkoutLabel = new Label("Checkout");
-		checkoutLabel.setAlignment(Pos.TOP_CENTER);
+		checkoutLabel.setAlignment(Pos.TOP_RIGHT);
 		checkoutLabel.setFont(Font.font("Arial", FontWeight.MEDIUM, 34));
 		return checkoutLabel;
 	}
-	
+	//------------------------------- Cart node and children -------------------------------------------
 	public GridPane cartPane() {
 		Pane4TablesTickets prevPane = new Pane4TablesTickets();
 		GridPane cartPane = new GridPane();
 		cartPane.setVgap(15);
+		cartPane.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		cartPane.setPadding(new Insets(10,10,10,10));
 		cartPane.addColumn(0, cartLabel(),ticketsLabel(), tablesLabel(), taxLabel(), totalLabel());
-		cartPane.addColumn(1, new Label(),getTicketsDisplayLabel(), getTablesDisplayLabel(),getTaxDisplayLabel(),getTotalDisplayLabel());
+		cartPane.addColumn(1, new Label(),getTicketsDisplayLabel(), getTablesDisplayLabel(),getTaxDisplayLabel(),getTotalDisplayLabel(),modifyBtn());
 		return cartPane;
 	}
 	
 	public Label cartLabel() {
 		Label cartLabel = new Label("Your Cart:");
+		cartLabel.setUnderline(true);
 		cartLabel.setFont(Font.font("Arial", FontWeight.MEDIUM,24));
 		return cartLabel;
 	}
@@ -119,9 +136,19 @@ public class Pane4Payment {
 		return totalLabel;
 	}
 	
+	public Button modifyBtn() {
+		Button modifyBtn = new Button("Modify");
+		modifyBtn.setOnAction(e -> {
+			MainWindow.setCenter(Current.getPreviousPane());
+		});
+		
+		return modifyBtn;
+		
+	}
+	
 	//public void
 
-	// -------------------------------- middle of Vbox ---------------------------------
+	// -------------------------------- Billing Address Pane (middle of VBox) ---------------------------------
 	public GridPane addressPane() {
 		GridPane addressPane = new GridPane();
 		addressPane.setVgap(10);
@@ -136,16 +163,16 @@ public class Pane4Payment {
 		return addressPane;
 	}
 	
-	//--------------------------------- bottom of Vbox ---------------------------------
+	//--------------------------------- Payment Info (bottom of VBox) ---------------------------------
 	public GridPane paymentPane() {
 		GridPane paymentPane = new GridPane();
 		paymentPane.setVgap(10);
 		paymentPane.setHgap(10);
 		
 		//paymentPane.addRow(0, paymentInfoLabel());
-		paymentPane.addColumn(0, cardNumberLabel(), cardNameLabel(), expirationLabel());
-		paymentPane.addColumn(1, getCardNumberField(), getCardNameField(), monthCombo());
-		paymentPane.addColumn(2, new Label(), new Label(), yearCombo());
+		paymentPane.addColumn(0, cardNumberLabel(), cardNameLabel(), expirationLabel(), new Label(), placeOrderBtn());
+		paymentPane.addColumn(1, getCardNumberField(), getCardNameField(), expirationBox(), getErrorLabel(), cancelBtn());
+		//paymentPane.addColumn(2, new Label(), new Label(), yearCombo());
 		
 		return paymentPane;
 	}
@@ -190,7 +217,7 @@ public class Pane4Payment {
 	}
 	
 	public Label cardNumberLabel() {
-		Label cardNumberLabel = new Label("Card Number ");
+		Label cardNumberLabel = new Label("Card Number");
 		return cardNumberLabel;
 	}
 	
@@ -200,9 +227,11 @@ public class Pane4Payment {
 	}
 	
 	public Label expirationLabel() {
-		Label expirationLabel = new Label("Expiration ");
+		Label expirationLabel = new Label("Expiration");
 		return expirationLabel;
 	}
+	
+	
 	
 //	public TextField getStreetField() {
 //		return streetField;
@@ -211,6 +240,14 @@ public class Pane4Payment {
 //	public void setStreetField(String street) {
 //		this.streetField = new TextField(street);
 //	} 
+
+	public Label getErrorLabel() {
+		return errorLabel;
+	}
+
+	public void setErrorLabel(Label errorLabel) {
+		this.errorLabel = errorLabel;
+	}
 
 	public TextField getAddressField() {
 		return addressField;
@@ -237,6 +274,13 @@ public class Pane4Payment {
 		stateCombo.getItems().addAll(stateList);
 		stateCombo.getSelectionModel().select(userState);	
 	}
+	//------------------------ Expiration Date Combo Boxes ----------------------------
+	
+	public HBox expirationBox() {
+		HBox expirationBox = new HBox(10);
+		expirationBox.getChildren().addAll(monthCombo(),yearCombo());
+		return expirationBox;
+	}
 	
 	public ComboBox<String> monthCombo() {
 		ComboBox<String> monthCombo = new ComboBox<>();
@@ -252,6 +296,26 @@ public class Pane4Payment {
 		List<String> yearList = new ArrayList<String>(Arrays.asList(tempList));
 		yearCombo.getItems().addAll(yearList);
 		return yearCombo;
+	}
+	// ---------------------- Place order and Cancel Buttons -------------------------
+	public Button placeOrderBtn() {
+		Button placeOrderBtn = new Button("Place Order");
+		placeOrderBtn.setOnAction(e -> {
+			PlaceOrderEvent ev = new PlaceOrderEvent(this, Current.getEvent(), Current.getCustomer(),Current.getEvent().getBusiness(),getTicketAmount(),getTableAmount());
+			if (pane4EventListener != null) {
+				pane4EventListener.placeOrderClicked(ev);
+			}
+		});
+		
+		return placeOrderBtn;
+	}
+	
+	public Button cancelBtn() {
+		Button cancelBtn = new Button("Cancel");
+		cancelBtn.setOnAction(e-> {
+			MainWindow.setCenter(Current.getPreviousPane());
+		});
+		return cancelBtn;
 	}
 	
 	public TextField getZipField() {
@@ -318,5 +382,25 @@ public class Pane4Payment {
 		return checkoutPane;
 	}
 	
+	
+	public void setPane4EventListener(Pane4EventListener pane4EventListener) {
+		this.pane4EventListener = pane4EventListener;
+	}
+
+	public void setTicketCount(int ticketAmount) {
+		this.ticketCount = ticketAmount;	
+	}
+	
+	public void setTableCount(int tableAmount) {
+		this.tableCount = tableAmount;
+	}
+	
+	public int getTicketAmount() {
+		return this.ticketCount;
+	}
+	
+	public int getTableAmount() {
+		return this.tableCount;
+	}
 	
 }

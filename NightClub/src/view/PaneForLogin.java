@@ -1,5 +1,7 @@
 package view;
 
+import java.io.File;
+
 import controller.Current;
 
 import controller.SignInUp;
@@ -33,7 +35,7 @@ public class PaneForLogin {
 	private Pane loginPane;
 	private PasswordField passwordField;
 	private TextField userField;
-	private ImageView image = new ImageView(new Image("images/logo3.png"));
+	private ImageView image = new ImageView(new Image("view"+File.separator+"logo3.png"));
 
 	public PaneForLogin(){
 		loginPane = new Pane();

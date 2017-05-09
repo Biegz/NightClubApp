@@ -6,6 +6,7 @@ import model.Event;
 import model.EventsBag;
 import model.Table;
 import model.Ticket;
+import model.UsersBag;
 import model.model4User.model4Customer.Customer;
 import model.model4User.model4Establishment.Business;
 
@@ -50,48 +51,40 @@ public class CustomerTicketProcessing {
 		currentCustomer.removeTicket(ticket);
 	}
 
-	public void buyTicket(int amount) {
+	public void buyTicket(int amount, Customer customer, Event event, Business business) {
 		if (amount < 1) {
 			return;
 		} else {
 			if (amount <= event.getTicketsAvailable()) {
-				finalizeTransaction(amount, Current.getCustomer(), Current.getEvent());
+				finalizeTransaction(amount, customer, event, business);
 			} else {
 				System.out.println("Not enough tickets available");
 			}
 		}
 	}
 
-	public void finalizeTransaction(int amount, Customer customer, Event event) {
-		double totalSalesTax = amount * (.045*event.getTicketPrice());
+	public void finalizeTransaction(int amount, Customer customer, Event event, Business business) {
+		//double totalSalesTax = amount * (.045*event.getTicketPrice());
 		double totalCost = amount * (event.getTicketPrice());
-		if (totalCost+totalSalesTax > customer.getBalance()) {
-			System.out.println("Not enough money");
-		} else {
 			for (int i = 0; i < amount; i++) {
 				customer.addTicket(new Ticket(event));
-				event.addCustomer(customer);
+				Customer tempCustomer = customer;
+				event.addCustomer(tempCustomer);
 			}
-			customer.setBalance((customer.getBalance()) - totalCost - totalSalesTax);
-			event.getBusiness().getFinanceInfo().addSale(totalCost, 0);
+			business.getFinanceInfo().addSale(totalCost, 0);
+			event.setTicketsAvailable(event.getTicketsAvailable() - amount);
 		}
-	}
 	
-	public void buyTable() {
-		Event tempEvent = Current.getEvent();
-		Customer tempCustomer = Current.getCustomer();
-		double totalSalesTax = (.045 *tempEvent.getTablePrice());
-		double totalCost = (tempEvent.getTablePrice());
-		if (totalCost+totalSalesTax > tempCustomer.getBalance()) {
-			//view.setLabel("Transaction cost exceeds available balance.");
+	public void buyTable(int amount, Customer customer, Event event, Business business) {
+		//double totalSalesTax = amount *  (.045 *event.getTablePrice());
+		double totalCost = amount * (event.getTablePrice());
+		for (int i = 0; i < amount; i++) {
+			customer.addTable(new Table(Current.getEvent()));
+			event.addCustomer(customer);
 		}
-		else {
-			// need write addTable to customer and event
-			tempCustomer.addTable(new Table(Current.getEvent()));
-			tempEvent.addCustomer(tempCustomer);
-			tempCustomer.setBalance(tempCustomer.getBalance() - totalCost - totalSalesTax);
-			tempEvent.getBusiness().getFinanceInfo().addSale(totalCost, 0);
-		}
+			business.getFinanceInfo().addSale(totalCost, 0);
+			event.setTablesAvailable(event.getTablesAvailable() - amount);
+			IO.saveAll();
 	}
 	
 	public void returnTable(Table table, Customer currentCustomer) {
@@ -104,9 +97,9 @@ public class CustomerTicketProcessing {
 		// Need write remove table method
 		temp.removeCustomer(currentCustomer);
 		currentCustomer.removeTable(table);
+		IO.saveAll();
 	}
 
-	// ASK CHEN ABOUT RESERVATIONS
 
 }
 

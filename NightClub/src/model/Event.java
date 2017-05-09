@@ -25,7 +25,7 @@ public class Event extends Observable implements Serializable {
 	private double tablePrice;
 	private int ticketsAvailable;
 	private int tablesAvailable;
-	private ArrayList<Customer> customerList;
+	public ArrayList<Customer> customerList;
 
 	public Event() {
 		customerList = new ArrayList<Customer>();
@@ -34,7 +34,9 @@ public class Event extends Observable implements Serializable {
 
 	public Event(Business business, String eventName, String genre, String description, Address address, LocalDate date,
 			int totalTickets, double ticketPrice, int totalTables, double tablePrice) {
-		super();
+		//super();
+		customerList = new ArrayList<Customer>();
+		business = Current.getBusiness();
 		this.business = business;
 		this.eventName = eventName;
 		this.genre = genre;
@@ -53,9 +55,9 @@ public class Event extends Observable implements Serializable {
 		return customerList;
 	}
 
-	public void setCustomerList(ArrayList<Customer> customerList) {
-		this.customerList = customerList;
-	}
+//	public void setCustomerList(ArrayList<Customer> customerList) {
+//		this.customerList = customerList;
+//	}
 
 	public void setTicketsAvailable(int ticketsAvailable) {
 		this.ticketsAvailable = ticketsAvailable;
@@ -138,9 +140,9 @@ public class Event extends Observable implements Serializable {
 	}
 
 	public void addCustomer(Customer customer) {
-		customerList.add(customer);
+		this.customerList.add(customer);
 		// Decrement tickets available here
-		notifyObservers();
+		//notifyObservers();
 	}
 
 	public void removeCustomer(Customer customer) {

@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import controller.CheckoutButtonEvent;
 import controller.Current;
+import controller.Pane4EventEvent;
 import controller.Pane4EventListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -16,12 +17,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class Pane4TablesTickets {
 
 	private GridPane pane;
+	private Pane4Event pane4Event;
 	private Label ticketPriceLabel;
 	private Label tablePriceLabel;
 	private ComboBox tableCombo;
@@ -31,49 +34,49 @@ public class Pane4TablesTickets {
 	private Button purchaseBtn;
 	private Label ticketCostLabel;
 	private Label tableCostLabel;
+	private Label comboErrorLabel = new Label(""); 
 	public double ticketPrice;
 	public double tablePrice;
 	public double ticketCost = 0;
 	public double tableCost = 0;
 	public int ticketAmount = 0;
 	public int tableAmount = 0;
-	DecimalFormat df = new DecimalFormat("#.##");
-	
+	public DecimalFormat df = new DecimalFormat("#.##");
 	private Pane4EventListener pane4EventListener;
-	
 	
 	public Pane4TablesTickets(){
 		pane = new GridPane();
 	}
 	
+	//-------------------------- Main GridPane containing all child nodes----------------------------
 	public GridPane buyBox(){
 		GridPane buyBox = new GridPane();
-		//buyBox.setGridLinesVisible(true);
+		buyBox.setPadding(new Insets(15,10,10,15));
 		buyBox.setVgap(15);
 		buyBox.setHgap(10);
 		buyBox.setPrefWidth(30);
-		buyBox.setPadding(new Insets(10,10,10,10));
 				
-		buyBox.addColumn(0, getTicketLabel(), getTableLabel(), purchaseBtn());
-		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), cancelBtn());
+		buyBox.addColumn(0, getTicketLabel(), getTableLabel(), new Label(""), purchaseBtn());
+		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), new Label(""), cancelBtn());
 		buyBox.addColumn(2, getTicketCombo(), getTableCombo(), new Label(""));
-		buyBox.addColumn(3, getTicketCostLabel(), getTableCostLabel(), getTotalTaxLabel(), getTotalCostLabel());
+		buyBox.addColumn(3, getTicketCostLabel(), getTableCostLabel(), getComboErrorLabel(), getTotalTaxLabel(), getTotalCostLabel());
 		return buyBox;
 	}
 	
-	public GridPane refreshBox(Node n1, Node n2){
+	public GridPane refreshBox(Node n1, Node n2, Node n3){
 		GridPane buyBox = new GridPane();
 		buyBox.setVgap(15);
 		buyBox.setHgap(10);
-		buyBox.setPadding(new Insets(10,10,10,10));
+		buyBox.setPadding(new Insets(15,10,10,15));
 		
-		buyBox.addColumn(0, getTicketLabel(), getTableLabel(), purchaseBtn());
-		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), cancelBtn());
+		buyBox.addColumn(0, getTicketLabel(), getTableLabel(),new Label(""), purchaseBtn());
+		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), new Label(""), cancelBtn());
 		buyBox.addColumn(2, getTicketCombo(), getTableCombo(), new Label(""));
-		buyBox.addColumn(3, n1, n2, getTotalTaxLabel(), getTotalCostLabel());
+		buyBox.addColumn(3, n1, n2,getComboErrorLabel(), getTotalTaxLabel(), getTotalCostLabel());
 		return buyBox;
 	}
 	
+	//--------------------
 	public Label getTicketLabel() {
 		Label ticketLabel = new Label("Tickets: ");
 		ticketLabel.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 16));
@@ -137,8 +140,8 @@ public class Pane4TablesTickets {
 	
 	public void setTableCombo(int n) {
 		this.tableCombo = new ComboBox();
-		String[] temparr = new String[n];
-		for (int i = 0; i < n; i++) {
+		String[] temparr = new String[n+1];
+		for (int i = 0; i < n+1; i++) {
 			temparr[i] = Integer.toString(i);
 		}
 		tableCombo.getItems().addAll(temparr);
@@ -147,8 +150,8 @@ public class Pane4TablesTickets {
 	
 	public void setTicketCombo(int n) {
 		this.ticketCombo = new ComboBox();
-		String[] temparr = new String[n];
-		for (int i = 0; i < n; i++) {
+		String[] temparr = new String[n+1];
+		for (int i = 0; i < n+1; i++) {
 			temparr[i] = Integer.toString(i);
 		}
 		ticketCombo.getItems().addAll(temparr);
@@ -160,10 +163,11 @@ public class Pane4TablesTickets {
 			String tempString = (String) ticketCombo.getSelectionModel().getSelectedItem();
 			int temp = Integer.parseInt(tempString);
 			ticketAmount = temp;
+			setComboErrorLabel("");
 			this.ticketCost = temp*ticketPrice;
 			this.getPane().getChildren().remove(getTicketCostLabel());
 			this.getPane().add(new Label("$ "+ this.ticketCost),1,1);
-			MainWindow.setCenter(this.refreshBox(new Label("$ "+ df.format(ticketCost)), new Label("$ "+ df.format(tableCost))));
+			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
 		});
 		return this.ticketCombo;
 	}
@@ -173,11 +177,12 @@ public class Pane4TablesTickets {
 			String tempString = (String) (tableCombo.getSelectionModel().getSelectedItem());
 			int temp = Integer.parseInt(tempString);
 			tableAmount = temp;
+			setComboErrorLabel("");
 			this.tableCost = temp*tablePrice;
 			this.getPane().getChildren().remove(getTableCostLabel());
 			this.getPane().add(new Label("$ "+ this.tableCost),1,1);
-			MainWindow.setCenter(this.refreshBox(new Label("$ "+ df.format(ticketCost)), new Label("$ "+ df.format(tableCost))));
-			tableCombo.setDisable(false);
+			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
+			//tableCombo.setDisable(false);
 		});
 		return this.tableCombo;
 	}
@@ -185,15 +190,21 @@ public class Pane4TablesTickets {
 	public Button purchaseBtn() {
 		Button purchaseBtn = new Button("Checkout");
 		purchaseBtn.setOnAction(e-> {
-			CheckoutButtonEvent ev = new CheckoutButtonEvent(this, Current.getEvent(), Current.getCustomer(), this.ticketAmount, this.tableAmount);
+			if (ticketAmount == 0 && tableAmount == 0) {
+				setComboErrorLabel("Zero items selected");
+				MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));	
+			} else {
+				setComboErrorLabel("");
+			CheckoutButtonEvent ev = new CheckoutButtonEvent(this, Current.getEvent(), Current.getCustomer(), ticketAmount, tableAmount);
 			Current.setPreviousPane(pane);
 			if (pane4EventListener != null) {
 				pane4EventListener.checkoutClicked(ev);
 			}
+			}
 		});
 		return purchaseBtn;
 	}
-	
+	 
 	public Button cancelBtn() {
 		Button cancelBtn = new Button("Cancel");
 		cancelBtn.setOnAction(e-> {
@@ -201,10 +212,29 @@ public class Pane4TablesTickets {
 			tableCost = 0;
 			tablePrice = 0;
 			ticketPrice = 0;
-			MainWindow.setCenter(Current.getPreviousPane());
+//			Pane4Event tempPane = new Pane4Event();
+//			tempPane.setTicketsLeft(Current.getEvent().getTicketsAvailable());
+//			tempPane.setTablesLeft(Current.getEvent().getTablesAvailable());
+//			tempPane.setDate(Current.getEvent().getDate(),Current.getEvent().getAddress());
+//			tempPane.setImage("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg");
+//			tempPane.setEventName(Current.getEvent().getEventName());
+			MainWindow.setCenter(null);
+			
+			//ATTN: This works but creates a pane without button handling...I will fix - Dylan -------------------------------***********************
 		});
 		return cancelBtn;
 	}
+	
+	public void setComboErrorLabel(String errorString) {
+		this.comboErrorLabel = new Label(errorString);
+		comboErrorLabel.setFont(Font.font("Arial", FontWeight.LIGHT,12));
+		comboErrorLabel.setTextFill(Color.RED);
+	}
+	
+	public Label getComboErrorLabel() {
+		return comboErrorLabel;
+	}
+	
 	
 	public GridPane getPane(){
 		return pane;

@@ -79,6 +79,7 @@ public class Pane4Event {
 	
 	public void setTicketsLeft(int tickets) {
 		this.ticketsLeft = new Label("Tickets Left: "+ tickets);
+		ticketsLeft.setFont(Font.font("Arial",FontWeight.SEMI_BOLD,18));
 	}
 	
 	public Label getTablesLeft() {
@@ -87,6 +88,7 @@ public class Pane4Event {
 	
 	public void setTablesLeft(int tables) {
 		 this.tablesLeft = new Label("Tables Left: "+ tables);
+		 tablesLeft.setFont(Font.font("Arial",FontWeight.SEMI_BOLD,18));
 	}
 	
 	public VBox ticketPane() {
@@ -124,7 +126,7 @@ public class Pane4Event {
 
 	public void setEventName(String st) {
 		this.eventName = new Label(st);
-		eventName.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		eventName.setFont(Font.font("Arial", FontWeight.BOLD, 22));
 	}
 
 
@@ -134,7 +136,7 @@ public class Pane4Event {
 	}
 	
 	public void setDate(LocalDate date, Address a) {
-		this.date = new Label(date.toString() + " @ "+ a.display());
+		this.date = new Label(date.getMonth()+" "+ date.getDayOfMonth()+", "+date.getYear() + "  @ "+ a.display());
 	}
 
 	public Label descriptionLabel() {
