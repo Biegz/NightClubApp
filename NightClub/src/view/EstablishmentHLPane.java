@@ -1,7 +1,6 @@
 package view;
 
 import controller.Current;
-import controller.EventController;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -18,10 +17,10 @@ public class EstablishmentHLPane {
 	private HBox main = new HBox();
 	private VBox pane1 = new VBox();
 	private VBox pane2 = new VBox();
+	private VBox employeePane = new VBox();
 	private HBox buttonsPane = new HBox();
-	
 	Pane4Events pane4Events = new Pane4Events();
-	
+
 	public Pane getHyperlinkPane() {
 
 		pane1.getChildren().addAll(getEventsHl(), getFinanceHl(), getEmployeeHl());
@@ -37,12 +36,6 @@ public class EstablishmentHLPane {
 	
 
 	public Hyperlink getMyEventsHl() {
-		
-		EventController eventsController = new EventController(pane4Events);
-		
-
-		
-
 		Hyperlink viewMyHl = new Hyperlink("View My Events");
 
 		viewMyHl.setOnAction(e -> {
@@ -63,9 +56,6 @@ public class EstablishmentHLPane {
 	}
 
 	public Hyperlink getAllEventsHl() {
-		Pane4Events pane4Events = new Pane4Events();
-		EventController eventsController = new EventController(pane4Events);
-
 		Hyperlink viewAllHl = new Hyperlink("View All Events");
 
 		viewAllHl.setOnAction(e -> {
@@ -81,25 +71,38 @@ public class EstablishmentHLPane {
 		return viewAllHl;
 
 	}
+	
+	public Hyperlink employeeAdd(){
+		Hyperlink employeeAdd = new Hyperlink("Add Employee");
+		
+		employeeAdd.setOnAction( e -> {
+			PaneForEmployee employee = new PaneForEmployee();
+			MainWindow.setCenter(employee.getCreatePane());
+		});
+		
+		return employeeAdd;
+	}
+	
+	public Hyperlink employeesView(){
+		Hyperlink employeesView = new Hyperlink("View Employees");
+		
+		employeesView.setOnAction( e -> {
+			PaneForEmployees employees = new PaneForEmployees();
+			MainWindow.setCenter(employees.getPane());
+		});
+		
+		return employeesView;
+	}
 
 	public Hyperlink getEmployeeHl() {
 		Hyperlink employeeHl = new Hyperlink("Employee");
 
 		employeeHl.setOnAction(e -> {
-			Boolean list = false;
 			mainWindow.setCenter(null);
 			main.getChildren().clear();
 			pane2.getChildren().clear();
-			if(Current.getBusiness().getEmployees() != null){
-				PaneForEmployees employees = new PaneForEmployees();
-				MainWindow.setCenter(employees.getPane());
-				
-			} else {
-				PaneForEmployee employee = new PaneForEmployee();
-				MainWindow.setCenter(employee.getCreatePane());
-			}
-
-			main.getChildren().addAll(pane1);
+			pane2.getChildren().addAll(employeeAdd(), employeesView());
+			main.getChildren().addAll(pane1, pane2);
 		});
 
 		return employeeHl;
