@@ -1,16 +1,19 @@
 package model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Ticket implements Serializable {
 
 	private Event event;
-	private double cost;
+	private Double cost;
+	private LocalDate date;
 	
 	public Ticket(Event event) {
 		this.event = event;
 		this.cost = event.getTicketPrice();
+		this.date = event.getDate();
 	}
 
 	public String getEventName() {
@@ -21,10 +24,13 @@ public class Ticket implements Serializable {
 		return event;
 	}
 
-	public double getCost() {
+	public Double getCost() {
 		return cost;
 	}
 	
+	public LocalDate getDate() {
+		return date;
+	}
 	public String displayInfo(){
 		String info = new String(event.toString());
 		return info;

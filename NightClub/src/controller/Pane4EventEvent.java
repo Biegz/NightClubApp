@@ -3,6 +3,7 @@ package controller;
 import java.util.EventObject;
 
 import model.Event;
+import model.model4User.User;
 
 public class Pane4EventEvent extends EventObject {
 
@@ -20,4 +21,5 @@ public class Pane4EventEvent extends EventObject {
 	public Event getEvent() {
 		return event;
 	}
+	
 }

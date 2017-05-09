@@ -19,7 +19,7 @@ public class PlaceOrderEvent extends EventObject{
 		super(source);
 	}
 
-	public PlaceOrderEvent(Object source, Event event, Customer customer, Business business, int tableCount, int ticketCount) {
+	public PlaceOrderEvent(Object source, Event event, Customer customer, Business business, int ticketCount, int tableCount) {
 		super(source);
 		this.event = event;
 		this.customer = customer;

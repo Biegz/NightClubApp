@@ -20,4 +20,14 @@ public class Pane4EventListener implements EventListener {
 		
 		
 	}
+	
+	public void eventRowSelected(ClickEventEvent ev) {
+		
+		
+	}
+	
+	public void myOrdersClicked(MyOrderEvent ev) {
+		
+		
+	}
 }

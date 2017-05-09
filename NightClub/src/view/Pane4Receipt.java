@@ -3,6 +3,9 @@ package view;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 
+import controller.Current;
+import controller.MyOrderEvent;
+import controller.Pane4EventListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -23,6 +26,7 @@ public class Pane4Receipt {
 	private Label dateLabel;
 	private Label eventLabel;
 	DecimalFormat df = new DecimalFormat("#.##");
+	private Pane4EventListener pane4EventListener;
 
 	
 	private Pane receiptPane;
@@ -54,8 +58,12 @@ public class Pane4Receipt {
 	public Button myOrdersBtn() {
 		Button myOrdersBtn = new Button("My Orders");
 		myOrdersBtn.setOnAction(e -> {
-			
+			MyOrderEvent myOrdersEvent = new MyOrderEvent(this, Current.getCustomer());
+			if (pane4EventListener != null) {
+				pane4EventListener.myOrdersClicked(myOrdersEvent);
+			}
 		});
+		
 		return myOrdersBtn;
 	}
 
@@ -169,6 +177,9 @@ public class Pane4Receipt {
 
 	}
 
+	public void setPane4EventListener(Pane4EventListener pane) {
+		this.pane4EventListener = pane;
+	}
 	
 	
 }

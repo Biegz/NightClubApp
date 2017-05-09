@@ -18,13 +18,14 @@ public class Customer extends User{
 	private String gender;
 	private ArrayList<Ticket> tickets;
 	private ArrayList<Table> tables;
+	private ArrayList<Event> myEvents;
 	private double balance;
 
 	public Customer(String username, double passwordHash) {
 		super(username, passwordHash);
 		tickets = new ArrayList<Ticket>();
 		tables = new ArrayList<Table>();
-		
+		myEvents = new ArrayList<Event>();
 	}
 
 	public String getFirstName() {
@@ -98,6 +99,10 @@ public class Customer extends User{
 	public void subtractBalance(double num){
 		this.balance -= num;
 	}
+	
+	public ArrayList<Ticket> getTicketList() {
+		return tickets;
+	}
 
 	public Ticket findTicket(Event event){
 		Ticket temp = null;
@@ -118,7 +123,30 @@ public class Customer extends User{
 		}
 		return temp;
 	}
+	
+	public boolean findEvent(String name) {
+		for (Event e: myEvents) {
+			if (e.getEventName().equalsIgnoreCase(name));
+			return true;
+		}
+		return false;
+	}
+	
+	public void setEventList(Event e) {
+		if (myEvents.contains(e)) {
+			return;
+		} else {
+			myEvents.add(e);
+		}
+	}
+	
+	
+	public ArrayList<Event> getEventList() {
+		return myEvents;
+		
+	}
 
+	
 	@Override
 	public String display(){
 		String display = null;
@@ -127,5 +155,11 @@ public class Customer extends User{
 				" years old. ";
 		return display;
 	}
+
+	public ArrayList<Table> getTableList() {
+		return tables;
+	}
+	
+	
 
 }

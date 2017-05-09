@@ -168,6 +168,7 @@ public class Pane4TablesTickets {
 			this.getPane().getChildren().remove(getTicketCostLabel());
 			this.getPane().add(new Label("$ "+ this.ticketCost),1,1);
 			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
+			
 		});
 		return this.ticketCombo;
 	}
@@ -182,7 +183,7 @@ public class Pane4TablesTickets {
 			this.getPane().getChildren().remove(getTableCostLabel());
 			this.getPane().add(new Label("$ "+ this.tableCost),1,1);
 			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
-			//tableCombo.setDisable(false);
+			//tableCombo.disarm();
 		});
 		return this.tableCombo;
 	}

@@ -7,6 +7,9 @@ import java.util.List;
 import controller.Current;
 import controller.Pane4EventListener;
 import controller.PlaceOrderEvent;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,12 +34,12 @@ import javafx.scene.text.FontWeight;
 public class Pane4Payment {
 	
 	private GridPane checkoutPane;
-	private TextField streetField;
-	private TextField addressField;
-	private TextField cityField;
-	private TextField zipField;
-	private TextField cardNumberField;
-	private TextField cardNameField;
+	//private TextField streetField = new TextField();
+	private TextField addressField = new TextField();
+	private TextField cityField = new TextField();
+	private TextField zipField = new TextField();
+	private TextField cardNumberField = new TextField();
+	private TextField cardNameField = new TextField();
 	private Label ticketsDisplayLabel;
 	private Label tablesDisplayLabel;
 	private Label taxDisplayLabel;
@@ -245,8 +248,8 @@ public class Pane4Payment {
 		return errorLabel;
 	}
 
-	public void setErrorLabel(Label errorLabel) {
-		this.errorLabel = errorLabel;
+	public void setErrorLabel(String error) {
+		this.errorLabel = new Label(error);
 	}
 
 	public TextField getAddressField() {
@@ -297,13 +300,45 @@ public class Pane4Payment {
 		yearCombo.getItems().addAll(yearList);
 		return yearCombo;
 	}
+	
+
+
+	
+	
+	
+	
+	
 	// ---------------------- Place order and Cancel Buttons -------------------------
 	public Button placeOrderBtn() {
 		Button placeOrderBtn = new Button("Place Order");
+		
+		BooleanBinding bb = new BooleanBinding() {
+		    {
+		        super.bind(getZipField().textProperty(),
+		        		getCardNumberField().textProperty(),
+		        		getCardNameField().textProperty());
+//		        		getStateCombo().itemsProperty(), monthCombo().itemsProperty(), yearCombo().itemsProperty());
+		    }
+
+		    @Override
+		    protected boolean computeValue() {
+		        return (getZipField().getText().isEmpty()
+		                || getCardNumberField().getText().isEmpty()
+		                || getCardNameField().getText().isEmpty());
+//		        		|| (monthCombo().getSelectionModel().getSelectedItem() == null)
+//		        		|| (yearCombo().getSelectionModel().getSelectedItem() == null)
+//		        		|| (getStateCombo().getSelectionModel().getSelectedItem() == null));
+		    }
+		};
+		placeOrderBtn.disableProperty().bind(bb);
 		placeOrderBtn.setOnAction(e -> {
+			if(getCardNumberField().getText().trim().isEmpty()){
+				setErrorLabel("Card Number Field Required");
+			} else {
 			PlaceOrderEvent ev = new PlaceOrderEvent(this, Current.getEvent(), Current.getCustomer(),Current.getEvent().getBusiness(),getTicketAmount(),getTableAmount());
-			if (pane4EventListener != null) {
+				if (pane4EventListener != null) {
 				pane4EventListener.placeOrderClicked(ev);
+				}
 			}
 		});
 		

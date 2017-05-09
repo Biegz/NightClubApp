@@ -3,6 +3,8 @@ package controller;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.Event;
 import model.model4User.model4Customer.Customer;
@@ -10,9 +12,11 @@ import model.model4User.model4Establishment.Business;
 import view.MainWindow;
 import view.Pane4Event;
 import view.Pane4Events;
+import view.Pane4MyItems;
 import view.Pane4Payment;
 import view.Pane4Receipt;
 import view.Pane4TablesTickets;
+import view.Pane4TicketsView;
 
 public class ExpandEventController {
 
@@ -20,11 +24,12 @@ public class ExpandEventController {
 	private Event modelEvent;
 	private Customer modelCustomer;
 	private Business modelBusiness;
-	//private MainWindow view2;
 	private Pane4Event view3;
 	private Pane4TablesTickets view4;
 	private Pane4Payment view5;
 	private Pane4Receipt view6;
+	private Pane4TicketsView view7;
+	private Pane4MyItems view8;
 	DecimalFormat df = new DecimalFormat("#.##");
 	 
 	public ExpandEventController(Pane4Events view) {
@@ -33,12 +38,13 @@ public class ExpandEventController {
 		this.view4 = new Pane4TablesTickets();
 		this.view5 = new Pane4Payment();
 		this.view6 = new Pane4Receipt();
-		
-		System.out.println("In the controller!");
+		this.view7 = new Pane4TicketsView();
+		this.view8 = new Pane4MyItems();
 		
 		view.setPane4EventListener(new Pane4EventListener() {
 			
 			public void rowSelected(Pane4EventEvent ev) {
+				
 				modelEvent = ev.getEvent();
 				Current.setEvent(modelEvent);
 				view3.setTicketsLeft(modelEvent.getTicketsAvailable());
@@ -118,8 +124,13 @@ public class ExpandEventController {
 			
 			public void placeOrderClicked(PlaceOrderEvent ev) {
 				modelEvent = ev.getEvent();
+				System.out.print(ev.getEvent().getEventName());
 				modelCustomer = ev.getCustomer();
 				modelBusiness = ev.getBusiness();
+				if (modelCustomer.findEvent(modelEvent.getEventName()) != true) {
+					modelCustomer.setEventList(modelEvent);
+				} else {
+				//modelCustomer.setEventList(modelEvent);
 				int ticketAmount = ev.getTicketCount();
 				int tableAmount = ev.getTableCount();
 				double taxAmount = ((ticketAmount*modelEvent.getTicketPrice()) + (tableAmount*modelEvent.getTablePrice()))*(0.045);
@@ -127,7 +138,7 @@ public class ExpandEventController {
 
 				CustomerTicketProcessing ticketProcessor = new CustomerTicketProcessing(modelEvent);
 				ticketProcessor.buyTicket(ticketAmount, modelCustomer, modelEvent, modelBusiness);
-				ticketProcessor.buyTable(ticketAmount, modelCustomer, modelEvent, modelBusiness);
+				ticketProcessor.buyTable(tableAmount, modelCustomer, modelEvent, modelBusiness);
 				
 				view6.setEventLabel(modelEvent.getEventName());
 				view6.setReceiptLabel(modelCustomer.getFirstName());
@@ -137,10 +148,53 @@ public class ExpandEventController {
 				view6.setTaxLabel(taxAmount);
 				view6.setTotalLabel(totalAmount);
 				displayReceipt();
+				}
+			}
+		});
+		
+		view6.setPane4EventListener(new Pane4EventListener() {
+			
+			public void myOrdersClicked(MyOrderEvent ev) {
+				modelCustomer = ev.getCustomer();
+				for (Event e: modelCustomer.getEventList()) {
+					System.out.println(e.getEventName());
+				}
+				view7.setMyEventsTable(modelCustomer.getEventList());
+				displayMyTickets();
+			}
+			
+		});
+		
+		view7.setPane4EventListener(new Pane4EventListener() {
+			
+			public void eventRowSelected(ClickEventEvent ev) {
+				modelCustomer = ev.getCustomer();
+				modelEvent = ev.getEvent();
+				int ticketCount = 0;
+				int tableCount = 0;
+				for(int i = 0; i < modelCustomer.getTicketList().size(); i++) {
+					if(modelCustomer.getTicketList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
+						ticketCount++;
+					}
+				}
+				for(int i = 0; i < modelCustomer.getTableList().size(); i++) {
+					if(modelCustomer.getTableList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
+						tableCount++;
+					}
+				}
 				
+				view8.setTicketLabel(ticketCount, modelEvent.getTicketPrice(), modelEvent.getTicketPrice()*ticketCount);
+				view8.setTableLabel(tableCount, modelEvent.getTablePrice(), modelEvent.getTablePrice()*tableCount);
+				view8.setEventLabel(modelEvent.getEventName(), modelEvent.getDate());
+				
+				displayMyItems();
+				displayConfirmation();
+			
 			}
 		});
 	}
+	
+	
 	
 	private void displayEvent() {
 		MainWindow.setCenter(view3.gridPane());
@@ -156,5 +210,18 @@ public class ExpandEventController {
 	
 	private void displayReceipt() {
 		MainWindow.setCenter(view6.receiptGrid());
+	}
+	
+	private void displayMyTickets() {
+		MainWindow.setCenter(null);
+		MainWindow.setLeft(view7.ticketBox());
+	}
+	
+	private void displayMyItems() {
+		MainWindow.setCenter(view8.mainGrid());
+	}
+	
+	private void displayConfirmation() {
+		MainWindow.setBottom((new Label("Test Confirmation")));
 	}
 }
