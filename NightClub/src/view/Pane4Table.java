@@ -47,7 +47,7 @@ public class Pane4Table {
 	
 	//----------------------------------Table-------------------------------------------------------
 	public TableView getTable() {
-		events = FXCollections.observableArrayList(EventsBag.getCurrentBusinessEvents());
+		events = FXCollections.observableArrayList(EventsBag.events);
 		eventsTable = new TableView<Event>();
 
 		eventsTable.setEditable(false);

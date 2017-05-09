@@ -69,7 +69,7 @@ public class TableController {
 		}
 		
 		private void businessSelectedTheEvent(){
-			System.out.println("Im a business and dont own the even");
+			System.out.println("Im a business and dont own the event");
 			Pane4EventCreation pane = new Pane4EventCreation();
 			MainWindow.setCenter(pane.getUpdatePane());
 

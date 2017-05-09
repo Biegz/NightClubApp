@@ -6,6 +6,7 @@ import javafx.scene.control.MenuItem;
 
 public class MainMenu {
 
+	private MainWindow mainWindow;
 	private final String house = "\u2302";
 	private final String gear = "\u26ed";
 
@@ -22,7 +23,7 @@ public class MainMenu {
 
 	public MenuBar getBusinessMenuBar(){
 		MenuBar menuBar = new MenuBar();
-		menuBar.getMenus().addAll(businessHome(), businessMenu(), businessSettings());
+		menuBar.getMenus().addAll(businessHome(), businessMenu(), businessSettings(), getMyEvents());
 		return menuBar;
 	}
 
@@ -63,7 +64,15 @@ public class MainMenu {
 		settings.getItems().addAll(businessEditAccount(), logOut());
 		return settings;
 	}
+	
+	private Menu getMyEvents(){
+		Menu myEvents = new Menu("My Events");
+		myEvents.getItems().addAll(getCreateEvent());
+		return myEvents;
+	}
 
+	
+	
 	//Menu Items
 	private MenuItem customerEditAccount(){
 		MenuItem editAccount = new MenuItem("  Edit Account");
@@ -141,5 +150,16 @@ public class MainMenu {
 
 		return displayEvents;
 	}
+	
+	private MenuItem getCreateEvent(){
+		Pane4EventCreation pane4EventCreation = new Pane4EventCreation();
+		MenuItem createEvent = new MenuItem("  Create Event ");
+		createEvent.setOnAction(e ->{
+			MainWindow.setCenter(pane4EventCreation.getCreatePane());
+		});
+		return createEvent;
+	}
+	
+	
 
 }

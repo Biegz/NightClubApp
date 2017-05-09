@@ -34,19 +34,13 @@ public class Demo {
 //		e = EventsBag.events.get(0);
 //		System.out.println(e.getEventName());
 		
-		Customer tom = new Customer("Tom", 45);
-		UsersBag.add(tom);
-		
+	
 		Business bs1 = new Business("Bar",23);
 		
-		SignInUp sign = new SignInUp();
-		//System.out.println(sign.hashCode());
+
 	
 		
-		Current current = new Current();
 		
-		current.setBusiness(bs1);
-		current.setUser(tom);
 		
 		Event ev1 = new Event();
 		Event ev2 = new Event();
@@ -55,7 +49,6 @@ public class Demo {
 		Event ev5 = new Event();
 		Event ev6 = new Event();
 
-		current.setEvent(ev1);
 		
 		
 		//ev1.business = bs1;

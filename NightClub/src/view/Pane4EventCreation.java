@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 
 public class Pane4EventCreation {
 
-	private Pane4Events pane4Events = new Pane4Events();
+	private Pane4Events pane4Events;
 	private Pane eventCreationPane;
 	public static TextField nameField;
 	public static TextField descriptionField;
@@ -55,7 +55,7 @@ public class Pane4EventCreation {
 	//-----------------------------Data Panes--------------------------------------------------------------
 	
 	public VBox getCreatePane() {
-		
+		pane4Events = new Pane4Events();
 		VBox updateView = new VBox(5);
 		updateView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(),
 				pane4Events.getCreateEventButton());

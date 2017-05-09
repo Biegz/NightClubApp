@@ -38,9 +38,6 @@ public class EstablishmentHLPane {
 	
 
 	public Hyperlink getMyEventsHl() {
-		
-		
-		
 		Pane4Events pane4Events = new Pane4Events();
 		EventController eventController = new EventController(pane4Events);
 		

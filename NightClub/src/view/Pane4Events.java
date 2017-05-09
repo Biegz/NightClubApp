@@ -249,7 +249,7 @@ public class Pane4Events {
 
 	
 	public Button getCreateEventButton(){
-		myEvents = FXCollections.observableArrayList(EventsBag.getCurrentBusinessEvents());//Could not get the current business' events list to print (tried getEventsList from business model)
+		myEvents = FXCollections.observableArrayList(EventsBag.events);//Could not get the current business' events list to print (tried getEventsList from business model)
 
 		
 		p = new Pane4EventCreation();
@@ -292,13 +292,14 @@ public class Pane4Events {
 	
 	public Button getUpdateEventButton(){
 		updateEventButton = new Button("Update Event");
-		updateEventButton.setOnAction(e ->{
-			UpdateButtonEvent ev = new UpdateButtonEvent(e);
-			
-			if(eventsListener != null){
-				System.out.println("not null");
-				eventsListener.updateButtonClicked(ev);
-			}
+     	updateEventButton.setOnAction(e ->{
+//			UpdateButtonEvent ev = new UpdateButtonEvent(e);
+//			
+//			if(eventsListener != null){
+//				System.out.println("not null");
+//				eventsListener.updateButtonClicked(ev);
+//			}
+			System.out.println("I can create an event!");
 		});
 		return updateEventButton;
 	}
