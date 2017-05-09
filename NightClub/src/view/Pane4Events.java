@@ -303,7 +303,19 @@ public class Pane4Events {
 		return updateEventButton;
 	}
 	
+
 	
+	public Button getSearchButton(){
+		Button searchButton = new Button("Search");
+		searchButton.setOnAction(e ->{
+			
+		});
+		return searchButton;
+	}
+	
+	
+	
+//------------------------Panes---------------------------------------------------	
 	
 	
 	public Pane getSearchBox(){
@@ -317,16 +329,15 @@ public class Pane4Events {
 		
 		Label searchLbl = new Label("Search Club by Zipcode:");
 		TextField searchTF = new TextField("Zipcode");
-		Button searchButton = new Button("Search");
+		
 		
 		pane.getChildren().addAll(searchLbl);
 		pane2.getChildren().addAll(searchTF);
-		pane3.getChildren().addAll(searchButton);
+		pane3.getChildren().addAll(getSearchButton());
 		mainPane.getChildren().addAll(pane, pane2, pane3);
 		
 		return mainPane;
 	}
-	
 	
 	
 	
@@ -339,7 +350,7 @@ public class Pane4Events {
 	
 	
 	
-	
+//-----------------------Set Listener Methods---------------------------------
 	
 	
 	
@@ -349,18 +360,12 @@ public class Pane4Events {
 		this.pane4EventListener = pane4EventListener;
 	}
 
-	public void setCreateEventListener(EventsListener createEventsListener) {
+	public void setEventsListener(EventsListener eventsListener) {
 		System.out.println("Hit the setCreateEventListener method!");
-		this.eventsListener = createEventsListener;
+		this.eventsListener = eventsListener;
 	}
 	
-	public void setDeleteEventListener(EventsListener deleteEventsListener){
-		this.eventsListener = deleteEventsListener;
-	}
 	
-	public void setUpdateEventListener(EventsListener updateEventsListener){
-		this.eventsListener = updateEventsListener;
-	}
 
 	// have all objects from events bag(ArrayList) print out into their own row
 	// // in the table, with only the date

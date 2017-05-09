@@ -11,16 +11,18 @@ import model.model4User.model4Customer.Customer;
 import model.model4User.model4Establishment.Business;
 import view.MainWindow;
 import view.Pane4Event;
+import view.Pane4EventCreation;
 import view.Pane4Events;
 import view.Pane4MyItems;
 import view.Pane4Payment;
 import view.Pane4Receipt;
+import view.Pane4Table;
 import view.Pane4TablesTickets;
 import view.Pane4TicketsView;
 
 public class ExpandEventController {
 
-	private Pane4Events view;
+	private Pane4Table view;
 	private Event modelEvent;
 	private Customer modelCustomer;
 	private Business modelBusiness;
@@ -30,9 +32,10 @@ public class ExpandEventController {
 	private Pane4Receipt view6;
 	private Pane4TicketsView view7;
 	private Pane4MyItems view8;
+
 	DecimalFormat df = new DecimalFormat("#.##");
 	 
-	public ExpandEventController(Pane4Events view) {
+	public ExpandEventController(Pane4Table view) {
 		this.view = view;
 		this.view3 = new Pane4Event();
 		this.view4 = new Pane4TablesTickets();
@@ -40,26 +43,9 @@ public class ExpandEventController {
 		this.view6 = new Pane4Receipt();
 		this.view7 = new Pane4TicketsView();
 		this.view8 = new Pane4MyItems();
-		
-		view.setPane4EventListener(new Pane4EventListener() {
-			
-			public void rowSelected(Pane4EventEvent ev) {
-				
-				modelEvent = ev.getEvent();
-				Current.setEvent(modelEvent);
-				view3.setTicketsLeft(modelEvent.getTicketsAvailable());
-				view3.setTablesLeft(modelEvent.getTablesAvailable());
-				view3.setDate(modelEvent.getDate(),modelEvent.getAddress());
-				view3.setEventName(modelEvent.getEventName());
-				view3.setImage("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg");
-				displayEvent();
-				  				
-			}
-			
-		});
+
 		
 		view3.setPane4EventListener(new Pane4EventListener() {
-
 			public void ticketsClicked(TicketButtonEvent ev) {
 				modelEvent = ev.getEvent();
 				Current.setPreviousPane(view3.gridPane());
@@ -192,10 +178,12 @@ public class ExpandEventController {
 			
 			}
 		});
+		
+		 
 	}
 	
 	
-	
+
 	private void displayEvent() {
 		MainWindow.setCenter(view3.gridPane());
 	}
@@ -214,7 +202,7 @@ public class ExpandEventController {
 	
 	private void displayMyTickets() {
 		MainWindow.setCenter(null);
-		MainWindow.setLeft(view7.ticketBox());
+		//MainWindow.setLeft(view7.ticketBox());
 	}
 	
 	private void displayMyItems() {
@@ -222,6 +210,6 @@ public class ExpandEventController {
 	}
 	
 	private void displayConfirmation() {
-		MainWindow.setBottom((new Label("Test Confirmation")));
+		//MainWindow.setBottom((new Label("Test Confirmation")));
 	}
 }

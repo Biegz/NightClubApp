@@ -10,7 +10,7 @@ import view.Pane4Events;
 public class EventController {
 
 	private Pane4Events view;
-	
+
 
 	
 	private MainWindow viewMain;
@@ -22,9 +22,10 @@ public class EventController {
 		this.view = view;
 		
 		
+		
 		System.out.println("In the Controller!");
 
-		view.setCreateEventListener(new EventsListener() {
+		view.setEventsListener(new EventsListener() {
 
 			@Override
 			public void createButtonClicked(CreateButtonEvent ev) {
@@ -64,7 +65,7 @@ public class EventController {
 
 			});
 		
-		view.setDeleteEventListener(new EventsListener(){
+		view.setEventsListener(new EventsListener(){
 			
 			@Override
 			public void deleteButtonClicked(DeleteButtonEvent ev){
@@ -78,12 +79,16 @@ public class EventController {
 			}
 		});
 		
-		view.setUpdateEventListener(new EventsListener(){
+		view.setEventsListener(new EventsListener(){
 
 			@Override
 			public void updateButtonClicked(UpdateButtonEvent ev) {
 				
 			}
+			
+		});
+		
+		view.setEventsListener(new EventsListener(){
 			
 		});
 		

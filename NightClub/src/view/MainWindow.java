@@ -2,6 +2,7 @@ package view;
 
 import controller.EventController;
 import controller.ExpandEventController;
+import controller.TableController;
 import javafx.scene.Node;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -17,20 +18,21 @@ public class MainWindow {
 	}
 
 	public BorderPane getCustomerWindow() {
-		Pane4Events pane4Events = new Pane4Events();
-		ExpandEventController controller = new ExpandEventController(pane4Events);
+		Pane4Table table = new Pane4Table();
+		TableController controller = new TableController(table);
 		System.out.println("Just Created the controller object in view!");
 		MainMenu menuBar = new MainMenu();
-		mainWindow.setLeft(pane4Events.getCustomerEventPane());
+		mainWindow.setLeft(table.getCustomerEventPane());
 		mainWindow.setTop(menuBar.getCustomerMenuBar());
 		return mainWindow;
 	}
 	
 	public BorderPane getBusinessWindow() {
-		
+		Pane4Table table = new Pane4Table();
+		TableController controller = new TableController(table);
 		MainMenu menuBar = new MainMenu();
 		EstablishmentHLPane establishmentHLPane = new EstablishmentHLPane();
-		mainWindow.setLeft(establishmentHLPane.getHyperlinkPane());
+		mainWindow.setLeft(table.getCustomerEventPane());
 		mainWindow.setTop(menuBar.getBusinessMenuBar());
 		return mainWindow;
 	}

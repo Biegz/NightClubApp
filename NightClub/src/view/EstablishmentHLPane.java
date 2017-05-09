@@ -20,10 +20,12 @@ public class EstablishmentHLPane {
 	private VBox pane2 = new VBox();
 	private VBox employeePane = new VBox();
 	private HBox buttonsPane = new HBox();
+	
+	
 
 	public Pane getHyperlinkPane() {
-
-		pane1.getChildren().addAll(getEventsHl(), getFinanceHl(), getEmployeeHl());
+		Pane4Events pane4Events = new Pane4Events();
+		pane1.getChildren().addAll(pane4Events.getTable());
 		main.getChildren().addAll(pane1);
 
 		main.setBorder(
@@ -36,8 +38,12 @@ public class EstablishmentHLPane {
 	
 
 	public Hyperlink getMyEventsHl() {
+		
+		
+		
 		Pane4Events pane4Events = new Pane4Events();
 		EventController eventController = new EventController(pane4Events);
+		
 		System.out.println("Event Controller object Just Created!");
 
 		Hyperlink viewMyHl = new Hyperlink("View My Events");

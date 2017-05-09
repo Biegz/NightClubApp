@@ -54,7 +54,7 @@ public class PaneForLogin {
 	private VBox launchView(){
 		VBox launchView = new VBox();
 		Label singleSpace = new Label("\n");
-		launchView.getChildren().addAll(getLogo(),  userInfoQuery(), passwordQuery(), buttonQuery());
+		launchView.getChildren().addAll(getLogo(), userInfoQuery(), passwordQuery(), buttonQuery());
 		launchView.setPadding(new Insets(10));
 		return launchView;
 	}
@@ -72,7 +72,7 @@ public class PaneForLogin {
 	private HBox getLogo(){
 		HBox pane = new HBox();
 		pane.setAlignment(Pos.BASELINE_CENTER);
-//		pane.getChildren().addAll(image);
+		pane.getChildren().addAll(image);
 		
 		return pane;
 	}
