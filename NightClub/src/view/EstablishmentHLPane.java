@@ -18,10 +18,9 @@ public class EstablishmentHLPane {
 	private HBox main = new HBox();
 	private VBox pane1 = new VBox();
 	private VBox pane2 = new VBox();
+	private VBox employeePane = new VBox();
 	private HBox buttonsPane = new HBox();
-	
-	
-	
+
 	public Pane getHyperlinkPane() {
 
 		pane1.getChildren().addAll(getEventsHl(), getFinanceHl(), getEmployeeHl());
@@ -40,8 +39,6 @@ public class EstablishmentHLPane {
 		Pane4Events pane4Events = new Pane4Events();
 		EventController eventController = new EventController(pane4Events);
 		System.out.println("Event Controller object Just Created!");
-
-
 
 		Hyperlink viewMyHl = new Hyperlink("View My Events");
 
@@ -80,25 +77,38 @@ public class EstablishmentHLPane {
 		return viewAllHl;
 
 	}
+	
+	public Hyperlink employeeAdd(){
+		Hyperlink employeeAdd = new Hyperlink("Add Employee");
+		
+		employeeAdd.setOnAction( e -> {
+			PaneForEmployee employee = new PaneForEmployee();
+			MainWindow.setCenter(employee.getCreatePane());
+		});
+		
+		return employeeAdd;
+	}
+	
+	public Hyperlink employeesView(){
+		Hyperlink employeesView = new Hyperlink("View Employees");
+		
+		employeesView.setOnAction( e -> {
+			PaneForEmployees employees = new PaneForEmployees();
+			MainWindow.setCenter(employees.getPane());
+		});
+		
+		return employeesView;
+	}
 
 	public Hyperlink getEmployeeHl() {
 		Hyperlink employeeHl = new Hyperlink("Employee");
 
 		employeeHl.setOnAction(e -> {
-			Boolean list = false;
 			mainWindow.setCenter(null);
 			main.getChildren().clear();
 			pane2.getChildren().clear();
-			if(Current.getBusiness().getEmployees() != null){
-				PaneForEmployees employees = new PaneForEmployees();
-				MainWindow.setCenter(employees.getPane());
-				
-			} else {
-				PaneForEmployee employee = new PaneForEmployee();
-				MainWindow.setCenter(employee.getCreatePane());
-			}
-
-			main.getChildren().addAll(pane1);
+			pane2.getChildren().addAll(employeeAdd(), employeesView());
+			main.getChildren().addAll(pane1, pane2);
 		});
 
 		return employeeHl;

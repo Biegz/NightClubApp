@@ -38,6 +38,7 @@ public class PaneForLogin {
 	private ImageView image = new ImageView(new Image("images"+File.separator+"logo3.png"));
 
 
+
 	public PaneForLogin(){
 		loginPane = new Pane();
 
@@ -71,7 +72,7 @@ public class PaneForLogin {
 	private HBox getLogo(){
 		HBox pane = new HBox();
 		pane.setAlignment(Pos.BASELINE_CENTER);
-		pane.getChildren().addAll(image);
+//		pane.getChildren().addAll(image);
 		
 		return pane;
 	}
