@@ -1,31 +1,39 @@
 package model.model4User.model4Customer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
+import javafx.scene.layout.Pane;
 import model.Event;
+import model.Genre;
 import model.Table;
 import model.Ticket;
-import model.model4Address.Address;
 import model.model4User.User;
 
-public class Customer extends User{
+public class Customer extends User {
 
 	private String firstName;
 	private String lastName;
-	private String favGenre;
+	private Genre favGenre;
 	private int age;
 	private String gender;
 	private ArrayList<Ticket> tickets;
 	private ArrayList<Table> tables;
-	private ArrayList<Event> myEvents;
 	private double balance;
+	private Pane recommendation;
 
 	public Customer(String username, double passwordHash) {
 		super(username, passwordHash);
 		tickets = new ArrayList<Ticket>();
 		tables = new ArrayList<Table>();
-		myEvents = new ArrayList<Event>();
+
+	}
+
+	public Pane getRecommendation() {
+		return recommendation;
+	}
+
+	public void setRecommendation(Pane recommendation) {
+		this.recommendation = recommendation;
 	}
 
 	public String getFirstName() {
@@ -44,11 +52,11 @@ public class Customer extends User{
 		this.lastName = lastName;
 	}
 
-	public String getFavGenre() {
+	public Genre getFavGenre() {
 		return favGenre;
 	}
 
-	public void setFavGenre(String favGenre) {
+	public void setFavGenre(Genre favGenre) {
 		this.favGenre = favGenre;
 	}
 
@@ -68,11 +76,11 @@ public class Customer extends User{
 		this.gender = gender;
 	}
 
-	public void addTicket(Ticket ticket){
+	public void addTicket(Ticket ticket) {
 		tickets.add(ticket);
 	}
 
-	public void removeTicket(Ticket ticket){
+	public void removeTicket(Ticket ticket) {
 		tickets.remove(ticket);
 	}
 
@@ -92,74 +100,40 @@ public class Customer extends User{
 		this.balance = balance;
 	}
 
-	public void addBalance(double num){
+	public void addBalance(double num) {
 		this.balance += num;
 	}
 
-	public void subtractBalance(double num){
+	public void subtractBalance(double num) {
 		this.balance -= num;
 	}
-	
-	public ArrayList<Ticket> getTicketList() {
-		return tickets;
-	}
 
-	public Ticket findTicket(Event event){
+	public Ticket findTicket(Event event) {
 		Ticket temp = null;
-		for(Ticket t : tickets){
-			if(t.getEvent().equals(event)){
+		for (Ticket t : tickets) {
+			if (t.getEvent().equals(event)) {
 				temp = t;
 			}
 		}
 		return temp;
 	}
 
-	public Table findTable(Event event){
+	public Table findTable(Event event) {
 		Table temp = null;
-		for (Table t: tables) {
-			if(t.getEvent().equals(event)) {
+		for (Table t : tables) {
+			if (t.getEvent().equals(event)) {
 				temp = t;
 			}
 		}
 		return temp;
 	}
-	
-	public boolean findEvent(String name) {
-		for (Event e: myEvents) {
-			if (e.getEventName().equalsIgnoreCase(name));
-			return true;
-		}
-		return false;
-	}
-	
-	public void setEventList(Event e) {
-		if (myEvents.contains(e)) {
-			return;
-		} else {
-			myEvents.add(e);
-		}
-	}
-	
-	
-	public ArrayList<Event> getEventList() {
-		return myEvents;
-		
-	}
 
-	
 	@Override
-	public String display(){
+	public String display() {
 		String display = null;
-		display = "Username: " + getUsername()
-				+ ". Name: " + firstName + " " + lastName + ". " + gender + ". " + age +
-				" years old. ";
+		display = "Username: " + getUsername() + ". Name: " + firstName + " " + lastName + ". " + gender + ". " + age
+				+ " years old. ";
 		return display;
 	}
-
-	public ArrayList<Table> getTableList() {
-		return tables;
-	}
-	
-	
 
 }

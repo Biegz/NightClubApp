@@ -1,17 +1,17 @@
 package view;
 
-import java.io.FileNotFoundException;
-
 import controller.Current;
 import controller.IO;
 import controller.SignInUp;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import model.Genre;
 
 public class PaneForCustomer {
 
@@ -20,6 +20,7 @@ public class PaneForCustomer {
 	public static TextField lastField;
 	public static TextField ageField;
 	public static TextField genderField;
+	public static ComboBox<Genre> genreBox;
 	private String username;
 	private String password;
 	private static PaneForUser user = new PaneForUser();
@@ -32,10 +33,11 @@ public class PaneForCustomer {
 	
 	public PaneForCustomer(){
 		customerPane = new HBox();
+		
 	}
 
 	public HBox getCreatePane() {
-		customerPane.setPadding(new Insets(145,0,0,290));
+//		customerPane.setPadding(new Insets(145,0,0,290));
 		customerPane.getChildren().add(view());
 		return customerPane;
 	}
@@ -55,7 +57,7 @@ public class PaneForCustomer {
 	private VBox updateView() {
 		VBox updateView = new VBox(5);
 		updateView.getChildren().addAll(user.getUpdatePane(), first(), last(), age(), 
-				gender(), updateButton());
+				gender(), genre(), updateButton());
 		updateView.setPadding(new Insets(5));
 		updateTextFields();
 		return updateView;
@@ -64,9 +66,18 @@ public class PaneForCustomer {
 	private VBox view() {
 		VBox view = new VBox(5);
 		view.getChildren().addAll(user.getCreatePane(), first(), last(), age(), gender(), 
-				registerButton());
+				genre(), registerButton());
 		view.setPadding(new Insets(5));
 		return view;
+	}
+	
+	private HBox genre(){
+		HBox genre = new HBox(5);
+		Label genreLabel = new Label("Favorite Genre:\t\t");
+		genreBox = new ComboBox<>();
+		genreBox.getItems().addAll(Genre.values());
+		genre.getChildren().addAll(genreLabel, genreBox);
+		return genre;
 	}
 
 	private HBox first() {
@@ -106,6 +117,7 @@ public class PaneForCustomer {
 		lastField.setText(Current.getCustomer().getLastName());
 		ageField.setText(Integer.toString(Current.getCustomer().getAge()));
 		genderField.setText(Current.getCustomer().getGender());
+		genreBox.getSelectionModel().select(Current.getCustomer().getFavGenre());
 	}
 
 	private Button registerButton() {
@@ -137,6 +149,7 @@ public class PaneForCustomer {
 		Current.getCustomer().setLastName(lastField.getText());
 		Current.getCustomer().setAge(Integer.parseInt(ageField.getText()));
 		Current.getCustomer().setGender(genderField.getText());
+		Current.getCustomer().setFavGenre(genreBox.getSelectionModel().getSelectedItem());
 		IO.saveUsers();
 	}
 	

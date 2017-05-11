@@ -54,10 +54,10 @@ public class EventsBag implements Serializable {
 		
 	}
 	
-	public static EventsBag searchEventByGenre(String genre) {
+	public static EventsBag searchEventByGenre(Genre genre) {
 		EventsBag genreEvents = new EventsBag();
 		for (Event ev: events) {
-			if (ev.getGenre().equalsIgnoreCase(genre)) {
+			if (ev.getGenre() == genre) {
 				genreEvents.add(ev);
 			}
 		}

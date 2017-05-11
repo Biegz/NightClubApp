@@ -55,6 +55,7 @@ public class TableController {
 		}
 		
 		private void customerSelectedTheEvent(){
+
 			modelEvent = Current.getEvent();
 			System.out.println("Im a customer and id like to buy a ticket");
 			Current.setEvent(modelEvent);
@@ -63,18 +64,19 @@ public class TableController {
 			view2.setTablesLeft(modelEvent.getTablesAvailable());
 			view2.setDate(modelEvent.getDate(),modelEvent.getAddress());
 			view2.setEventName(modelEvent.getEventName());
-			view2.setImage("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg");
+			view2.setImage(Current.getEvent().getGenre().getImage());
+			view2.setGenre(modelEvent.getGenre());
 			displayEvent(view2.getBuyTicketBtn());
 		}
 		
 		private void ownerSelectedTheEvent(){
-			System.out.println("Im a business and own the even");
 			Pane4EventCreation pane = new Pane4EventCreation();
 			MainWindow.setCenter(pane.getUpdatePane());
 
 		}
 		
 		private void businessSelectedTheEvent(){
+
 			modelEvent = Current.getEvent();
 			System.out.println("Im a business and id like to view my competitors event");
 			Current.setEvent(modelEvent);
@@ -82,9 +84,11 @@ public class TableController {
 			view2.setTicketsLeft(modelEvent.getTicketsAvailable());
 			view2.setTablesLeft(modelEvent.getTablesAvailable());
 			view2.setDate(modelEvent.getDate(),modelEvent.getAddress());
-			view2.setEventName(modelEvent.getEventName());
-			view2.setImage("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg");
+			view2.setImage(Current.getEvent().getGenre().getImage());
+			view2.setGenre(modelEvent.getGenre());
 			displayEvent(new Text(""));
+
+
 
 		}
 		

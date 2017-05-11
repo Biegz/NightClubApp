@@ -53,6 +53,7 @@ public class SignInUp {
 		created.setFirstName(PaneForCustomer.firstField.getText());
 		created.setLastName(PaneForCustomer.lastField.getText());
 		created.setGender(PaneForCustomer.genderField.getText());
+		created.setFavGenre(PaneForCustomer.genreBox.getSelectionModel().getSelectedItem());
 		created.setAge(getAge());
 		created.setAddress(getAddress());
 		saveUser(created);

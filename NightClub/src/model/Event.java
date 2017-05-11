@@ -15,7 +15,7 @@ public class Event extends Observable implements Serializable {
 	
 	private Business business;
 	private String eventName;
-	private String genre;
+	private Genre genre;
 	private String description;
 	private Address address;
 	private LocalDate date;
@@ -32,7 +32,7 @@ public class Event extends Observable implements Serializable {
 		business = Current.getBusiness();
 	}
 
-	public Event(Business business, String eventName, String genre, String description, Address address, LocalDate date,
+	public Event(Business business, String eventName, Genre genre, String description, Address address, LocalDate date,
 			int totalTickets, double ticketPrice, int totalTables, double tablePrice) {
 		//super();
 		customerList = new ArrayList<Customer>();
@@ -150,11 +150,11 @@ public class Event extends Observable implements Serializable {
 		notifyObservers();
 	}
 
-	public String getGenre() {
+	public Genre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
 
