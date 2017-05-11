@@ -3,26 +3,22 @@ package view;
 
 import java.time.LocalDate;
 
-
 import controller.Current;
-import controller.Pane4EventEvent;
 import controller.Pane4EventListener;
-
 import controller.TicketButtonEvent;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import model.Event;
+import model.Genre;
 import model.model4Address.Address;
 
 public class Pane4Event {
@@ -39,6 +35,7 @@ public class Pane4Event {
 	private Label tablesLeft;
 	private VBox ticketPane;
 	private FlowPane ticketTablePane;
+	private Genre genre;
 	
 	private Pane4EventListener pane4EventListener;
 
@@ -55,8 +52,9 @@ public class Pane4Event {
 		gridPane.setPadding(new Insets(10,10,10,10));
 		gridPane.add(eventName, 0, 0);
 		gridPane.add(date,0,2);
-		gridPane.add(image, 0, 4);
-		gridPane.add(ticketPane(), 0, 6);
+		gridPane.add(genre(), 0, 4);
+		gridPane.add(image, 0, 6);
+		gridPane.add(ticketPane(), 0, 8);
 		return gridPane;
 	}
 
@@ -97,13 +95,34 @@ public class Pane4Event {
 		 return ticketPane;
 	}
 	
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+
+	public HBox genre(){
+		HBox genre = new HBox(5);
+		Label genreLbl = new Label("Genre: " + genre);
+		genre.getChildren().addAll();
+		return genre;
+	}
+	
 	public ImageView getImage() {
 		ImageView image = new ImageView(new Image("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg"));
 		return image;
 	}
 
-	public void setImage(String st) {
+	public void setImageView(String st) {
 		this.image = new ImageView(new Image(st));
+	}
+	
+	public void setImage(Image image){
+		this.image = new ImageView(image);
+		this.image.fitWidthProperty().bind(PrimaryView.primaryStage.widthProperty().divide(2.2));
+		this.image.fitHeightProperty().bind(PrimaryView.primaryStage.heightProperty().divide(2.2));
 	}
 
 	public Button getBuyTicketBtn() {

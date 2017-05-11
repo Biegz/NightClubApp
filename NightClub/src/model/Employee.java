@@ -7,7 +7,7 @@ import model.model4Address.Address;
 public class Employee implements Serializable{
 
 	private String title;
-	private double salary;
+	private String salary;
 	private String name;
 	private Address address =  new Address();
 	private String ssn;
@@ -15,17 +15,16 @@ public class Employee implements Serializable{
 	private String dateOfBirth;
 	private String email;
 	private boolean isEmployed;
-	private boolean isTemp;
+	private String isTemp;
 
 	public Employee() {
-		isEmployed = true;
 	}
 
-	public boolean isTemp() {
+	public String isTemp() {
 		return isTemp;
 	}
 
-	public void setTemp(boolean isTemp) {
+	public void setTemp(String isTemp) {
 		this.isTemp = isTemp;
 	}
 
@@ -45,12 +44,12 @@ public class Employee implements Serializable{
 		this.title = title;
 	}
 
-	public double getSalary() {
+	public String getSalary() {
 		return salary;
 	}
 
-	public void setSalary(double slaray) {
-		this.salary = slaray;
+	public void setSalary(String salary) {
+		this.salary = salary;
 	}
 
 	public String getName() {

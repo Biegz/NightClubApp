@@ -57,7 +57,8 @@ public class TableController {
 			view2.setTablesLeft(modelEvent.getTablesAvailable());
 			view2.setDate(modelEvent.getDate(),modelEvent.getAddress());
 			view2.setEventName(modelEvent.getEventName());
-			view2.setImage("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg");
+			view2.setImage(Current.getEvent().getGenre().getImage());
+			view2.setGenre(modelEvent.getGenre());
 			displayEvent();
 		}
 		

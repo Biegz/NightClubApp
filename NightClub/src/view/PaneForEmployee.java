@@ -3,6 +3,7 @@ package view;
 import controller.Current;
 import controller.IO;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -22,6 +23,7 @@ public class PaneForEmployee {
 	private TextField tfSSN;
 	private TextField tfEmail;
 	private TextField tfPhoneNumber;
+	private ComboBox<String> temp;
 	
 	public PaneForEmployee(){
 		business = Current.getBusiness();
@@ -43,14 +45,14 @@ public class PaneForEmployee {
 	private VBox createView(){
 		VBox createView = new VBox(5);
 		createView.getChildren().addAll(address.getCreatePane(), name(), title(), 
-				salary(), ssn(), email(), phoneNumber(), buttonCreate("Create"));
+				salary(), ssn(), email(), phoneNumber(), temp(), buttonCreate("Create"));
 		return createView;
 	}
 	
 	private VBox updateView(){
 		VBox updateView = new VBox(5);
 		updateView.getChildren().addAll(address.getEmployeeUpdatePane(employee), name(), 
-				title(), salary(), ssn(), email(), phoneNumber(), button("Update Info"));
+				title(), salary(), ssn(), email(), phoneNumber(), temp(), button("Update Info"));
 		updateTextFields();
 		return updateView;
 	}
@@ -58,10 +60,20 @@ public class PaneForEmployee {
 	private void updateTextFields(){
 		tfName.setText(employee.getName());
 		tfTitle.setText(employee.getTitle());
-		tfSalary.setText(Double.toString(employee.getSalary()));
+		tfSalary.setText(employee.getSalary());
 		tfSSN.setText(employee.getSsn());
 		tfEmail.setText(employee.getEmail());
 		tfPhoneNumber.setText(employee.getPhoneNumber());
+		temp.getSelectionModel().select(employee.isTemp());
+	}
+	
+	private HBox temp(){
+		HBox hbox = new HBox(5);
+		Label label = new Label("Temporary or Contractual: ");
+		temp = new ComboBox<>();
+		temp.getItems().addAll("Temporary","Contractual");
+		hbox.getChildren().addAll(label, temp);
+		return hbox;
 	}
 	
 	private HBox title(){
@@ -123,10 +135,11 @@ public class PaneForEmployee {
 	private void setInfo(){
 		employee.setName(tfName.getText());
 		employee.setTitle(tfTitle.getText());
-		employee.setSalary(Double.parseDouble(tfSalary.getText()));
+		employee.setSalary(tfSalary.getText());
 		employee.setSsn(tfSSN.getText());
 		employee.setEmail(tfEmail.getText());
 		employee.setPhoneNumber(tfPhoneNumber.getText());
+		employee.setTemp(temp.getSelectionModel().getSelectedItem());
 		setAddress();
 	}
 	
