@@ -1,31 +1,27 @@
 package view;
 
 import java.time.LocalDate;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import controller.Current;
-import controller.SignInUp;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import model.Genre;
 
 public class Pane4EventCreation {
 
-	private Pane4Events pane4Events;
+	private Pane4Events pane4Events = new Pane4Events();
 	private Pane eventCreationPane;
 	public static TextField nameField;
 	public static TextField descriptionField;
 	public static DatePicker dateField;
-	public static TextField genreField;
+	public static ComboBox<Genre> genreField;
 	public static TextField addressField;
 	public static TextField cityField;
 	public static ComboBox stateField;
@@ -55,7 +51,7 @@ public class Pane4EventCreation {
 	//-----------------------------Data Panes--------------------------------------------------------------
 	
 	public VBox getCreatePane() {
-		pane4Events = new Pane4Events();
+		
 		VBox updateView = new VBox(5);
 		updateView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(),
 				pane4Events.getCreateEventButton());
@@ -108,7 +104,8 @@ public class Pane4EventCreation {
 	public HBox genre(){
 		HBox genre = new HBox(5);
 		Label genreLabel = new Label("Genre:");
-		genreField = new TextField();
+		genreField = new ComboBox<>();
+		genreField.getItems().addAll(Genre.values());
 		genre.getChildren().addAll(genreLabel, genreField);
 		return genre;
 	}
@@ -189,8 +186,8 @@ public class Pane4EventCreation {
 		return nameField.getText();
 	}
 	
-	public String getGenre(){
-		return genreField.getText();
+	public Genre getGenre(){
+		return genreField.getSelectionModel().getSelectedItem();
 	}
 	
 	public String getDescription(){

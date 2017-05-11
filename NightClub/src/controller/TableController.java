@@ -51,7 +51,6 @@ public class TableController {
 		}
 		
 		private void customerSelectedTheEvent(){
-			System.out.println("Im a customer and id like to buy a ticket");
 			Current.setEvent(modelEvent);
 			view2.setTicketsLeft(modelEvent.getTicketsAvailable());
 			view2.setTablesLeft(modelEvent.getTablesAvailable());
@@ -63,14 +62,12 @@ public class TableController {
 		}
 		
 		private void ownerSelectedTheEvent(){
-			System.out.println("Im a business and own the even");
 			Pane4EventCreation pane = new Pane4EventCreation();
 			MainWindow.setCenter(pane.getUpdatePane());
 
 		}
 		
 		private void businessSelectedTheEvent(){
-			System.out.println("Im a business and dont own the event");
 			Pane4EventCreation pane = new Pane4EventCreation();
 			MainWindow.setCenter(pane.getUpdatePane());
 
