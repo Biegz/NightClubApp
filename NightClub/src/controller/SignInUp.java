@@ -1,5 +1,6 @@
 package controller;
 
+import model.EventsBag; 
 import model.UsersBag;
 import controller.IO;
 import model.model4Address.Address;

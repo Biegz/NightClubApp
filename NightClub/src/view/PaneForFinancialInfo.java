@@ -1,5 +1,7 @@
 package view;
 
+import java.text.DecimalFormat;
+
 import controller.Current;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -12,6 +14,7 @@ public class PaneForFinancialInfo {
 	
 	private Business business;
 	private FinancialInfo info;
+	DecimalFormat df = new DecimalFormat("#.##");
 
 	public PaneForFinancialInfo() {
 		business = Current.getBusiness();
@@ -52,14 +55,14 @@ public class PaneForFinancialInfo {
 	
 	private HBox saleTaxTotal(){
 		HBox saleTaxTotal = new HBox(5);
-		Label saleTaxTotalLbl = new Label("Sale Tax Total: $" + info.getSaleTaxTotal());
+		Label saleTaxTotalLbl = new Label("Sale Tax Total: $" + df.format(info.getSaleTaxTotal()));
 		saleTaxTotal.getChildren().addAll(saleTaxTotalLbl);
 		return saleTaxTotal;
 	}
 	
 	private HBox saleTax(){
 		HBox saleTax = new HBox(5);
-		Label saleTaxLbl = new Label("Sale Tax: " + (info.getSaleTax() * 100) + "%");
+		Label saleTaxLbl = new Label("Sale Tax: " + (df.format(info.getSaleTax() * 100)) + "%");
 		saleTax.getChildren().addAll(saleTaxLbl);
 		return saleTax;
 	}

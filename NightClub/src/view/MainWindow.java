@@ -1,10 +1,13 @@
 package view;
 
+import java.util.List;
+
 import controller.EventController;
 import controller.ExpandEventController;
 import controller.TableController;
 import controller.TableTranslator;
 import javafx.scene.Node;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -34,6 +37,7 @@ public class MainWindow {
 		mainWindow.setTop(menuBar.getBusinessMenuBar());
 		return mainWindow;
 	}
+
 	
 	public static void setCenter(Node node){
 		mainWindow.setCenter(null);
@@ -45,6 +49,12 @@ public class MainWindow {
 		mainWindow.setLeft(node);
 	}
 	
+
+	public static void setBottom(Node node) {
+		mainWindow.setBottom(null);
+		mainWindow.setBottom(node);
+	}
+
 	
 	public Pane getPane(){
 		return mainWindow;

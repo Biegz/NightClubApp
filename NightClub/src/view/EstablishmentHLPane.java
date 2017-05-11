@@ -1,7 +1,6 @@
 package view;
 
 import controller.Current;
-import controller.EventController;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -20,6 +19,7 @@ public class EstablishmentHLPane {
 	private VBox pane2 = new VBox();
 	private VBox employeePane = new VBox();
 	private HBox buttonsPane = new HBox();
+
 	
 	
 

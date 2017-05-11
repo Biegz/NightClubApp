@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class Pane4TablesTickets {
 
@@ -56,10 +57,10 @@ public class Pane4TablesTickets {
 		buyBox.setHgap(10);
 		buyBox.setPrefWidth(30);
 				
-		buyBox.addColumn(0, getTicketLabel(), getTableLabel(), new Label(""), purchaseBtn());
-		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), new Label(""), cancelBtn());
-		buyBox.addColumn(2, getTicketCombo(), getTableCombo(), new Label(""));
-		buyBox.addColumn(3, getTicketCostLabel(), getTableCostLabel(), getComboErrorLabel(), getTotalTaxLabel(), getTotalCostLabel());
+		buyBox.addColumn(0, getTicketLabel(), getTableLabel(), new Text(), purchaseBtn());
+		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), new Text(), cancelBtn());
+		buyBox.addColumn(2, getTicketCombo(), getTableCombo(), new Text());
+		buyBox.addColumn(3, getTicketCostLabel(), getTableCostLabel(), new Text(), getTotalTaxLabel(), getTotalCostLabel());
 		return buyBox;
 	}
 	
@@ -69,10 +70,10 @@ public class Pane4TablesTickets {
 		buyBox.setHgap(10);
 		buyBox.setPadding(new Insets(15,10,10,15));
 		
-		buyBox.addColumn(0, getTicketLabel(), getTableLabel(),new Label(""), purchaseBtn());
-		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), new Label(""), cancelBtn());
-		buyBox.addColumn(2, getTicketCombo(), getTableCombo(), new Label(""));
-		buyBox.addColumn(3, n1, n2,getComboErrorLabel(), getTotalTaxLabel(), getTotalCostLabel());
+		buyBox.addColumn(0, getTicketLabel(), getTableLabel(),new Text(), purchaseBtn());
+		buyBox.addColumn(1, getTicketPriceLabel(), getTablePriceLabel(), new Text(), cancelBtn());
+		buyBox.addColumn(2, getTicketCombo(), getTableCombo(), new Text());
+		buyBox.addColumn(3, n1, n2,n3, getTotalTaxLabel(), getTotalCostLabel());
 		return buyBox;
 	}
 	
@@ -167,7 +168,7 @@ public class Pane4TablesTickets {
 			this.ticketCost = temp*ticketPrice;
 			this.getPane().getChildren().remove(getTicketCostLabel());
 			this.getPane().add(new Label("$ "+ this.ticketCost),1,1);
-			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
+			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , new Text()));
 			
 		});
 		return this.ticketCombo;
@@ -182,7 +183,7 @@ public class Pane4TablesTickets {
 			this.tableCost = temp*tablePrice;
 			this.getPane().getChildren().remove(getTableCostLabel());
 			this.getPane().add(new Label("$ "+ this.tableCost),1,1);
-			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
+			MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , new Text()));
 			//tableCombo.disarm();
 		});
 		return this.tableCombo;
@@ -193,9 +194,12 @@ public class Pane4TablesTickets {
 		purchaseBtn.setOnAction(e-> {
 			if (ticketAmount == 0 && tableAmount == 0) {
 				setComboErrorLabel("Zero items selected");
-				MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));	
+				MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
+			} else if (tableAmount > 0 && ticketAmount == 0) {
+				setComboErrorLabel("Need a ticket to buy table");
+				MainWindow.setCenter(this.refreshBox((new Label("$ "+ df.format(ticketCost))) , (new Label("$ "+ df.format(tableCost))) , getComboErrorLabel()));
 			} else {
-				setComboErrorLabel("");
+			setComboErrorLabel("");
 			CheckoutButtonEvent ev = new CheckoutButtonEvent(this, Current.getEvent(), Current.getCustomer(), ticketAmount, tableAmount);
 			Current.setPreviousPane(pane);
 			if (pane4EventListener != null) {

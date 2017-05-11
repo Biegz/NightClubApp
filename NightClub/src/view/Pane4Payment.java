@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
@@ -30,6 +31,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class Pane4Payment {
 	
@@ -48,6 +50,8 @@ public class Pane4Payment {
 	private ComboBox<String> stateCombo;
 	private int ticketCount;
 	private int tableCount;
+	public int year = 0;
+	public int month = 0;
 	private Pane4EventListener pane4EventListener;
 	
 	
@@ -71,13 +75,13 @@ public class Pane4Payment {
 		checkoutPane = new GridPane();
 	}
 	
-	public HBox checkoutBox() {
+	public HBox checkoutBox(Node n1) {
 		HBox checkoutBox = new HBox();
-		checkoutBox.getChildren().addAll(checkoutBox2(), cartPane());
+		checkoutBox.getChildren().addAll(checkoutBox2(n1), cartPane());
 		return checkoutBox;
 	}
 	
-	public GridPane checkoutBox2() {
+	public GridPane checkoutBox2(Node n2) {
 		
 		GridPane checkoutBox2 = new GridPane();
 		checkoutBox2.setVgap(20);
@@ -85,7 +89,7 @@ public class Pane4Payment {
 		checkoutBox2.setPadding(new Insets(10,50,50,30));
 		//checkoutBox.add(checkoutLabel(), 0, 0);
 		checkoutBox2.setHalignment(addressPane(), HPos.RIGHT);
-		checkoutBox2.addColumn(0,checkoutLabel(),billingLabel(),addressPane(),paymentInfoLabel(),paymentPane());
+		checkoutBox2.addColumn(0,checkoutLabel(),billingLabel(),addressPane(),paymentInfoLabel(),paymentPane(n2));
 		//checkoutBox.addColumn(1, cartPane());
 		return checkoutBox2;
 	}
@@ -167,14 +171,14 @@ public class Pane4Payment {
 	}
 	
 	//--------------------------------- Payment Info (bottom of VBox) ---------------------------------
-	public GridPane paymentPane() {
+	public GridPane paymentPane(Node n2) {
 		GridPane paymentPane = new GridPane();
 		paymentPane.setVgap(10);
 		paymentPane.setHgap(10);
 		
 		//paymentPane.addRow(0, paymentInfoLabel());
-		paymentPane.addColumn(0, cardNumberLabel(), cardNameLabel(), expirationLabel(), new Label(), placeOrderBtn());
-		paymentPane.addColumn(1, getCardNumberField(), getCardNameField(), expirationBox(), getErrorLabel(), cancelBtn());
+		paymentPane.addColumn(0, cardNumberLabel(), cardNameLabel(), expirationLabel(), new Text(), placeOrderBtn());
+		paymentPane.addColumn(1, getCardNumberField(), getCardNameField(), expirationBox(), n2, cancelBtn());
 		//paymentPane.addColumn(2, new Label(), new Label(), yearCombo());
 		
 		return paymentPane;
@@ -290,6 +294,9 @@ public class Pane4Payment {
 		String[] tempList = new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"};
 		List<String> monthList = new ArrayList<String>(Arrays.asList(tempList));
 		monthCombo.getItems().addAll(monthList);
+		monthCombo.setOnAction(e-> {
+			this.month = Integer.parseInt(monthCombo.getSelectionModel().getSelectedItem());
+		});
 		return monthCombo;
 	}
 
@@ -298,6 +305,9 @@ public class Pane4Payment {
 		String[] tempList = new String[]{"2017","2018","2019","2020","2021"};
 		List<String> yearList = new ArrayList<String>(Arrays.asList(tempList));
 		yearCombo.getItems().addAll(yearList);
+		yearCombo.setOnAction(e-> {
+			this.year = Integer.parseInt(yearCombo.getSelectionModel().getSelectedItem());
+		});
 		return yearCombo;
 	}
 	
@@ -312,12 +322,14 @@ public class Pane4Payment {
 	public Button placeOrderBtn() {
 		Button placeOrderBtn = new Button("Place Order");
 		
+		
+		// Set boolean binding to disable purchase button if fields are empty
+		
 		BooleanBinding bb = new BooleanBinding() {
 		    {
 		        super.bind(getZipField().textProperty(),
 		        		getCardNumberField().textProperty(),
 		        		getCardNameField().textProperty());
-//		        		getStateCombo().itemsProperty(), monthCombo().itemsProperty(), yearCombo().itemsProperty());
 		    }
 
 		    @Override
@@ -325,20 +337,26 @@ public class Pane4Payment {
 		        return (getZipField().getText().isEmpty()
 		                || getCardNumberField().getText().isEmpty()
 		                || getCardNameField().getText().isEmpty());
-//		        		|| (monthCombo().getSelectionModel().getSelectedItem() == null)
-//		        		|| (yearCombo().getSelectionModel().getSelectedItem() == null)
-//		        		|| (getStateCombo().getSelectionModel().getSelectedItem() == null));
+
 		    }
 		};
+		
 		placeOrderBtn.disableProperty().bind(bb);
 		placeOrderBtn.setOnAction(e -> {
-			if(getCardNumberField().getText().trim().isEmpty()){
-				setErrorLabel("Card Number Field Required");
-			} else {
-			PlaceOrderEvent ev = new PlaceOrderEvent(this, Current.getEvent(), Current.getCustomer(),Current.getEvent().getBusiness(),getTicketAmount(),getTableAmount());
-				if (pane4EventListener != null) {
-				pane4EventListener.placeOrderClicked(ev);
+			// Check if Credit Card Number is Valid Format
+			if(getCardNumberField().getText().length() < 15 || getCardNumberField().getText().length() > 16) {
+				String regex = "[0-9]+";
+				if (getCardNumberField().getText().matches(regex)){
+					MainWindow.setCenter(checkoutBox(new Label("Invalid Card Number")));
 				}
+			// Check if Expiration dates are valid
+			} else if (year > 0 && month > 0){
+				PlaceOrderEvent ev = new PlaceOrderEvent(this, Current.getEvent(), Current.getCustomer(),Current.getEvent().getBusiness(),getTicketAmount(),getTableAmount());
+					if (pane4EventListener != null) {
+						pane4EventListener.placeOrderClicked(ev);
+					}
+			} else {
+				MainWindow.setCenter(checkoutBox(new Label("Invalid Expiration Date")));
 			}
 		});
 		

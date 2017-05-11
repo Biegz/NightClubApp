@@ -1,56 +1,14 @@
 package view;
 
 import javafx.scene.control.Label;
-
-
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Stack;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
-import controller.CreateButtonEvent;
-import controller.Current;
-import controller.DeleteButtonEvent;
-import controller.EventsListener;
-import controller.Pane4EventEvent;
-import controller.Pane4EventListener;
 import controller.TableController;
 import controller.TableTranslator;
-import controller.UpdateButtonEvent;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import model.model4User.model4Establishment.Business;
-import model.Event;
-import model.EventsBag;
-import model.model4Address.Address;
-import model.model4User.User;
-import model.model4User.model4Customer.Customer;
 
 public class Pane4Events {
 	

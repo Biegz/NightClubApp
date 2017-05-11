@@ -2,11 +2,17 @@ package controller;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import model.Event;
+import model.Table;
+import model.Ticket;
 import model.model4User.model4Customer.Customer;
 import model.model4User.model4Establishment.Business;
 import view.MainWindow;
@@ -109,7 +115,6 @@ public class ExpandEventController {
 			
 			public void placeOrderClicked(PlaceOrderEvent ev) {
 				modelEvent = ev.getEvent();
-				System.out.print(ev.getEvent().getEventName());
 				modelCustomer = ev.getCustomer();
 				modelBusiness = ev.getBusiness();
 				if (modelCustomer.findEvent(modelEvent.getEventName()) != true) {
@@ -177,16 +182,79 @@ public class ExpandEventController {
 			
 			}
 		});
+
 		
-		 
+		view8.setPane4EventListener(new Pane4EventListener() {
+			
+			public void returnEventClicked(ReturnTicketEvent ev) {
+				modelCustomer = ev.getCustomer();
+				modelEvent = ev.getEvent();
+				CustomerTicketProcessing ticketProcessor = new CustomerTicketProcessing(modelEvent);
+				System.out.println("In ticket control");
+				
+				// --------- Removing Selected Event tickets from Customer ticketList
+				ArrayList<Ticket> tempList = modelCustomer.getTicketList();
+				//tempList.iterator();
+				for (Iterator<Ticket> iterator = tempList.iterator(); iterator.hasNext();) {
+					Ticket tempTicket = iterator.next();
+					if(tempTicket.getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
+					//if(!tempTicket.getDate().isBefore(LocalDate.now())){
+						ticketProcessor.returnTicket(tempTicket, modelCustomer);
+						iterator.remove();
+						System.out.println("Returned " +tempTicket.getCost());
+					}
+				}
+				
+				// --------- Removing Selected Event tables from Customer tableList
+				
+				ArrayList<Table> tempTables = modelCustomer.getTableList();
+				//tempList.iterator();
+				for (Iterator<Table> iterator = tempTables.iterator(); iterator.hasNext();) {
+					Table tempTable = iterator.next();
+					if(tempTable.getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
+					//if(!tempTicket.getDate().isBefore(LocalDate.now())){
+						ticketProcessor.returnTable(tempTable, modelCustomer);
+						iterator.remove();
+						System.out.println("Returned " +tempTable.getCost());
+					}
+				}
+				
+				List<Table> toRemove = new ArrayList<Table>();
+				for (Table table : modelCustomer.getTableList()) {
+				    if (table.getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
+				    	ticketProcessor.returnTable(table, modelCustomer);
+				        toRemove.add(table);
+				    }
+				}
+				modelCustomer.getTableList().removeAll(toRemove);
+	
+				// --------- Removing Selected Event from Customer eventList
+				for(Iterator<Event> iter = modelCustomer.getEventList().iterator(); iter.hasNext();) {
+					Event tempEvent = iter.next();
+					if(tempEvent.getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
+						if(modelCustomer.findTable(modelEvent) == null) {
+						iter.remove();
+						
+						} 
+					}
+				}
+				
+				view7.setMyEventsTable(modelCustomer.getEventList());
+				displayMyTickets();
+				IO.saveAll();
+			}
+		});
+		
 	}
+	
+	
 	
 	private void displayTickets() {
 		MainWindow.setCenter(view4.buyBox());
 	}
 	
 	private void displayCheckout() {
-		MainWindow.setCenter(view5.checkoutBox());
+		MainWindow.setCenter(view5.checkoutBox(new Text()));
 	}
 	
 	private void displayReceipt() {
