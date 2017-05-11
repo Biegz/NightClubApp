@@ -5,20 +5,19 @@ import model.Event;
 import model.EventsBag;
 import model.model4Address.Address;
 import view.MainWindow;
+import view.Pane4EditEvents;
 import view.Pane4Events;
 
 public class EventController {
 
-	private Pane4Events view;
+	private Pane4EditEvents view;
 
-
-	
 	private MainWindow viewMain;
 	private Event model;
 	private EventsBag modelBag;
 	private Address modelAddress;
 
-	public EventController(Pane4Events view) {
+	public EventController(Pane4EditEvents view) {
 		this.view = view;
 		
 		
@@ -72,9 +71,7 @@ public class EventController {
 				model = ev.getEvent();
 				modelBag.delete(model);
 				System.out.println("reached delete");
-				//need to refresh observ list that populates myeventstable
-				view.getMyEventsTable().refresh();
-				
+			
 				emptyPane();
 			}
 		});

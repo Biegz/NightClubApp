@@ -12,6 +12,7 @@ import controller.TicketButtonEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -48,7 +49,7 @@ public class Pane4Event {
 		grid = new Pane();
 	}
 
-	public GridPane gridPane(){
+	public GridPane gridPane(Node n1){
 		GridPane gridPane = new GridPane();
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
@@ -56,7 +57,7 @@ public class Pane4Event {
 		gridPane.add(eventName, 0, 0);
 		gridPane.add(date,0,2);
 		gridPane.add(image, 0, 4);
-		gridPane.add(ticketPane(), 0, 6);
+		gridPane.add(ticketPane(n1), 0, 6);
 		return gridPane;
 	}
 
@@ -91,9 +92,9 @@ public class Pane4Event {
 		 tablesLeft.setFont(Font.font("Arial",FontWeight.SEMI_BOLD,18));
 	}
 	
-	public VBox ticketPane() {
+	public VBox ticketPane(Node n1) {
 		 ticketPane = new VBox(5);
-		 ticketPane.getChildren().addAll(ticketTablePane(), getBuyTicketBtn());
+		 ticketPane.getChildren().addAll(ticketTablePane(), n1);
 		 return ticketPane;
 	}
 	
@@ -111,7 +112,7 @@ public class Pane4Event {
 		buyTicketBtn.setOnAction(e -> {
 			TicketButtonEvent ev3 = new TicketButtonEvent(this, Current.getEvent());
 			Current.setPreviousPane(grid);
-			System.out.println(Current.getCustomer().getFirstName());
+			//System.out.println(Current.getCustomer().getFirstName());
 			if (pane4EventListener != null) {
 				pane4EventListener.ticketsClicked(ev3);
 			}

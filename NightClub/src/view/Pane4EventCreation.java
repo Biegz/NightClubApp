@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 
 public class Pane4EventCreation {
 
-	private Pane4Events pane4Events;
+	private Pane4EditEvents pane4EditEvents;
 	private Pane eventCreationPane;
 	public static TextField nameField;
 	public static TextField descriptionField;
@@ -55,24 +55,26 @@ public class Pane4EventCreation {
 	//-----------------------------Data Panes--------------------------------------------------------------
 	
 	public VBox getCreatePane() {
-		pane4Events = new Pane4Events();
+		pane4EditEvents = new Pane4EditEvents();
 		VBox updateView = new VBox(5);
 		updateView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(),
-				pane4Events.getCreateEventButton());
+				pane4EditEvents.getCreateEventButton());
 		return updateView;
 	}
 	
 	public VBox getUpdatePane(){
+		pane4EditEvents = new Pane4EditEvents();
 		VBox editView = new VBox();
-		editView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(),
-				pane4Events.getUpdateEventButton());
+		editView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), pane4EditEvents.getUpdateEventButton());
 		return editView;
 	}
 	
 	public VBox getDeletePane(){
+		pane4EditEvents = new Pane4EditEvents();
+
 		VBox deleteView = new VBox();
 		Label cancelLbl = new Label("*Select the event you would like to cancel on the table, then press 'Cancel Event' below*");
-		deleteView.getChildren().addAll(cancelLbl, pane4Events.getDeleteEventButton());
+		deleteView.getChildren().addAll(cancelLbl, pane4EditEvents.getDeleteEventButton());
 
 		return deleteView;
 	}

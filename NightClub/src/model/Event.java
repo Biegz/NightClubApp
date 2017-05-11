@@ -169,11 +169,15 @@ public class Event extends Observable implements Serializable {
 	public ArrayList<Customer> getAttending(){
 		return customerList;
 	}
+	
+	public String getEventsBusiness(){
+		return getBusiness().getName();
+	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public String toString() {
-		return "The " + genre + " event: " + eventName + " is on: " + date.getDayOfWeek() + ", at: " + address + ". " + description;
+		return getEventsBusiness() + " is hosting" + " the " + genre + " event: " + eventName + ". This Event is on: " + date.getDayOfWeek() + ", in: " + address.getCity() + ". " + description;
 	}
 
 }

@@ -35,9 +35,8 @@ public class ExpandEventController {
 
 	DecimalFormat df = new DecimalFormat("#.##");
 	 
-	public ExpandEventController(Pane4Table view) {
-		this.view = view;
-		this.view3 = new Pane4Event();
+	public ExpandEventController(Pane4Event view3) {
+		this.view3 = view3;
 		this.view4 = new Pane4TablesTickets();
 		this.view5 = new Pane4Payment();
 		this.view6 = new Pane4Receipt();
@@ -48,7 +47,7 @@ public class ExpandEventController {
 		view3.setPane4EventListener(new Pane4EventListener() {
 			public void ticketsClicked(TicketButtonEvent ev) {
 				modelEvent = ev.getEvent();
-				Current.setPreviousPane(view3.gridPane());
+				Current.setPreviousPane(view3.gridPane(view3.getBuyTicketBtn()));
 				int tempTickets = modelEvent.getTicketsAvailable();
 				int tempTables = modelEvent.getTablesAvailable();
 				
@@ -180,12 +179,6 @@ public class ExpandEventController {
 		});
 		
 		 
-	}
-	
-	
-
-	private void displayEvent() {
-		MainWindow.setCenter(view3.gridPane());
 	}
 	
 	private void displayTickets() {

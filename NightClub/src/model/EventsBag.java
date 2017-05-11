@@ -42,8 +42,7 @@ public class EventsBag implements Serializable {
 		return nameEvents;
 	}
 	
-	//public static EventsBag searchEventByBusiness
-	
+
 	public static ArrayList<Event> getCurrentBusinessEvents(){
 		ArrayList<Event> currentBusinessEvents = new ArrayList<>();
 		for(Event ev : events){
@@ -65,17 +64,28 @@ public class EventsBag implements Serializable {
 		return genreEvents;
 	}
 	
-//	public static EventsBag searchEventByZip(String zipcode){
-//		EventsBag zipEvents = new EventsBag();
-//		for(Event ev : events){
-//			if(ev.getAddress().getZipcode().matches(zipcode)){
-//				zipEvents.add(ev);
-//			}
-//		}
-//		
-//		return zipEvents;
-//	}
+	public static ArrayList<Event> getEventsWithin15(){
+		ArrayList<Event> zipEvents = new ArrayList<>();
+		for(Event ev : events){
+			if(ev.getAddress().getZipcode().charAt(2) == Current.getCustomer().getAddress().getZipcode().charAt(2)){
+				zipEvents.add(ev);
+			}
+		}
+		return zipEvents;
+	}
+	
+	public static ArrayList<Event> getEventsWithin50(){
+		ArrayList<Event> zipEvents = new ArrayList<>();
+		for(Event ev : events){
+			if(ev.getAddress().getZipcode().charAt(1) == Current.getCustomer().getAddress().getZipcode().charAt(1)){
+				zipEvents.add(ev);
+			}
+		}
+		return zipEvents;
+	}
 
+	
+	
 	public static void delete(Event event) {
 		events.remove(event);
 	}

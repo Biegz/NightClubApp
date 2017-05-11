@@ -16,101 +16,40 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.Event;
 import model.EventsBag;
+import view.MainWindow;
+import view.Pane4Table;
 
 public class TableTranslator {
 
-		private TableView<Event> eventsTable;
-		private ObservableList<Event> events;
-		private HBox pane;
-		private Pane4EventListener pane4EventListener;
-		//private PaneForTable pane;
-		
-		public TableTranslator(){
-			
-		}
-		
-		public void getAll(){
-			getTable(EventsBag.events);
-			//MainWindow.setCenter(pane.show(eventsTable));
-		}
-		
-		public void getByZip(String zip){
-			ArrayList<Event> temp = new ArrayList<>();
-			for(Event e : EventsBag.events){
-				if(e.getAddress().getZipcode() == zip){
-					temp.add(e);
-				}
-			}
-			getTable(temp);
-			//MainWindow.setCenter(pane.show(eventsTable));
-		}
+	private TableView<Event> eventsTable;
+	private ObservableList<Event> events;
+	private Pane4EventListener pane4EventListener;
+	private Pane4Table view;
+	private EventsBag eventsBag;
+	// private PaneForTable pane;
 
-		
-		
-		//------------------------------------Columns--------------------------------------------------
+	public TableTranslator() {
 
-		public TableColumn getDateColumn() {
-			TableColumn dateColumn = new TableColumn("Date");
-			dateColumn.setCellValueFactory(new PropertyValueFactory<Event, LocalDate>("date"));
-			return dateColumn;
-		}
+	}
 
-		public TableColumn getEventNameColumn() {
-			TableColumn eventNameColumn = new TableColumn("Event Name");
-			eventNameColumn.setCellValueFactory(new PropertyValueFactory<Event, String>("eventName"));
-			return eventNameColumn;
-		}
-		
+	public void getAllEvents(Pane4Table view) {
+		this.view = view;
+		view.Pane4Table(eventsBag.events);
+		// MainWindow.setCenter(pane.show(eventsTable));
+	}
 
-		
-		//----------------------------------Table-------------------------------------------------------
-		public void getTable(ArrayList<Event> temp) {
-			events = FXCollections.observableArrayList(temp);
-			eventsTable = new TableView<Event>();
+	public void getMyEvents(Pane4Table view) {
+		this.view = view;
+		view.Pane4Table(eventsBag.getCurrentBusinessEvents());
+	}
 
-			eventsTable.setEditable(false);
-			eventsTable.setMaxHeight(400);
-			eventsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-			eventsTable.getColumns().addAll(getDateColumn(), getEventNameColumn());
-			eventsTable.setItems(events);
-
-			eventsTable.setRowFactory(e -> {
-				TableRow<Event> row = new TableRow<Event>();
-				row.setOnMouseClicked(ev -> {
-					if (ev.getClickCount() >= 1 && (!row.isEmpty())) {
-						System.out.println("Detected clicks");
-						Event rowData = row.getItem();
-						Pane4EventEvent ev3 = new Pane4EventEvent(this, rowData);
-						if (pane4EventListener != null) {
-							System.out.println("In the if statement in myTable");
-							pane4EventListener.rowSelected(ev3);
-						}
-						 
-					}
-					 //paneEv = new Pane4Event();
-					 //MainWindow.setCenter(paneEv.getPane());
-					
-				});
-				return row;
-			});
-		}
-		
-		
-//		//--------------------------------Panes---------------------------------------------
-//		public Pane getCustomerEventPane(){
-//			VBox pane = new VBox();
-//			pane.getChildren().addAll(getTable());
-//			return pane;
-//		}
-//		
-		
-		
-		
-		//-----------------------Set Listener Methods---------------------------------
-			public void setPane4EventListener(Pane4EventListener pane4EventListener) {
-				System.out.println("in the setPane4EventListener method!");
-				this.pane4EventListener = pane4EventListener;
-			}
+	public void getByZip15(Pane4Table view) {
+		this.view = view;
+		view.Pane4Table(eventsBag.getEventsWithin15());
+	}
+	
+	public void getByZip50(Pane4Table view) {
+		this.view = view;
+		view.Pane4Table(eventsBag.getEventsWithin50());
+	}
 }
-
-

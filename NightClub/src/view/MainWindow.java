@@ -3,10 +3,12 @@ package view;
 import controller.EventController;
 import controller.ExpandEventController;
 import controller.TableController;
+import controller.TableTranslator;
 import javafx.scene.Node;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class MainWindow {
 	
@@ -18,21 +20,17 @@ public class MainWindow {
 	}
 
 	public BorderPane getCustomerWindow() {
-		Pane4Table table = new Pane4Table();
-		TableController controller = new TableController(table);
-		System.out.println("Just Created the controller object in view!");
+		Pane4Events eventPane = new Pane4Events();
 		MainMenu menuBar = new MainMenu();
-		mainWindow.setLeft(table.getCustomerEventPane());
+		mainWindow.setLeft(eventPane.getPane4AllEvents());
 		mainWindow.setTop(menuBar.getCustomerMenuBar());
 		return mainWindow;
 	}
 	
 	public BorderPane getBusinessWindow() {
-		Pane4Table table = new Pane4Table();
-		TableController controller = new TableController(table);
+		Pane4Events events = new Pane4Events();
 		MainMenu menuBar = new MainMenu();
-		EstablishmentHLPane establishmentHLPane = new EstablishmentHLPane();
-		mainWindow.setLeft(table.getCustomerEventPane());
+		mainWindow.setLeft(events.getPane4MyEvents());
 		mainWindow.setTop(menuBar.getBusinessMenuBar());
 		return mainWindow;
 	}
@@ -40,6 +38,11 @@ public class MainWindow {
 	public static void setCenter(Node node){
 		mainWindow.setCenter(null);
 		mainWindow.setCenter(node);
+	}
+	
+	public static void setLeft(Node node){
+		mainWindow.setLeft(null);
+		mainWindow.setLeft(node);
 	}
 	
 	

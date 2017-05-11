@@ -25,7 +25,7 @@ public class EstablishmentHLPane {
 
 	public Pane getHyperlinkPane() {
 		Pane4Events pane4Events = new Pane4Events();
-		pane1.getChildren().addAll(pane4Events.getTable());
+		pane1.getChildren().addAll(getFinanceHl(), getEmployeeHl());
 		main.getChildren().addAll(pane1);
 
 		main.setBorder(
@@ -34,52 +34,7 @@ public class EstablishmentHLPane {
 		return main;
 
 	}
-	
-	
 
-	public Hyperlink getMyEventsHl() {
-		Pane4Events pane4Events = new Pane4Events();
-		EventController eventController = new EventController(pane4Events);
-		
-		System.out.println("Event Controller object Just Created!");
-
-		Hyperlink viewMyHl = new Hyperlink("View My Events");
-
-		viewMyHl.setOnAction(e -> {
-			main.getChildren().clear();
-			pane2.getChildren().clear();
-			buttonsPane.getChildren().clear();
-
-			buttonsPane.getChildren().addAll(pane4Events.getAddButton(), pane4Events.getDeleteButton(),
-					pane4Events.getUpdateButton(), pane4Events.getRefreshButton());
-			pane2.getChildren().addAll(pane4Events.getMyEventsTable(), buttonsPane);
-
-			main.getChildren().addAll(pane1, pane2);
-
-		});
-
-		return viewMyHl;
-
-	}
-
-	public Hyperlink getAllEventsHl() {
-		Pane4Events pane4Events = new Pane4Events();
-
-		Hyperlink viewAllHl = new Hyperlink("View All Events");
-
-		viewAllHl.setOnAction(e -> {
-			main.getChildren().clear();
-
-			pane2.getChildren().clear();
-
-			pane2.getChildren().add(pane4Events.getTable());
-			main.getChildren().addAll(pane1, pane2);
-
-		});
-
-		return viewAllHl;
-
-	}
 	
 	public Hyperlink employeeAdd(){
 		Hyperlink employeeAdd = new Hyperlink("Add Employee");
@@ -107,9 +62,10 @@ public class EstablishmentHLPane {
 		Hyperlink employeeHl = new Hyperlink("Employee");
 
 		employeeHl.setOnAction(e -> {
-			mainWindow.setCenter(null);
 			main.getChildren().clear();
 			pane2.getChildren().clear();
+			pane1.getChildren().clear();
+			pane1.getChildren().addAll(getFinanceHl(), getEmployeeHl());
 			pane2.getChildren().addAll(employeeAdd(), employeesView());
 			main.getChildren().addAll(pane1, pane2);
 		});
@@ -123,12 +79,14 @@ public class EstablishmentHLPane {
 
 		financeHl.setOnAction(e -> {
 			PaneForFinancialInfo info = new PaneForFinancialInfo();
-			mainWindow.setCenter(null);
+			//mainWindow.setCenter(null);
 			main.getChildren().clear();
+			pane1.getChildren().clear();
 			pane2.getChildren().clear();
-			mainWindow.setCenter(info.getPane());
+			pane2.getChildren().addAll(info.getPane());
+			pane1.getChildren().addAll(getFinanceHl(), getEmployeeHl());
 
-			main.getChildren().addAll(pane1);
+			main.getChildren().addAll(pane1, pane2);
 
 		});
 
@@ -136,22 +94,6 @@ public class EstablishmentHLPane {
 
 	}
 
-	public Hyperlink getEventsHl() {
-		Hyperlink eventsHl = new Hyperlink("Events");
 
-		eventsHl.setOnAction(e -> {
-
-			mainWindow.setCenter(null);
-			main.getChildren().clear();
-			pane2.getChildren().clear();
-
-			pane2.getChildren().addAll(getAllEventsHl(), getMyEventsHl());
-
-			main.getChildren().addAll(pane1, pane2);
-		});
-
-		return eventsHl;
-
-	}
 
 }

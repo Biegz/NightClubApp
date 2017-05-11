@@ -21,16 +21,24 @@ public class Pane4Table {
 	
 	private TableView<Event> eventsTable;
 	private ObservableList<Event> events;
+	private ArrayList<Event> temp;
 
 	private HBox pane;
 
 	private Pane4EventListener pane4EventListener;
 	
 
+	public void Pane4Table(ArrayList<Event> temp){
+		this.temp = temp;
+	}
 	
+	
+	
+//	public ObservableList<Event> getTableFilter(){
+//		return events;
+//	}
 	
 	//------------------------------------Columns--------------------------------------------------
-
 	public TableColumn getDateColumn() {
 		TableColumn dateColumn = new TableColumn("Date");
 		dateColumn.setCellValueFactory(new PropertyValueFactory<Event, LocalDate>("date"));
@@ -47,7 +55,8 @@ public class Pane4Table {
 	
 	//----------------------------------Table-------------------------------------------------------
 	public TableView getTable() {
-		events = FXCollections.observableArrayList(EventsBag.events);
+		events = FXCollections.observableArrayList(temp);
+
 		eventsTable = new TableView<Event>();
 
 		eventsTable.setEditable(false);
