@@ -21,13 +21,14 @@ import view.MainWindow;
 import view.Pane4Event;
 import view.Pane4Table;
 import view.PaneForLogin;
+import view.PrimaryView;
 
 public class MenuController {
-	
+	private MainWindow mainView;
 	private MainMenu view;
 	private Pane4Table view2;
 	private PaneForLogin view3;
-	
+	private SignInUp signInUp;
 	private Event modelEvent;
 	private TableTranslator translator;
 	private TableView<Event> table;
@@ -75,19 +76,36 @@ public class MenuController {
 		
 	}	
 	
-	public MenuController(PaneForLogin view3){
-		this.view3 = view3;
+//	public MenuController(PaneForLogin view3){
+//		this.view3 = view3;
+//		this.view2 = new Pane4Table();
+//		translator = new TableTranslator();
+//		tableController = new TableController(view2);
+//		
+////		view3.setTableListener(new TableListener(){
+////			public void allEventsLogin(){
+////					table = view2.getTable(translator.getAllEvents());
+////					displayAllEvents(table);
+////			
+////			}
+//		});
+//	}
+	
+	public MenuController(SignInUp view3){
+		this.signInUp = view3;
 		this.view2 = new Pane4Table();
 		translator = new TableTranslator();
 		tableController = new TableController(view2);
-		
-		view3.setTableListener(new TableListener(){
-			public void allEventsLogin(){
-					table = view2.getTable(translator.getAllEvents());
-					displayAllEvents(table);
-			
+		signInUp.setTableListener( new TableListener() {
+			public void allEventsLogin() {
+				
+				table = view2.getTable(translator.getAllEvents());
+				displayAllEvents(table);
+				System.out.println("HEre asdfasdfadfa");
+				//PrimaryView.changePane(MainWindow.getCustomerWindow());
 			}
 		});
+		
 	}
 	
 	public void displayAllEvents(Node temp) {

@@ -15,6 +15,7 @@ import model.Table;
 import model.Ticket;
 import model.model4User.model4Customer.Customer;
 import model.model4User.model4Establishment.Business;
+import view.CustomerHLPane;
 import view.MainWindow;
 import view.Pane4Event;
 import view.Pane4EventCreation;
@@ -24,7 +25,7 @@ import view.Pane4Payment;
 import view.Pane4Receipt;
 import view.Pane4Table;
 import view.Pane4TablesTickets;
-import view.Pane4TicketsView;
+//import view.Pane4TicketsView;
 
 public class ExpandEventController {
 
@@ -36,8 +37,10 @@ public class ExpandEventController {
 	private Pane4TablesTickets view4;
 	private Pane4Payment view5;
 	private Pane4Receipt view6;
-	private Pane4TicketsView view7;
+	private Pane4Table view7;
+	//private Pane4TicketsView view7;
 	private Pane4MyItems view8;
+	private CustomerHLPane view9;
 
 	DecimalFormat df = new DecimalFormat("#.##");
 	 
@@ -46,8 +49,9 @@ public class ExpandEventController {
 		this.view4 = new Pane4TablesTickets();
 		this.view5 = new Pane4Payment();
 		this.view6 = new Pane4Receipt();
-		this.view7 = new Pane4TicketsView();
+		//this.view7 = new Pane4TicketsView();
 		this.view8 = new Pane4MyItems();
+		this.view9 = new CustomerHLPane();
 
 		
 		view3.setPane4EventListener(new Pane4EventListener() {
@@ -146,11 +150,12 @@ public class ExpandEventController {
 			
 			public void myOrdersClicked(MyOrderEvent ev) {
 				modelCustomer = ev.getCustomer();
+				CustomerAccountController hlController = new CustomerAccountController(view9);
 				for (Event e: modelCustomer.getEventList()) {
 					System.out.println(e.getEventName());
 				}
-				view7.setMyEventsTable(modelCustomer.getEventList());
-				displayMyTickets();
+				//view7.setMyEventsTable(modelCustomer.getEventList());
+				displayMyAccount();
 			}
 			
 		});
@@ -178,23 +183,27 @@ public class ExpandEventController {
 //				view8.setEventLabel(modelEvent.getEventName(), modelEvent.getDate());
 //				
 //				displayMyItems();
-//				//displayConfirmation();
 //			
 //			}
 //		});
 
-		
+	}
+		public ExpandEventController(Pane4MyItems view8) {
+			this.view = new Pane4Table();
+			this.view8 = view8;
+			
 		view8.setPane4EventListener(new Pane4EventListener() {
 			
 			public void returnEventClicked(ReturnTicketEvent ev) {
+				System.out.println("Current Customer: "+Current.getCustomer());
+				System.out.println("In ticket control");
+				System.out.println("In ticket control");
+				System.out.println("In ticket control");
 				modelCustomer = ev.getCustomer();
 				modelEvent = ev.getEvent();
-				CustomerTicketProcessing ticketProcessor = new CustomerTicketProcessing(modelEvent);
-				System.out.println("In ticket control");
-				
+				CustomerTicketProcessing ticketProcessor = new CustomerTicketProcessing(modelEvent);				
 				// --------- Removing Selected Event tickets from Customer ticketList
 				ArrayList<Ticket> tempList = modelCustomer.getTicketList();
-				//tempList.iterator();
 				for (Iterator<Ticket> iterator = tempList.iterator(); iterator.hasNext();) {
 					Ticket tempTicket = iterator.next();
 					if(tempTicket.getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
@@ -208,7 +217,6 @@ public class ExpandEventController {
 				// --------- Removing Selected Event tables from Customer tableList
 				
 				ArrayList<Table> tempTables = modelCustomer.getTableList();
-				//tempList.iterator();
 				for (Iterator<Table> iterator = tempTables.iterator(); iterator.hasNext();) {
 					Table tempTable = iterator.next();
 					if(tempTable.getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
@@ -219,27 +227,33 @@ public class ExpandEventController {
 					}
 				}
 				
-				List<Table> toRemove = new ArrayList<Table>();
-				for (Table table : modelCustomer.getTableList()) {
-				    if (table.getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
-				    	ticketProcessor.returnTable(table, modelCustomer);
-				        toRemove.add(table);
-				    }
-				}
-				modelCustomer.getTableList().removeAll(toRemove);
+//				List<Table> toRemove = new ArrayList<Table>();
+//				for (Table table : modelCustomer.getTableList()) {
+//				    if (table.getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
+//				    	ticketProcessor.returnTable(table, modelCustomer);
+//				        toRemove.add(table);
+//				    }
+//				}
+//				modelCustomer.getTableList().removeAll(toRemove);
 	
 				// --------- Removing Selected Event from Customer eventList
 				for(Iterator<Event> iter = modelCustomer.getEventList().iterator(); iter.hasNext();) {
 					Event tempEvent = iter.next();
 					if(tempEvent.getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
 						if(modelCustomer.findTable(modelEvent) == null) {
-						iter.remove();
+							iter.remove();
 						
 						} 
 					}
 				}
 				
-				view7.setMyEventsTable(modelCustomer.getEventList());
+				System.out.println("___________");
+				for(Event e : modelCustomer.getEventList()){
+					System.out.println(e.getEventName());
+				}
+				
+				TableTranslator translator = new TableTranslator();
+				view.setMyEventsTable(translator.getMyUpcomingEvents(modelCustomer));
 				displayMyTickets();
 				IO.saveAll();
 			}
@@ -250,12 +264,15 @@ public class ExpandEventController {
 	public ExpandEventController(Pane4Table view){
 		this.view = view;
 		view8 = new Pane4MyItems();
+		ExpandEventController control = new ExpandEventController(view8);
 
 		view.setPane4EventListener(new Pane4EventListener() {
 			
 			public void eventRowSelected(ClickEventEvent ev) {
 				modelCustomer = ev.getCustomer();
 				modelEvent = ev.getEvent();
+				Current.setEvent(modelEvent);
+				
 				int ticketCount = 0;
 				int tableCount = 0;
 				for(int i = 0; i < modelCustomer.getTicketList().size(); i++) {
@@ -272,8 +289,11 @@ public class ExpandEventController {
 				view8.setTicketLabel(ticketCount, modelEvent.getTicketPrice(), modelEvent.getTicketPrice()*ticketCount);
 				view8.setTableLabel(tableCount, modelEvent.getTablePrice(), modelEvent.getTablePrice()*tableCount);
 				view8.setEventLabel(modelEvent.getEventName(), modelEvent.getDate());
-				
-				displayMyItems();
+				if (modelEvent.getDate().isBefore(LocalDate.now())) {
+					displayMyItems(new Text(""));
+				} else if (modelEvent.getDate().isAfter(LocalDate.now())) {
+					displayMyItems(view8.returnTicketBtn());
+				}
 				//displayConfirmation();
 			
 			}
@@ -294,16 +314,18 @@ public class ExpandEventController {
 		MainWindow.setCenter(view6.receiptGrid());
 	}
 	
+	private void displayMyAccount() {
+		MainWindow.setLeft(null);
+		MainWindow.setCenter(view9.getHyperlinkPane());
+	}
+	
+	private void displayMyItems(Node n1) {
+		MainWindow.setRight(view8.mainGrid(n1));
+	}
+	
 	private void displayMyTickets() {
-		MainWindow.setCenter(null);
-		MainWindow.setLeft(view7.ticketBox());
+		MainWindow.setLeft(view.getMyEventsTable());
+		MainWindow.setRight(null);
 	}
 	
-	private void displayMyItems() {
-		MainWindow.setRight(view8.mainGrid());
-	}
-	
-	private void displayConfirmation() {
-		//MainWindow.setBottom((new Label("Test Confirmation")));
-	}
 }

@@ -49,9 +49,25 @@ public class CustomerTicketProcessing {
 		
 		//need to change tickets available^^
 		temp.removeCustomer(currentCustomer);
+		currentCustomer.removeTicket(ticket);
 		//currentCustomer.removeTicket(ticket);
 		
 	}
+	
+	public void returnTable(Table table, Customer currentCustomer) {
+		Event temp = table.getEvent();
+		temp.getBusiness().getFinanceInfo().removeSale(table);
+		
+		System.out.println("Tables " + temp.getTablesAvailable());
+		table.getEvent().setTablesAvailable(table.getEvent().getTablesAvailable()+1);
+		System.out.println("Tables Now: " + table.getEvent().getTablesAvailable());
+		
+		temp.removeCustomer(currentCustomer);
+		currentCustomer.removeTable(table);
+		//currentCustomer.removeTable(table);
+		IO.saveAll();
+	}
+
 
 	public void buyTicket(int amount, Customer customer, Event event, Business business) {
 		if (amount < 1) {
@@ -88,20 +104,6 @@ public class CustomerTicketProcessing {
 			event.setTablesAvailable(event.getTablesAvailable() - amount);
 			System.out.println("Tables Now: "+ event.getTablesAvailable());
 			IO.saveAll();
-	}
-	
-	public void returnTable(Table table, Customer currentCustomer) {
-		Event temp = null;
-		temp = table.getEvent();
-		temp.getBusiness().getFinanceInfo().removeSale(table);
-		
-		System.out.println("Tables " + temp.getTablesAvailable());
-		table.getEvent().setTablesAvailable(temp.getTablesAvailable()+1);
-		System.out.println("Tables Now: " + temp.getTablesAvailable());
-		
-		temp.removeCustomer(currentCustomer);
-		//currentCustomer.removeTable(table);
-		IO.saveAll();
 	}
 
 

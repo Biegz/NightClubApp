@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,10 +35,10 @@ public class Pane4MyItems {
 		
 	}
 	
-	public GridPane mainGrid() {
+	public GridPane mainGrid(Node n1) {
 		GridPane mainGrid = new GridPane();
 		mainGrid.setPadding(new Insets(15,10,15,10));
-		mainGrid.addColumn(0, headerLabel(), getEventLabel(), new Label(), itemGrid());
+		mainGrid.addColumn(0, headerLabel(), getEventLabel(), new Label(), itemGrid(n1));
 		
 		return mainGrid;
 	}
@@ -59,9 +60,9 @@ public class Pane4MyItems {
 	}
 
 
-	public GridPane itemGrid() {
+	public GridPane itemGrid(Node n1) {
 		GridPane itemGrid = new GridPane();
-		itemGrid.addColumn(0, getTicketLabel(), getTableLabel(), returnTicketBtn());
+		itemGrid.addColumn(0, getTicketLabel(), getTableLabel(), n1);
 		//itemGrid.addColumn(1, returnTicketBtn(), returnTableBtn());
 		itemGrid.setHgap(15);
 		itemGrid.setVgap(20);
@@ -99,6 +100,7 @@ public class Pane4MyItems {
 		                final Stage dialog = new Stage();
 		                dialog.initModality(Modality.APPLICATION_MODAL);
 		                dialog.initOwner(primaryStage);
+		        
 		                GridPane dialogVbox = new GridPane();
 		                dialogVbox.setAlignment(Pos.CENTER);
 		                dialogVbox.setVgap(30);
@@ -118,7 +120,7 @@ public class Pane4MyItems {
 		                });
 		                HBox btnBox = new HBox(15);
 		                btnBox.getChildren().addAll(confirmBtn, cancelBtn);
-		                dialogVbox.addColumn(0, new Label("Are you sure? "+Current.getEvent().getEventName()), btnBox);
+		                dialogVbox.addColumn(0, new Label("Are you sure? "), btnBox);
 		                
 		                Scene dialogScene = new Scene(dialogVbox, 400, 320);
 		                dialog.setScene(dialogScene);

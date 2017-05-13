@@ -15,8 +15,10 @@ import view.PrimaryView;
 
 public class SignInUp {
 
-	public SignInUp() {
+	private static TableListener tableListener;
 
+	public SignInUp() {
+		
 	}
 
 	public static void login(String username, String password) throws ClassNotFoundException {
@@ -26,9 +28,20 @@ public class SignInUp {
 			if (logger.getPasswordHash() == hash(password)) {
 				Current.setUser(logger);
 				if (Current.getUser() instanceof Business) {
-					showBusinessMainMenu();
+					if(tableListener!= null){
+						System.out.println("not Null for login");
+						tableListener.allEventsLogin();
+					}
+					PrimaryView.changePane(MainWindow.getBusinessWindow());
+					//showBusinessMainMenu();
 				} else if (Current.getUser() instanceof Customer) {
-					showCustomerMainMenu();
+					if(tableListener!= null){
+						System.out.println("not Null for login");
+						tableListener.allEventsLogin();
+					}
+					PrimaryView.changePane(MainWindow.getCustomerWindow());
+
+					//showCustomerMainMenu();
 				}
 			} else {
 				System.out.println("wrong password");
@@ -105,5 +118,10 @@ public class SignInUp {
 		}
 		return hash;
 	}
-}
+	
+	public void setTableListener(TableListener login){
+		this.tableListener = login;
+		}
+	}
+
 

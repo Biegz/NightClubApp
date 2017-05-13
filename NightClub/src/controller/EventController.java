@@ -53,9 +53,10 @@ public class EventController {
 				model.setTablePrice(ev.getEvent().getTablePrice());
 				
 				// change mainpain.setcenter 
+				modelBag.add(model);
 				emptyPane();
 				showEvent();
-
+				IO.saveAll();
 			
 		
 			

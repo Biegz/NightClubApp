@@ -82,6 +82,7 @@ public class TableController {
 			System.out.println("Im a business and id like to view my competitors event");
 			Current.setEvent(modelEvent);
 			System.out.println(modelEvent.getTicketsAvailable());
+			view2.setEventName(modelEvent.getEventName());
 			view2.setTicketsLeft(modelEvent.getTicketsAvailable());
 			view2.setTablesLeft(modelEvent.getTablesAvailable());
 			view2.setDate(modelEvent.getDate(),modelEvent.getAddress());
