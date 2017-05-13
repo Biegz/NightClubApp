@@ -134,7 +134,6 @@ public class PaneForLogin {
 				try {
 					login.login(userField.getText(), passwordField.getText());
 					if(tableListener!= null){
-						System.out.println("not Null for login");
 						tableListener.allEventsLogin();
 					}
 				} catch (ClassNotFoundException e1) {

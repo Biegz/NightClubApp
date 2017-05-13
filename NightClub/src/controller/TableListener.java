@@ -2,6 +2,8 @@ package controller;
 
 
 
+import java.util.EventListener;
+
 import controller.tableEvents.LoginButtonEvent;
 
 import controller.tableEvents.MyEventsMenuEvent;
@@ -10,7 +12,7 @@ import controller.tableEvents.UpcomingEvent;
 import controller.tableEvents.ZipWithin15MenuEvent;
 import controller.tableEvents.ZipWithin50MenuEvent;
 
-public class TableListener {
+public class TableListener implements EventListener {
 
 	public void allEventsLogin(){
 		
@@ -37,6 +39,10 @@ public class TableListener {
 	}
 	
 	public void pastEventsClicked(PastEvent ev){
+		
+	}
+	
+    public void searchButtonClicked(SearchButtonEvent ev){
 		
 	}
 }

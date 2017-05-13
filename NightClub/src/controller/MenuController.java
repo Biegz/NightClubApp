@@ -14,11 +14,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.Event;
+import model.EventsBag;
 import model.model4User.model4Customer.Customer;
 import model.model4User.model4Establishment.Business;
 import view.MainMenu;
 import view.MainWindow;
 import view.Pane4Event;
+import view.Pane4Events;
 import view.Pane4Table;
 import view.PaneForLogin;
 
@@ -27,6 +29,7 @@ public class MenuController {
 	private MainMenu view;
 	private Pane4Table view2;
 	private PaneForLogin view3;
+	private Pane4Events view4;
 	
 	private Event modelEvent;
 	private TableTranslator translator;
@@ -88,6 +91,45 @@ public class MenuController {
 			
 			}
 		});
+	}
+	
+	public MenuController(Pane4Events view4){
+		this.view4 = view4;
+		this.view2 = new Pane4Table();
+		translator = new TableTranslator();
+		tableController = new TableController(view2);
+		
+		view4.setTableListener(new TableListener(){
+			public void searchButtonClicked(SearchButtonEvent ev){
+				System.out.println("ouch");
+				ArrayList<Event> temp = new ArrayList<>();
+				for(Event e: EventsBag.events){
+					if(ev.getVenueSearch().equals(e.getBusiness().getName())){
+						temp.add(e);
+						System.out.println("yoo");
+					}
+				}
+				
+				table = view2.getTable(temp);
+				displayEventsByVenue(table);
+				
+			}
+			
+		});
+	}
+	
+	public void displayEventsByVenue(Node temp){
+		VBox pane = new VBox();
+		VBox headerPane = new VBox();
+		Label header = new Label("This Venue's Events:");
+		header.setFont(new Font(32));
+		headerPane.getChildren().addAll(header);
+		headerPane.setAlignment(Pos.TOP_CENTER);
+		pane.setSpacing(5);
+		pane.setPadding(new Insets(7.5, 0, 0, 0));
+		pane.getChildren().addAll(headerPane, temp);
+		
+		MainWindow.setLeft(pane);
 	}
 	
 	public void displayAllEvents(Node temp) {

@@ -2,6 +2,7 @@ package view;
 
 import controller.Current;
 import controller.CustomerAccountController;
+import controller.EventController;
 import controller.MenuController;
 import controller.TableListener;
 import controller.TableTranslator;
@@ -83,7 +84,7 @@ public class MainMenu {
 	
 	private Menu getCustomerEvents(){
 		Menu events = new Menu("Events");
-		events.getItems().addAll(getAllEvents(), getNearMe());
+		events.getItems().addAll(getAllEvents(), getNearMe(),getSearchByVenue());
 		return events;
 	}
 	
@@ -173,7 +174,6 @@ public class MainMenu {
 	}
 	
 	private MenuItem getWithin15Miles(){
-		Pane4Events events = new Pane4Events();
 		
 		MenuItem within15 = new MenuItem("  Within 15 Miles ");
 		within15.setOnAction(e ->{
@@ -188,7 +188,6 @@ public class MainMenu {
 	}
 	
 	private MenuItem getWithin50Miles(){
-		Pane4Events events = new Pane4Events();
 		
 		MenuItem within50 = new MenuItem("  Within 50 Miles ");
 		within50.setOnAction(e ->{
@@ -202,6 +201,16 @@ public class MainMenu {
 		
 		
 		return within50;
+	}
+	
+	private MenuItem getSearchByVenue(){
+		Pane4Events events = new Pane4Events();
+		MenuController controller = new MenuController(events);
+		MenuItem searchByVenue = new MenuItem("  Search By Venue ");
+		searchByVenue.setOnAction(e ->{
+			MainWindow.setCenter(events.getSearchByVenuePane());
+		});
+		return searchByVenue;
 	}
 	
 	
@@ -245,8 +254,11 @@ public class MainMenu {
 	
 	private MenuItem getCreateEvent() {
 		Pane4EventCreation pane4EventCreation = new Pane4EventCreation();
+		EventController controller = new EventController(pane4EventCreation);
+
 		MenuItem createEvent = new MenuItem("  Create Event ");
 		createEvent.setOnAction(e -> {
+
 			MainWindow.setCenter(pane4EventCreation.getCreatePane());
 		});
 		return createEvent;

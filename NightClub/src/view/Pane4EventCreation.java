@@ -3,8 +3,14 @@ package view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EventListener;
 import java.util.List;
 
+import controller.CreateButtonEvent;
+import controller.Current;
+import controller.EventController;
+import controller.EventsListener;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -12,14 +18,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import model.Event;
 import model.Genre;
+import model.model4Address.Address;
 
 public class Pane4EventCreation {
 
 
-	private Pane4EditEvents pane4EditEvents;
-
-	private Pane4Events pane4Events = new Pane4Events();
+	
+	private Button createEventButton;
+	private EventsListener eventsListener;
 
 	private Pane eventCreationPane;
 	public static TextField nameField;
@@ -55,24 +63,26 @@ public class Pane4EventCreation {
 	//-----------------------------Data Panes--------------------------------------------------------------
 	
 	public VBox getCreatePane() {
-		pane4EditEvents = new Pane4EditEvents();
+		 Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
+		 //EventController controller = new EventController(pane4EditEvents);
+		
 
 		VBox updateView = new VBox(5);
-		updateView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(),
-				pane4EditEvents.getCreateEventButton());
+		updateView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), getCreateEventButton());
 		return updateView;
 	}
 	
 	public VBox getUpdatePane(){
-		pane4EditEvents = new Pane4EditEvents();
-		VBox editView = new VBox();
+		 Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
+		 //EventController controller = new EventController(pane4EditEvents);		
+		 VBox editView = new VBox();
 		editView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), pane4EditEvents.getUpdateEventButton());
 		return editView;
 	}
 	
 	public VBox getDeletePane(){
-		pane4EditEvents = new Pane4EditEvents();
-
+		 Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
+		 //EventController controller = new EventController(pane4EditEvents);
 		VBox deleteView = new VBox();
 		Label cancelLbl = new Label("*Select the event you would like to cancel on the table, then press 'Cancel Event' below*");
 		deleteView.getChildren().addAll(cancelLbl, pane4EditEvents.getDeleteEventButton());
@@ -84,7 +94,31 @@ public class Pane4EventCreation {
 	
 	
 	
+	public Button getCreateEventButton(){
+		//myEvents = FXCollections.observableArrayList(EventsBag.events);//Could not get the current business' events list to print (tried getEventsList from business model)
+
+		
 	
+		createEventButton = new Button("Create Event");
+		createEventButton.setOnAction(e ->{
+			CreateButtonEvent ev = new CreateButtonEvent(this, new Event(
+					Current.getBusiness(),
+					getName(), getGenre(), getDescription(), new Address(getAddress(), null, getZip(), getState(), getCity()),
+					getDate(), getTotalTickets(), getTicketPrice(), getTotalTables(), getTablePrice()));
+			if(eventsListener != null){
+				System.out.println("Hit the if statement within getCreateEventButton method!");
+				eventsListener.createButtonClicked(ev);
+			}
+			
+//			eventsBag.add(ev.getEvent());
+//			eventsBag.save();
+			
+			
+
+		});
+		return createEventButton;
+		
+	}
 	
 	
 	
@@ -237,6 +271,11 @@ public class Pane4EventCreation {
 		return Integer.parseInt(totalTablesField.getText());
 	}
 	
+	
+	public void setEventsListener(EventsListener eventsListener) {
+		System.out.println("Hit the setCreateEventListener method!");
+		this.eventsListener = eventsListener;
+	}
 	
 
 }

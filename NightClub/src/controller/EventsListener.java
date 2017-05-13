@@ -16,8 +16,6 @@ public class EventsListener implements EventListener{
 		
 	}
 	
-	public void searchButtonClicked(SearchButtonEvent ev){
-		
-	}
+	
 	
 }

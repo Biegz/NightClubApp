@@ -110,8 +110,8 @@ public class Pane4EditEvents {
 				eventsListener.createButtonClicked(ev);
 			}
 			
-			eventsBag.add(ev.getEvent());
-			eventsBag.save();
+//			eventsBag.add(ev.getEvent());
+//			eventsBag.save();
 			
 			
 

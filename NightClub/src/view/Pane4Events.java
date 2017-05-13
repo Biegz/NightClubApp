@@ -1,8 +1,12 @@
 package view;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import controller.SearchButtonEvent;
 import controller.TableController;
+import controller.TableListener;
 import controller.TableTranslator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,8 +20,33 @@ public class Pane4Events {
 	private HBox pane1;
 	private VBox pane2;
 	
+	private TableListener tableListener;
+
+	
 	public Pane4Events(){
 		
+	}
+	
+	public Pane getSearchByVenuePane(){
+		VBox pane = new VBox();
+		
+		Label searchLbl = new Label("Search Events By Venue:");
+		TextField searchTF = new TextField();
+		searchTF.setMaxWidth(240);
+		Button searchButton = new Button("Search");
+
+		pane.getChildren().addAll(searchLbl, searchTF, searchButton);
+		
+		searchButton.setOnAction(e ->{
+			SearchButtonEvent ev = new SearchButtonEvent(this, searchTF.getText().toString());
+
+			if(tableListener!= null){
+				tableListener.searchButtonClicked(ev);
+			}
+		});
+	
+		return pane;
+
 	}
 	
 	public Pane getPane4AllEvents(Node temp){
@@ -37,7 +66,7 @@ public class Pane4Events {
 		
 		
 		pane2.setSpacing(5);
-		pane2.getChildren().addAll(headerPane, table.getTable(temp));
+		//pane2.getChildren().addAll(headerPane, table.getTable(temp));
 		pane1.getChildren().addAll(pane2);
 		pane1.setPadding(new Insets(7.5,0,0,0));
 		
@@ -62,7 +91,7 @@ public class Pane4Events {
 		//filter.getMyEvents(table);
 		
 		pane2.setSpacing(5);
-		pane2.getChildren().addAll(headerPane, table.getTable(), delete.getDeleteButton());
+		//pane2.getChildren().addAll(headerPane, table.getTable(), delete.getDeleteButton());
 		pane1.getChildren().addAll(pane2);
 		pane1.setPadding(new Insets(7.5,0,0,0));
 		
@@ -86,7 +115,7 @@ public class Pane4Events {
 		//filter.getByZip15(table);
 		
 		pane2.setSpacing(5);
-		pane2.getChildren().addAll(headerPane, table.getTable());
+		//pane2.getChildren().addAll(headerPane, table.getTable());
 		pane1.getChildren().addAll(pane2);
 		pane1.setPadding(new Insets(7.5,0,0,0));
 		
@@ -110,10 +139,14 @@ public class Pane4Events {
 		//filter.getByZip50(table);
 		
 		pane2.setSpacing(5);
-		pane2.getChildren().addAll(headerPane, table.getTable());
+		//pane2.getChildren().addAll(headerPane, table.getTable());
 		pane1.getChildren().addAll(pane2);
 		pane1.setPadding(new Insets(7.5,0,0,0));
 		
 		return pane1;
+	}
+	
+	public void setTableListener(TableListener menu){
+		this.tableListener = menu;
 	}
 }

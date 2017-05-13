@@ -6,38 +6,37 @@ import model.EventsBag;
 import model.model4Address.Address;
 import view.MainWindow;
 import view.Pane4EditEvents;
+import view.Pane4EventCreation;
 import view.Pane4Events;
 
 public class EventController {
 
-	private Pane4EditEvents view;
+	private Pane4EventCreation view;
 
-	private MainWindow viewMain;
-	private Event model;
+	
+	private Event modelEvent;
+	
 	private EventsBag modelBag;
 	private Address modelAddress;
 
-	public EventController(Pane4EditEvents view) {
+	public EventController(Pane4EventCreation view) {
 		this.view = view;
-		
-		
-		
-		System.out.println("In the Controller!");
 
+		System.out.println("In the controller");
 		view.setEventsListener(new EventsListener() {
-
 			@Override
 			public void createButtonClicked(CreateButtonEvent ev) {
 				
-				model = ev.getEvent();
+				System.out.println("Im in boys");
+				modelEvent = ev.getEvent();
 				modelAddress = new Address();
 
-				model.setBusiness(ev.getEvent().getBusiness());
-				model.setEventName(ev.getEvent().getEventName());
-				model.setGenre(ev.getEvent().getGenre());
-				model.setDescription(ev.getEvent().getDescription());
+				modelEvent.setBusiness(ev.getEvent().getBusiness());
+				modelEvent.setEventName(ev.getEvent().getEventName());
+				modelEvent.setGenre(ev.getEvent().getGenre());
+				modelEvent.setDescription(ev.getEvent().getDescription());
 
-				model.setAddress(ev.getEvent().getAddress());
+				modelEvent.setAddress(ev.getEvent().getAddress());
 
 				// modelAddress.setCity(ev.getEvent().getAddress().getCity());
 				// modelAddress.setState(ev.getEvent().getAddress().getState());
@@ -46,11 +45,14 @@ public class EventController {
 				// modelAddress.setZipcode(ev.getEvent().getAddress().getZipcode());
 				// model.setAddress(modelAddress);
 
-				model.setDate(ev.getEvent().getDate());
-				model.setTotalTickets(ev.getEvent().getTotalTickets());
-				model.setTicketPrice(ev.getEvent().getTicketPrice());
-				model.setTotalTables(ev.getEvent().getTotalTables());
-				model.setTablePrice(ev.getEvent().getTablePrice());
+				modelEvent.setDate(ev.getEvent().getDate());
+				modelEvent.setTotalTickets(ev.getEvent().getTotalTickets());
+				modelEvent.setTicketPrice(ev.getEvent().getTicketPrice());
+				modelEvent.setTotalTables(ev.getEvent().getTotalTables());
+				modelEvent.setTablePrice(ev.getEvent().getTablePrice());
+				
+				modelBag.add(modelEvent);
+				modelBag.save();
 				
 				// change mainpain.setcenter 
 				emptyPane();
@@ -68,8 +70,8 @@ public class EventController {
 			
 			@Override
 			public void deleteButtonClicked(DeleteButtonEvent ev){
-				model = ev.getEvent();
-				modelBag.delete(model);
+				modelEvent = ev.getEvent();
+				modelBag.delete(modelEvent);
 				System.out.println("reached delete");
 			
 				emptyPane();
@@ -101,11 +103,11 @@ public class EventController {
 	}
 
 	public void emptyPane() {
-		viewMain.setCenter(new Label());
+		MainWindow.setCenter(null);
 	}
 	
 	public void showEvent() {
-		System.out.println(model.getEventName());
+		System.out.println(modelEvent.getEventName());
 	}
 	
 

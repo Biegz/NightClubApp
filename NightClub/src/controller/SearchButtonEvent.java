@@ -8,19 +8,19 @@ import model.model4User.model4Customer.Customer;
 
 public class SearchButtonEvent extends EventObject {
 
-	private Event event;
+	private String venue;
 	
 	public SearchButtonEvent(Object source) {
 		super(source);
 	}
 	
-	public SearchButtonEvent(Object source, Event event) {
+	public SearchButtonEvent(Object source, String venue) {
 		super(source);
-		this.event = event;
+		this.venue = venue;
 	}
 	
-	public Event getEvent() {
-		return event;
+	public String getVenueSearch() {
+		return venue;
 	}
 	
 }
