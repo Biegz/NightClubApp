@@ -2,7 +2,10 @@ package view;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
+import controller.ClickEventEvent;
+import controller.Current;
 import controller.Pane4EventEvent;
 import controller.Pane4EventListener;
 import javafx.collections.FXCollections;
@@ -18,9 +21,10 @@ import model.Event;
 import model.EventsBag;
 
 public class Pane4Table {
-	
+	private TableView<Event> myEventsTable;
 	private TableView<Event> eventsTable;
 	private ObservableList<Event> events;
+	private ObservableList<Event> myEvents;	
 	private ArrayList<Event> temp;
 
 	private HBox pane;
@@ -28,8 +32,8 @@ public class Pane4Table {
 	private Pane4EventListener pane4EventListener;
 	
 
-	public void Pane4Table(ArrayList<Event> temp){
-		this.temp = temp;
+	public Pane4Table(){
+		
 	}
 	
 	
@@ -54,7 +58,7 @@ public class Pane4Table {
 
 	
 	//----------------------------------Table-------------------------------------------------------
-	public TableView getTable() {
+	public TableView getTable(ArrayList<Event> temp) {
 		events = FXCollections.observableArrayList(temp);
 
 		eventsTable = new TableView<Event>();
@@ -87,13 +91,42 @@ public class Pane4Table {
 		return eventsTable;
 	}
 	
+	public void setMyEventsTable(ArrayList<Event> temp) {
+		myEvents = FXCollections.observableArrayList(temp);
+		myEventsTable = new TableView<Event>();
+		myEventsTable.setEditable(false);
+		myEventsTable.setMaxHeight(400);
+		myEventsTable.setMaxWidth(200);
+		myEventsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		myEventsTable.getColumns().addAll(getDateColumn(), getEventNameColumn());//, getCostColumn());
+		myEventsTable.setItems(myEvents);
+	}
+	
+	public TableView getMyEventsTable(){
+		myEventsTable.setRowFactory(e ->{
+			TableRow<Event> row = new TableRow<Event>();
+			row.setOnMouseClicked(ev ->{
+				if(ev.getClickCount() >= 1 && (!row.isEmpty())){  //set so if you double click it will delete that event, will change to delete event button soon
+					System.out.println("Detected clicks tickets");
+					Event rowData = row.getItem();
+					ClickEventEvent clickEvent = new ClickEventEvent(this,Current.getCustomer(), rowData);
+					if (pane4EventListener != null) {
+						pane4EventListener.eventRowSelected(clickEvent);
+					}
+				}
+			});
+			return row;
+		});
+		return myEventsTable;
+	}
+	
 	
 	//--------------------------------Panes---------------------------------------------
-	public Pane getCustomerEventPane(){
-		VBox pane = new VBox();
-		pane.getChildren().addAll(getTable());
-		return pane;
-	}
+//	public Pane getCustomerEventPane(){
+//		VBox pane = new VBox();
+//		pane.getChildren().addAll(getTable());
+//		return pane;
+//	}
 	
 	
 	

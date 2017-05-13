@@ -155,33 +155,33 @@ public class ExpandEventController {
 			
 		});
 		
-		view7.setPane4EventListener(new Pane4EventListener() {
-			
-			public void eventRowSelected(ClickEventEvent ev) {
-				modelCustomer = ev.getCustomer();
-				modelEvent = ev.getEvent();
-				int ticketCount = 0;
-				int tableCount = 0;
-				for(int i = 0; i < modelCustomer.getTicketList().size(); i++) {
-					if(modelCustomer.getTicketList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
-						ticketCount++;
-					}
-				}
-				for(int i = 0; i < modelCustomer.getTableList().size(); i++) {
-					if(modelCustomer.getTableList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
-						tableCount++;
-					}
-				}
-				
-				view8.setTicketLabel(ticketCount, modelEvent.getTicketPrice(), modelEvent.getTicketPrice()*ticketCount);
-				view8.setTableLabel(tableCount, modelEvent.getTablePrice(), modelEvent.getTablePrice()*tableCount);
-				view8.setEventLabel(modelEvent.getEventName(), modelEvent.getDate());
-				
-				displayMyItems();
-				displayConfirmation();
-			
-			}
-		});
+//		view7.setPane4EventListener(new Pane4EventListener() {
+//			
+//			public void eventRowSelected(ClickEventEvent ev) {
+//				modelCustomer = ev.getCustomer();
+//				modelEvent = ev.getEvent();
+//				int ticketCount = 0;
+//				int tableCount = 0;
+//				for(int i = 0; i < modelCustomer.getTicketList().size(); i++) {
+//					if(modelCustomer.getTicketList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
+//						ticketCount++;
+//					}
+//				}
+//				for(int i = 0; i < modelCustomer.getTableList().size(); i++) {
+//					if(modelCustomer.getTableList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
+//						tableCount++;
+//					}
+//				}
+//				
+//				view8.setTicketLabel(ticketCount, modelEvent.getTicketPrice(), modelEvent.getTicketPrice()*ticketCount);
+//				view8.setTableLabel(tableCount, modelEvent.getTablePrice(), modelEvent.getTablePrice()*tableCount);
+//				view8.setEventLabel(modelEvent.getEventName(), modelEvent.getDate());
+//				
+//				displayMyItems();
+//				//displayConfirmation();
+//			
+//			}
+//		});
 
 		
 		view8.setPane4EventListener(new Pane4EventListener() {
@@ -247,6 +247,39 @@ public class ExpandEventController {
 		
 	}
 	
+	public ExpandEventController(Pane4Table view){
+		this.view = view;
+		view8 = new Pane4MyItems();
+
+		view.setPane4EventListener(new Pane4EventListener() {
+			
+			public void eventRowSelected(ClickEventEvent ev) {
+				modelCustomer = ev.getCustomer();
+				modelEvent = ev.getEvent();
+				int ticketCount = 0;
+				int tableCount = 0;
+				for(int i = 0; i < modelCustomer.getTicketList().size(); i++) {
+					if(modelCustomer.getTicketList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())) {
+						ticketCount++;
+					}
+				}
+				for(int i = 0; i < modelCustomer.getTableList().size(); i++) {
+					if(modelCustomer.getTableList().get(i).getEvent().getEventName().equalsIgnoreCase(modelEvent.getEventName())){
+						tableCount++;
+					}
+				}
+				
+				view8.setTicketLabel(ticketCount, modelEvent.getTicketPrice(), modelEvent.getTicketPrice()*ticketCount);
+				view8.setTableLabel(tableCount, modelEvent.getTablePrice(), modelEvent.getTablePrice()*tableCount);
+				view8.setEventLabel(modelEvent.getEventName(), modelEvent.getDate());
+				
+				displayMyItems();
+				//displayConfirmation();
+			
+			}
+		});
+	}
+	
 	
 	
 	private void displayTickets() {
@@ -263,11 +296,11 @@ public class ExpandEventController {
 	
 	private void displayMyTickets() {
 		MainWindow.setCenter(null);
-		//MainWindow.setLeft(view7.ticketBox());
+		MainWindow.setLeft(view7.ticketBox());
 	}
 	
 	private void displayMyItems() {
-		MainWindow.setCenter(view8.mainGrid());
+		MainWindow.setRight(view8.mainGrid());
 	}
 	
 	private void displayConfirmation() {

@@ -21,6 +21,7 @@ public class TableController {
 	private Event modelEvent;
 	private ExpandEventController expandEventController;
 	
+	
 	 
 		public TableController(Pane4Table view) {
 			this.view = view;

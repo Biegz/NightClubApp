@@ -5,6 +5,8 @@ import java.io.File;
 import controller.Current;
 
 import controller.SignInUp;
+import controller.TableListener;
+import controller.tableEvents.MyEventsMenuEvent;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,6 +38,7 @@ public class PaneForLogin {
 	private PasswordField passwordField;
 	private TextField userField;
 	private ImageView image = new ImageView(new Image("images"+File.separator+"logo3.png"));
+	private TableListener tableListener;
 
 
 
@@ -130,6 +133,10 @@ public class PaneForLogin {
 				SignInUp login = new SignInUp();
 				try {
 					login.login(userField.getText(), passwordField.getText());
+					if(tableListener!= null){
+						System.out.println("not Null for login");
+						tableListener.allEventsLogin();
+					}
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -139,4 +146,7 @@ public class PaneForLogin {
 
 		return loginButton;
 	}
-}
+	
+	public void setTableListener(TableListener login){
+		this.tableListener = login;
+	}}

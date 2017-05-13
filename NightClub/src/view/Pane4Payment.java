@@ -290,6 +290,7 @@ public class Pane4Payment {
 	}
 	
 	public ComboBox<String> monthCombo() {
+		month = 0;
 		ComboBox<String> monthCombo = new ComboBox<>();
 		String[] tempList = new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"};
 		List<String> monthList = new ArrayList<String>(Arrays.asList(tempList));
@@ -301,6 +302,7 @@ public class Pane4Payment {
 	}
 
 	public ComboBox<String> yearCombo() {
+		year = 0;
 		ComboBox<String> yearCombo = new ComboBox<>();
 		String[] tempList = new String[]{"2017","2018","2019","2020","2021"};
 		List<String> yearList = new ArrayList<String>(Arrays.asList(tempList));

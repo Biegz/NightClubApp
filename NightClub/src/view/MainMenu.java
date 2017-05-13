@@ -1,6 +1,13 @@
 package view;
 
+import controller.Current;
+import controller.CustomerAccountController;
+import controller.MenuController;
+import controller.TableListener;
 import controller.TableTranslator;
+import controller.tableEvents.MyEventsMenuEvent;
+import controller.tableEvents.ZipWithin15MenuEvent;
+import controller.tableEvents.ZipWithin50MenuEvent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -10,6 +17,8 @@ public class MainMenu {
 
 	private final String house = "\u2302";
 	private final String gear = "\u26ed";
+	
+	private TableListener tableListener;
 
 	public MainMenu() {
 
@@ -117,12 +126,14 @@ public class MainMenu {
 	
 	private MenuItem getAllEvents() {
 
-		Pane4Events events = new Pane4Events();
-		
 		MenuItem allEvents = new MenuItem("  All Events ");
 		
+		
 		allEvents.setOnAction(e ->{
-			MainWindow.setLeft(events.getPane4AllEvents());
+			if(tableListener!= null){
+				System.out.println("is not null");
+				tableListener.allEventsMenuClicked();
+			}
 		});
 		return allEvents;
 		
@@ -132,11 +143,12 @@ public class MainMenu {
 	
 	// ------------------------Menu Items For Customer-----------------------------------
 	private MenuItem customerEditAccount() {
-		MenuItem editAccount = new MenuItem("  Edit Account");
+		CustomerHLPane pane = new CustomerHLPane();
+		CustomerAccountController controller = new CustomerAccountController(pane);
+		MenuItem editAccount = new MenuItem("  My Account ");
 
 		editAccount.setOnAction(e -> {
-			PaneForCustomer customer = new PaneForCustomer();
-			MainWindow.setCenter(customer.getUpdatePane());
+			MainWindow.setCenter(pane.getHyperlinkPane());
 		});
 
 		return editAccount;
@@ -163,9 +175,13 @@ public class MainMenu {
 	private MenuItem getWithin15Miles(){
 		Pane4Events events = new Pane4Events();
 		
-		MenuItem within15 = new MenuItem("  Within 10 Miles ");
+		MenuItem within15 = new MenuItem("  Within 15 Miles ");
 		within15.setOnAction(e ->{
-			MainWindow.setLeft(events.getZip15());
+			ZipWithin15MenuEvent ev = new ZipWithin15MenuEvent(this, Current.getCustomer());
+			if(tableListener!= null){
+				System.out.println("is not null");
+				tableListener.zipWithin15Clicked(ev);
+			}
 		});
 		
 		return within15;
@@ -176,8 +192,14 @@ public class MainMenu {
 		
 		MenuItem within50 = new MenuItem("  Within 50 Miles ");
 		within50.setOnAction(e ->{
-			MainWindow.setLeft(events.getZip50());
-		});
+			ZipWithin50MenuEvent ev = new ZipWithin50MenuEvent(this, Current.getCustomer());
+			if(tableListener!= null){
+				System.out.println("is not null");
+				tableListener.zipWithin50Clicked(ev);	
+			}
+				});
+		
+		
 		
 		return within50;
 	}
@@ -209,11 +231,13 @@ public class MainMenu {
 	}
 	
 	private MenuItem getMyEvents(){
-		Pane4Events events = new Pane4Events();
 		MenuItem myEvents = new MenuItem("  My Events ");
 		
 		myEvents.setOnAction(e ->{
-			MainWindow.setLeft(events.getPane4MyEvents());
+			MyEventsMenuEvent ev = new MyEventsMenuEvent(this, Current.getBusiness());
+			if(tableListener!= null){
+				tableListener.myEventsMenuClicked(ev);
+			}
 		});
 		return myEvents;
 		
@@ -226,5 +250,10 @@ public class MainMenu {
 			MainWindow.setCenter(pane4EventCreation.getCreatePane());
 		});
 		return createEvent;
+	}
+	
+	
+	public void setTableListener(TableListener menu){
+		this.tableListener = menu;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import controller.EventController;
 import controller.ExpandEventController;
+import controller.MenuController;
 import controller.TableController;
 import controller.TableTranslator;
 import javafx.scene.Node;
@@ -25,7 +26,7 @@ public class MainWindow {
 	public BorderPane getCustomerWindow() {
 		Pane4Events eventPane = new Pane4Events();
 		MainMenu menuBar = new MainMenu();
-		mainWindow.setLeft(eventPane.getPane4AllEvents());
+		MenuController controller = new MenuController(menuBar);
 		mainWindow.setTop(menuBar.getCustomerMenuBar());
 		return mainWindow;
 	}
@@ -33,7 +34,7 @@ public class MainWindow {
 	public BorderPane getBusinessWindow() {
 		Pane4Events events = new Pane4Events();
 		MainMenu menuBar = new MainMenu();
-		mainWindow.setLeft(events.getPane4MyEvents());
+		MenuController controller = new MenuController(menuBar);
 		mainWindow.setTop(menuBar.getBusinessMenuBar());
 		return mainWindow;
 	}
@@ -53,6 +54,11 @@ public class MainWindow {
 	public static void setBottom(Node node) {
 		mainWindow.setBottom(null);
 		mainWindow.setBottom(node);
+	}
+	
+	public static void setRight(Node node) {
+		mainWindow.setRight(null);
+		mainWindow.setRight(node);
 	}
 
 	
