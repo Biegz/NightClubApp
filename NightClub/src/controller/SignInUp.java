@@ -55,7 +55,7 @@ public class SignInUp {
 		created.setLastName(PaneForCustomer.lastField.getText());
 		created.setGender(PaneForCustomer.genderField.getText());
 		created.setFavGenre(PaneForCustomer.genreBox.getSelectionModel().getSelectedItem());
-		created.setAge(getAge());
+		created.setBirthday(PaneForCustomer.birthdayField.getValue());
 		created.setAddress(getAddress());
 		saveUser(created);
 		showCustomerMainMenu();
@@ -85,16 +85,6 @@ public class SignInUp {
 	private static void showBusinessMainMenu() {
 		MainWindow mainWindow = new MainWindow();
 		PrimaryView.changePane(mainWindow.getBusinessWindow());
-	}
-
-	public static int getAge() throws NumberFormatException {
-		int age = 0;
-		try {
-			age = Integer.parseInt(PaneForCustomer.ageField.getText());
-		} catch (NumberFormatException e) {
-//			e.printStackTrace();
-		}
-		return age;
 	}
 
 	public static double hash(String string) {

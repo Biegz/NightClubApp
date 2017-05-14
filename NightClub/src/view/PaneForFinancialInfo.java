@@ -14,6 +14,7 @@ public class PaneForFinancialInfo {
 	
 	private Business business;
 	private FinancialInfo info;
+	//rounds doubles to 2 places
 	DecimalFormat df = new DecimalFormat("#.##");
 
 	public PaneForFinancialInfo() {
@@ -33,6 +34,7 @@ public class PaneForFinancialInfo {
 		return view;
 	}
 	
+	//returns profit
 	private HBox profit(){
 		HBox profit = new HBox(5);
 		Label profitLbl = new Label("Profit: $" + info.getProfit());
@@ -40,6 +42,7 @@ public class PaneForFinancialInfo {
 		return profit;
 	}
 	
+	//returns revenue
 	private HBox revenue(){
 		HBox revenue = new HBox(5);
 		Label revenueLbl = new Label("Revenue: $" + info.getRevenue());
@@ -47,12 +50,7 @@ public class PaneForFinancialInfo {
 		return revenue;
 	}
 	
-//	private HBox costOfGoods(){
-//		HBox costOfGoods = new HBox(5);
-//		costOfGoods.getChildren().addAll();
-//		return costOfGoods;
-//	}
-	
+	//returns sum of all sales' tax values
 	private HBox saleTaxTotal(){
 		HBox saleTaxTotal = new HBox(5);
 		Label saleTaxTotalLbl = new Label("Sale Tax Total: $" + df.format(info.getSaleTaxTotal()));
@@ -60,6 +58,7 @@ public class PaneForFinancialInfo {
 		return saleTaxTotal;
 	}
 	
+	//returns sales tax which is 4.5%
 	private HBox saleTax(){
 		HBox saleTax = new HBox(5);
 		Label saleTaxLbl = new Label("Sale Tax: " + (df.format(info.getSaleTax() * 100)) + "%");

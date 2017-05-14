@@ -3,9 +3,7 @@ package view;
 import java.io.File;
 
 import controller.Current;
-
 import controller.SignInUp;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,21 +12,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.scene.text.Text;
 
 public class PaneForLogin {
 
@@ -59,6 +50,7 @@ public class PaneForLogin {
 		return launchView;
 	}
 	
+	//sets title
 	private HBox getTitle(){
 		HBox pane = new HBox();
 		Label title = new Label("Owlzzz");
@@ -69,6 +61,7 @@ public class PaneForLogin {
 		return pane;
 	}
 	
+	//displays logo
 	private HBox getLogo(){
 		HBox pane = new HBox();
 		pane.setAlignment(Pos.BASELINE_CENTER);
@@ -78,7 +71,7 @@ public class PaneForLogin {
 	}
 
 	private HBox userInfoQuery(){
-		Label userLabel = new Label("Username:");
+		Label userLabel = new Label("Username:\t");
 		userLabel.setFont(new Font(26));
 		userField = new TextField();
 		HBox userInfoQuery = new HBox();
@@ -88,7 +81,7 @@ public class PaneForLogin {
 	}
 
 	private HBox passwordQuery(){
-		Label passwordLabel = new Label("Password:");
+		Label passwordLabel = new Label("Password: \t");
 		passwordLabel.setFont(new Font(26));
 		passwordField = new PasswordField();
 		HBox passwordQuery = new HBox();
@@ -109,12 +102,13 @@ public class PaneForLogin {
 	private Button registerButton(){
 		Button registerButton = new Button("Register");
 
+		//changes pane to register pane
 		registerButton.setOnAction(new EventHandler <ActionEvent>() {
 			@Override public void handle(ActionEvent e){
 				Current.setPreviousPane(loginPane);
 				PaneForRegister registerPane = new PaneForRegister();
 				PrimaryView.primaryPane.getChildren().clear();
-				PrimaryView.primaryPane.setCenter(registerPane.getPane());
+				PrimaryView.primaryPane.setCenter(registerPane.getPane(new Text()));
 			}
 		});
 
@@ -124,6 +118,7 @@ public class PaneForLogin {
 	private Button loginButton(){
 		Button loginButton = new Button("Login");
 
+		//runs method in SignInUp to verify info
 		loginButton.setOnAction(new EventHandler <ActionEvent>() {
 			@Override public void handle(ActionEvent e){
 				Current.setPreviousPane(loginPane);
@@ -131,7 +126,6 @@ public class PaneForLogin {
 				try {
 					login.login(userField.getText(), passwordField.getText());
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

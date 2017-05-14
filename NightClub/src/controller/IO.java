@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.FileNotFoundException;
+import java.io.InvalidClassException;
 
 import model.EventsBag;
 import model.UsersBag;
@@ -16,7 +17,7 @@ public class IO  {
 		EventsBag.save();
 	}
 	
-	public static void loadAll() throws FileNotFoundException{
+	public static void loadAll() throws FileNotFoundException, InvalidClassException{
 		try {
 			UsersBag.load();
 		} catch (ClassNotFoundException e1) {

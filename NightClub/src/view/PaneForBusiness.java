@@ -1,5 +1,7 @@
 package view;
 
+import java.time.LocalDate;
+
 import controller.Current;
 import controller.IO;
 import controller.SignInUp;
@@ -26,6 +28,8 @@ public class PaneForBusiness {
 	public static TextField nameField;
 	private String username;
 	private String password;
+	private Label error;
+	private VBox view;
 	private static PaneForUser user = new PaneForUser();
 
 	public PaneForBusiness(){
@@ -50,18 +54,18 @@ public class PaneForBusiness {
 	}
 
 	private VBox view() {
-		VBox view = new VBox(5);
+		view = new VBox(5);
 		view.getChildren().addAll(user.getCreatePane(), name(), registerButton());
 		view.setPadding(new Insets(5));
 		return view;
 	}
 
 	private VBox updateView() {
-		VBox updateView = new VBox(5);
-		updateView.getChildren().addAll(user.getUpdatePane(), name(), updateButton());
-		updateView.setPadding(new Insets(5));
+		view = new VBox(5);
+		view.getChildren().addAll(user.getUpdatePane(), name(), updateButton());
+		view.setPadding(new Insets(5));
 		updateTextFields();
-		return updateView;
+		return view;
 	}
 
 	private HBox name() {
@@ -70,6 +74,27 @@ public class PaneForBusiness {
 		nameField = new TextField();
 		name.getChildren().addAll(nameLabel, nameField);
 		return name;
+	}
+	
+	private void error(String message){
+		if(view.getChildren().contains(error)){
+			error.setText(message);
+		} else {
+			error = new Label(message);
+			error.setTextFill(Color.web("#FF0000"));
+			view.getChildren().add(error);
+		}
+	}
+	
+	public Boolean testFields(){
+		if(user.testFields() || 
+				nameField.getText().isEmpty()){
+			error("Must Enter All Fields!");
+			return false;
+			
+		} else {
+			return true;
+		}
 	}
 
 	private Button registerButton() {
