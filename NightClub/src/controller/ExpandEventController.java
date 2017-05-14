@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+
 import javafx.scene.text.Text;
 import model.Event;
 import model.Table;
@@ -22,8 +24,6 @@ import model.model4User.model4Establishment.Business;
 import view.CustomerHLPane;
 import view.MainWindow;
 import view.Pane4Event;
-import view.Pane4EventCreation;
-import view.Pane4Events;
 import view.Pane4MyItems;
 import view.Pane4Payment;
 import view.Pane4Receipt;
@@ -31,7 +31,7 @@ import view.Pane4Table;
 import view.Pane4TablesTickets;
 //import view.Pane4TicketsView;
 
-public class ExpandEventController {
+public class ExpandEventController implements Observer{
 
 	private Pane4Table view;
 	private Event modelEvent;
@@ -61,6 +61,7 @@ public class ExpandEventController {
 		view3.setPane4EventListener(new Pane4EventListener() {
 			public void ticketsClicked(TicketButtonEvent ev) {
 				modelEvent = ev.getEvent();
+				
 				Current.setPreviousPane(view3.gridPane(view3.getBuyTicketBtn()));
 				int tempTickets = modelEvent.getTicketsAvailable();
 				int tempTables = modelEvent.getTablesAvailable();
@@ -258,6 +259,10 @@ public class ExpandEventController {
 		
 	}
 	
+	private void addOberserver(){
+		modelEvent.addObserver(this);
+	}
+
 	public ExpandEventController(Pane4Table view){
 		this.view = view;
 		view8 = new Pane4MyItems();
@@ -297,8 +302,6 @@ public class ExpandEventController {
 		});
 	}
 	
-	
-	
 	private void displayTickets() {
 		MainWindow.setCenter(view4.buyBox());
 	}
@@ -333,6 +336,11 @@ public class ExpandEventController {
 		
 		MainWindow.setLeft(pane);
 		MainWindow.setRight(null);
+	}
+
+	@Override
+	public void update(Observable event, Object arg) {
+		new ExpandEventController(new Pane4Event());
 	}
 	
 }

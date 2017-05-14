@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import model.Employee;
 
 public class PaneForAddress {
@@ -22,6 +23,8 @@ public class PaneForAddress {
 	public static TextField cityField;
 	public static ComboBox stateField;
 	public static TextField zipcodeField;
+	private VBox view;
+	private Label error;
 	String[] stateArr = new String[]{
 	        "Alabama", "Alaska", "Arizona", "Arkansas", "California",
 	        "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
@@ -35,6 +38,7 @@ public class PaneForAddress {
 	        "Wisconsin", "Wyoming"
 	    	};
 	List<String> stateList = new ArrayList<String>(Arrays.asList(stateArr));
+	
 	
 	public PaneForAddress(){
 		addressPane = new Pane();
@@ -69,7 +73,7 @@ public class PaneForAddress {
 //	}
 	
 	private VBox employeeUpdateView(){
-		VBox view = new VBox(5);
+		view = new VBox(5);
 		view.getChildren().addAll(stNum(), stName(), city(), state(), zipcode());
 		employeeUpdateInfo();
 		return view;
@@ -84,7 +88,7 @@ public class PaneForAddress {
 	}
 	
 	private VBox view(){
-		VBox view = new VBox(5);
+		view = new VBox(5);
 		view.getChildren().addAll(stNum(), stName(), city(), state(), zipcode());
 		return view;
 	}
@@ -129,6 +133,30 @@ public class PaneForAddress {
 		zipcodeField = new TextField();
 		zipcode.getChildren().addAll(zipcodeLabel, zipcodeField);
 		return zipcode;
+	}
+	
+	private void error(String message){
+		if(view.getChildren().contains(error)){
+			error.setText(message);
+		} else {
+			error = new Label(message);
+			error.setTextFill(Color.web("#FF0000"));
+			view.getChildren().add(error);
+		}
+	}
+	
+	public boolean testFields(){
+		if(numField.getText().isEmpty() ||
+				nameField.getText().isEmpty() ||
+				cityField.getText().isEmpty() ||
+				stateField.getSelectionModel().isEmpty() ||
+				zipcodeField.getText().isEmpty()){
+			
+			error("Must Enter All Fields!");
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void saveInfo(){

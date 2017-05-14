@@ -77,8 +77,8 @@ public class UsersBag{
 			fileInStream.close();
 			}
 		} catch(IOException ioe) {
-			//System.out.println("File is empty");
-			ioe.printStackTrace();	
+//			System.out.println("File is empty");
+//			ioe.printStackTrace();	
 		}
 			
 	}

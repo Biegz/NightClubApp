@@ -1,6 +1,7 @@
 package controller;
 
-import java.time.LocalDate;
+import java.util.Observable;
+import java.util.Observer;
 
 import javafx.scene.Node;
 import javafx.scene.text.Text;
@@ -9,12 +10,9 @@ import model.model4User.model4Customer.Customer;
 import view.MainWindow;
 import view.Pane4Event;
 import view.Pane4EventCreation;
-import view.Pane4Payment;
-import view.Pane4Receipt;
 import view.Pane4Table;
-import view.Pane4TablesTickets;
 
-public class TableController {
+public class TableController implements Observer{
 
 	private Pane4Table view;
 	private Pane4Event view2;
@@ -27,9 +25,6 @@ public class TableController {
 			this.view = view;
 			this.view2 = new Pane4Event();
 			expandEventController = new ExpandEventController(view2);
-			
-			
-			System.out.println("In the controller!");
 			
 			view.setPane4EventListener(new Pane4EventListener() {
 				
@@ -56,8 +51,7 @@ public class TableController {
 		}
 		
 		private void customerSelectedTheEvent(){
-
-			modelEvent = Current.getEvent();
+			modelEvent.addObserver(this);
 			System.out.println("Im a customer and id like to buy a ticket");
 			Current.setEvent(modelEvent);
 			System.out.println(modelEvent.getTicketsAvailable());
@@ -71,14 +65,14 @@ public class TableController {
 		}
 		
 		private void ownerSelectedTheEvent(){
+			modelEvent.addObserver(this);
 			Pane4EventCreation pane = new Pane4EventCreation();
 			MainWindow.setCenter(pane.getUpdatePane());
 
 		}
 		
 		private void businessSelectedTheEvent(){
-
-			modelEvent = Current.getEvent();
+			modelEvent.addObserver(this);
 			System.out.println("Im a business and id like to view my competitors event");
 			Current.setEvent(modelEvent);
 			System.out.println(modelEvent.getTicketsAvailable());
@@ -97,4 +91,27 @@ public class TableController {
 		private void displayEvent(Node n1) {
 			MainWindow.setCenter(view2.gridPane(n1));
 		}
+
+		@Override
+		public void update(Observable event, Object arg1) {
+			redisplay();
+		}
+		
+		private void redisplay(){
+			if (Current.getUser() instanceof Customer){
+				//If user is a customer
+				customerSelectedTheEvent();
+			} else {
+				if(Current.getBusiness().getUsername().equals(modelEvent.getBusiness().getUsername())){
+					//if user is a business and owns the event
+					ownerSelectedTheEvent();
+					
+				} else {
+					//if user is a business and does NOT own the event
+					businessSelectedTheEvent();
+
+				}
+			}
+		}
+		
 }

@@ -61,10 +61,14 @@ public class Event extends Observable implements Serializable {
 
 	public void setTicketsAvailable(int ticketsAvailable) {
 		this.ticketsAvailable = ticketsAvailable;
+		setChanged();
+		notifyObservers();
 	}
 
 	public void setTablesAvailable(int tablesAvailable) {
 		this.tablesAvailable = tablesAvailable;
+		setChanged();
+		notifyObservers();
 	}
 
 	public String getEventName() {

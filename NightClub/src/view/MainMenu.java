@@ -1,6 +1,7 @@
 package view;
 
 import controller.Current;
+import controller.CustomerTicketProcessing;
 import controller.CustomerAccountController;
 import controller.EventController;
 import controller.MenuController;
@@ -66,7 +67,7 @@ public class MainMenu {
 
 	private Menu customerSettings() {
 		Menu settings = new Menu("Settings");
-		settings.getItems().addAll(customerEditAccount(), logOut());
+		settings.getItems().addAll(customerEditAccount(), simulate(), logOut());
 		return settings;
 	}
 
@@ -90,8 +91,19 @@ public class MainMenu {
 	
 	
 	
-	//-------------------------Menu Items For Both------------------------------------
+	//-------------------------Menu Items------------------------------------
 
+	private MenuItem simulate(){
+		MenuItem simulate = new MenuItem("Simulate Ticket Being Bought");
+
+		simulate.setOnAction(e -> {
+			CustomerTicketProcessing pro = new CustomerTicketProcessing(Current.getEvent());
+			pro.buyTicket(1, Current.getCustomer(), Current.getEvent(), Current.getEvent().getBusiness());
+		});
+
+		return simulate;
+	}
+	
 	private MenuItem logOut() {
 		MenuItem logOut = new MenuItem("  Log Out ");
 
@@ -139,10 +151,7 @@ public class MainMenu {
 		return allEvents;
 		
 	}
-	
-	
-	
-	// ------------------------Menu Items For Customer-----------------------------------
+
 	private MenuItem customerEditAccount() {
 		CustomerHLPane pane = new CustomerHLPane();
 		CustomerAccountController controller = new CustomerAccountController(pane);
@@ -216,6 +225,7 @@ public class MainMenu {
 	
 	
 	//-----------------------------Menu Items for Business-----------------------
+
 
 	private MenuItem businessEditAccount() {
 		MenuItem editAccount = new MenuItem("  My Account ");

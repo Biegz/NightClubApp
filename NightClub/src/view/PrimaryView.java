@@ -39,11 +39,13 @@ public class PrimaryView {
 		return primaryPane;
 	}
 
+	//changes center to whatever node you give it
 	public static void changePane(Node node){
 		primaryPane.getChildren().clear();
 		primaryPane.setCenter(node);
 	}
 
+	//Sets whatever node you give it to the center of the screen
 	public static void anchor(Node node){
 		primaryPane.getChildren().clear();
 		AnchorPane anchor = new AnchorPane();

@@ -21,6 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import model.UsersBag;
 
 public class PaneForRegister {
 
@@ -31,31 +33,31 @@ public class PaneForRegister {
 	private ToggleGroup group;
 	private RadioButton customerBtn;
 	private RadioButton establishmentBtn;
-	private Label exceptionLabel;
+	private Label exceptionLabel = new Label();
 	private PrimaryView primaryView;
 
 	public PaneForRegister() {
 		registerPane = new HBox();
 	}
 
-	public Pane getPane() {
+	public Pane getPane(Node n) {
 		registerPane.setPadding(new Insets(145, 0, 0, 290));
-		registerPane.getChildren().add(registerBox());
+		registerPane.getChildren().add(registerBox(n));
 		
 		return registerPane;
 	}
 
-	private VBox registerBox() {
+	private VBox registerBox(Node n) {
 		BackButton back = new BackButton();
 		VBox registerBox = new VBox(5);
 		registerBox.getChildren().addAll(userInfoQuery(), passwordQuery(), rePasswordQuery(), userSelect(),
-				continueButton(), exceptionLabel(), back.getButton());
+				continueButton(), n, back.getButton());
 		registerBox.setPadding(new Insets(5));
 		return registerBox;
 	}
 
 	private HBox userInfoQuery() {
-		Label userLabel = new Label("Username:\t\t\t");
+		Label userLabel = new Label("Username:\t\t");
 		userField = new TextField();
 		HBox userInfoQuery = new HBox();
 		userInfoQuery.getChildren().addAll(userLabel, userField);
@@ -99,41 +101,51 @@ public class PaneForRegister {
 		return userSelect;
 	}
 
-	private Label exceptionLabel() {
-		exceptionLabel = new Label();
-			return exceptionLabel;
-	}
-
 	private Button continueButton() {
 		Button continueButton = new Button("Continue");
 
 		continueButton.setOnAction(e -> {
 
-			if (userField.getText() == null || userField.getText().trim().isEmpty()) {
-				exceptionLabel.setTextFill(Color.web("#FF0000"));
-				exceptionLabel.setText("Must enter a username!\n");
-
-			} else if ((passwordField1.getText() == null) || passwordField1.getText().trim().isEmpty()
-					|| passwordField2.getText().trim().isEmpty() || (passwordField2.getText() == null)){
-				exceptionLabel.setTextFill(Color.web("#FF0000"));
-				exceptionLabel.setText("Must enter a password!\n");
-
-			} else if (!(passwordField1.getText().equals(passwordField2.getText()))) {
-				exceptionLabel.setTextFill(Color.web("#FF0000"));
-				exceptionLabel.setText("Passwords must match!");
-			} else {
-
+			if (testFields()) {
 				if (group.getSelectedToggle().equals(establishmentBtn)){
 					setBusinessView();
 				} else {
 					setCustomerView();
 				}
-
-		    }
-
+			}
 		});
 
 		return continueButton;
+	}
+	
+	private boolean testFields(){
+		if (userField.getText() == null || userField.getText().trim().isEmpty()) {
+			error("Must enter a username!");
+			return false;
+			
+		} else if(UsersBag.search(userField.getText()) != null){
+			error("Username already exists!");
+			return false;
+			
+		} else if ((passwordField1.getText() == null) || passwordField1.getText().trim().isEmpty()
+				|| passwordField2.getText().trim().isEmpty() || (passwordField2.getText() == null)){
+			error("Must enter a password!");
+			return false;
+
+		} else if (!(passwordField1.getText().equals(passwordField2.getText()))) {
+			error("Passwords must match!");
+			return false;
+			
+		}
+		return true;
+	}
+	
+	private void error(String message){
+		exceptionLabel.setTextFill(Color.web("#FF0000"));
+		exceptionLabel.setText(message);
+		PaneForRegister registerPane = new PaneForRegister();
+		PrimaryView.primaryPane.getChildren().clear();
+		PrimaryView.primaryPane.setCenter(registerPane.getPane(exceptionLabel));
 	}
 
 	public void setCustomerView(){

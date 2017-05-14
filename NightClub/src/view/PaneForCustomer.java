@@ -1,5 +1,7 @@
 package view;
 
+import java.time.LocalDate;
+
 import controller.Current;
 import controller.IO;
 import controller.MenuController;
@@ -7,11 +9,13 @@ import controller.SignInUp;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import model.Genre;
 
 public class PaneForCustomer {
@@ -19,12 +23,14 @@ public class PaneForCustomer {
 	private HBox customerPane;
 	public static TextField firstField;
 	public static TextField lastField;
-	public static TextField ageField;
+	public static DatePicker birthdayField;
 	public static TextField genderField;
 	public static ComboBox<Genre> genreBox;
 	private String username;
 	private String password;
 	private static PaneForUser user = new PaneForUser();
+	private Label error;
+	private VBox view;
 
 	public PaneForCustomer(String username, String password) {
 		this.username = username;
@@ -56,20 +62,29 @@ public class PaneForCustomer {
 	}
 
 	private VBox updateView() {
-		VBox updateView = new VBox(5);
-		updateView.getChildren().addAll(user.getUpdatePane(), first(), last(), age(), 
+		view = new VBox(5);
+		view.getChildren().addAll(user.getUpdatePane(), first(), last(), birthday(), 
 				gender(), genre(), updateButton());
-		updateView.setPadding(new Insets(5));
+		view.setPadding(new Insets(5));
 		updateTextFields();
-		return updateView;
+		return view;
 	}
 
 	private VBox view() {
-		VBox view = new VBox(5);
-		view.getChildren().addAll(user.getCreatePane(), first(), last(), age(), gender(), 
+		view = new VBox(5);
+		view.getChildren().addAll(user.getCreatePane(), first(), last(), birthday(), gender(), 
 				genre(), registerButton());
 		view.setPadding(new Insets(5));
 		return view;
+	}
+	
+	private HBox birthday(){
+		HBox hbox = new HBox(5);
+		birthdayField = new DatePicker();
+		birthdayField.setPromptText("Select a date");
+		birthdayField.setValue(LocalDate.now().minusYears(18));
+		hbox.getChildren().addAll(birthdayField);
+		return hbox;
 	}
 	
 	private HBox genre(){
@@ -97,13 +112,13 @@ public class PaneForCustomer {
 		return last;
 	}
 
-	private HBox age() {
-		HBox age = new HBox(5);
-		Label ageLabel = new Label("Age:\t\t\t\t");
-		ageField = new TextField();
-		age.getChildren().addAll(ageLabel, ageField);
-		return age;
-	}
+//	private HBox age() {
+//		HBox age = new HBox(5);
+//		Label ageLabel = new Label("Age:\t\t\t\t");
+//		ageField = new TextField();
+//		age.getChildren().addAll(ageLabel, ageField);
+//		return age;
+//	}
 
 	private HBox gender() {
 		HBox gender = new HBox(5);
@@ -113,10 +128,20 @@ public class PaneForCustomer {
 		return gender;
 	}
 	
+	private void error(String message){
+		if(view.getChildren().contains(error)){
+			error.setText(message);
+		} else {
+			error = new Label(message);
+			error.setTextFill(Color.web("#FF0000"));
+			view.getChildren().add(error);
+		}
+	}
+	
 	private void updateTextFields(){
 		firstField.setText(Current.getCustomer().getFirstName());
 		lastField.setText(Current.getCustomer().getLastName());
-		ageField.setText(Integer.toString(Current.getCustomer().getAge()));
+		birthdayField.setValue(Current.getCustomer().getBirthday());
 		genderField.setText(Current.getCustomer().getGender());
 		genreBox.getSelectionModel().select(Current.getCustomer().getFavGenre());
 	}
@@ -125,9 +150,11 @@ public class PaneForCustomer {
 		Button registerButton = new Button("Register");
 
 		registerButton.setOnAction(e -> {
-			SignInUp register = new SignInUp();
-			MenuController menuController = new MenuController(register);
-			register.registerCustomer(username, password);
+			if(testFields()){
+				SignInUp register = new SignInUp();
+				MenuController menuController = new MenuController(register);
+				register.registerCustomer(username, password);
+			}
 		});
 
 		return registerButton;
@@ -137,9 +164,11 @@ public class PaneForCustomer {
 		Button updateButton = new Button("Update");
 		
 		updateButton.setOnAction(e ->{
-			saveIt();
-			MainWindow main = new MainWindow();
-			PrimaryView.changePane(main.getCustomerWindow());
+			if(testFields()){
+				saveIt();
+				MainWindow main = new MainWindow();
+				PrimaryView.changePane(main.getCustomerWindow());
+			}
 		});
 		
 		return updateButton;
@@ -149,13 +178,33 @@ public class PaneForCustomer {
 		user.saveIt();
 		Current.getCustomer().setFirstName(firstField.getText());
 		Current.getCustomer().setLastName(lastField.getText());
-		Current.getCustomer().setAge(Integer.parseInt(ageField.getText()));
 		Current.getCustomer().setGender(genderField.getText());
 		Current.getCustomer().setFavGenre(genreBox.getSelectionModel().getSelectedItem());
+		Current.getCustomer().setBirthday(birthdayField.getValue());
 		IO.saveUsers();
+		
 	}
 	
 	public static PaneForUser getUser(){
 		return user;
+	}
+	
+	public Boolean testFields(){
+		if(user.testFields() || 
+				firstField.getText().isEmpty() || 
+				lastField.getText().isEmpty() ||
+				genderField.getText().isEmpty() ||
+				genreBox.getSelectionModel().isEmpty()){
+			error("Must Enter All Fields!");
+			return false;
+		} else if(birthdayField.getValue().isAfter(LocalDate.now())) {
+			error("Your Birthday Cannot Be In The Future!");
+			return false;
+		} else if(birthdayField.getValue().isAfter(LocalDate.now().minusYears(18))){
+			error("Must Be 18 Years or Older!");
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

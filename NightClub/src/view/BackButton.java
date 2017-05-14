@@ -16,7 +16,10 @@ public class BackButton {
 	public Button getButton(){
 		back = new Button("Back");
 		back.setOnAction(e -> {
-			PrimaryView.anchor(previous);;
+			
+			//Sets the pane to what the previous pane was
+			PrimaryView.anchor(previous);
+			
 		});
 		return back;
 	}

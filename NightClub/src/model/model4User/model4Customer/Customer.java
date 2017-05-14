@@ -1,5 +1,6 @@
 package model.model4User.model4Customer;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.scene.layout.Pane;
@@ -14,19 +15,29 @@ public class Customer extends User {
 	private String firstName;
 	private String lastName;
 	private Genre favGenre;
-	private int age;
+	private long age;
 	private String gender;
 	private ArrayList<Ticket> tickets;
 	private ArrayList<Table> tables;
 	private ArrayList<Event> myEvents;
 	private double balance;
 	private Pane recommendation;
+	private LocalDate birthday;
 
 	public Customer(String username, double passwordHash) {
 		super(username, passwordHash);
 		tickets = new ArrayList<Ticket>();
 		tables = new ArrayList<Table>();
 		myEvents = new ArrayList<Event>();
+	}
+	
+	public LocalDate getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(LocalDate birthday) {
+		this.birthday = birthday;
+		age = (LocalDate.now().minusYears(birthday.getYear()	).getYear()	);
 	}
 
 	public Pane getRecommendation() {
@@ -61,12 +72,8 @@ public class Customer extends User {
 		this.favGenre = favGenre;
 	}
 
-	public int getAge() {
+	public long getAge() {
 		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
 	}
 
 	public String getGender() {
