@@ -2,6 +2,7 @@ package view;
 
 import controller.Current;
 import controller.IO;
+import controller.MenuController;
 import controller.SignInUp;
 
 import javafx.geometry.Insets;
@@ -77,6 +78,8 @@ public class PaneForBusiness {
 
 		registerButton.setOnAction(e -> {
 			SignInUp register = new SignInUp();
+			MenuController menuController = new MenuController(register);
+
 			register.registerBusiness(username, password);
 		});
 

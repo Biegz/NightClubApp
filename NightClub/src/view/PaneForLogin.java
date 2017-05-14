@@ -3,7 +3,7 @@ package view;
 import java.io.File;
 
 import controller.Current;
-
+import controller.MenuController;
 import controller.SignInUp;
 import controller.TableListener;
 import controller.tableEvents.MyEventsMenuEvent;
@@ -131,11 +131,10 @@ public class PaneForLogin {
 			@Override public void handle(ActionEvent e){
 				Current.setPreviousPane(loginPane);
 				SignInUp login = new SignInUp();
+				MenuController menuController = new MenuController(login);
 				try {
 					login.login(userField.getText(), passwordField.getText());
-					if(tableListener!= null){
-						tableListener.allEventsLogin();
-					}
+
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -146,6 +145,4 @@ public class PaneForLogin {
 		return loginButton;
 	}
 	
-	public void setTableListener(TableListener login){
-		this.tableListener = login;
-	}}
+}

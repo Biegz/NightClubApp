@@ -65,6 +65,8 @@ public class Pane4Table {
 
 		eventsTable.setEditable(false);
 		eventsTable.setMaxHeight(400);
+		eventsTable.setMaxWidth(250);
+
 		eventsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		eventsTable.getColumns().addAll(getDateColumn(), getEventNameColumn());
 		eventsTable.setItems(events);
@@ -96,7 +98,7 @@ public class Pane4Table {
 		myEventsTable = new TableView<Event>();
 		myEventsTable.setEditable(false);
 		myEventsTable.setMaxHeight(400);
-		myEventsTable.setMaxWidth(200);
+		myEventsTable.setMaxWidth(250);
 		myEventsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		myEventsTable.getColumns().addAll(getDateColumn(), getEventNameColumn());//, getCostColumn());
 		myEventsTable.setItems(myEvents);

@@ -18,7 +18,7 @@ public class PrimaryView {
 	public static Scene primaryScene;
 	public static BorderPane primaryPane;
 	private PaneForLogin loginPane = new PaneForLogin();
-	private MenuController controller = new MenuController(loginPane);
+//	private MenuController controller = new MenuController(loginPane);
 
 	public PrimaryView(Stage primaryStage){
 		PrimaryView.primaryStage = primaryStage;

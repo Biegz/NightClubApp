@@ -20,7 +20,7 @@ public class MainMenu {
 	private final String gear = "\u26ed";
 	
 	private TableListener tableListener;
-
+	private Pane4EventCreation pane4EventCreation;
 	public MainMenu() {
 
 	}
@@ -253,7 +253,7 @@ public class MainMenu {
 	}
 	
 	private MenuItem getCreateEvent() {
-		Pane4EventCreation pane4EventCreation = new Pane4EventCreation();
+		pane4EventCreation = new Pane4EventCreation();
 		EventController controller = new EventController(pane4EventCreation);
 
 		MenuItem createEvent = new MenuItem("  Create Event ");

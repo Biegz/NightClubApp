@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 
 import controller.EventController;
+import controller.EventsListener;
 import controller.ExpandEventController;
 import controller.MenuController;
 import controller.TableController;
@@ -13,28 +14,29 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class MainWindow {
 	
-	private static BorderPane mainWindow;
-	
+	private static BorderPane mainWindow = new BorderPane();
 
 	public MainWindow() {
-		mainWindow = new BorderPane();
 	}
 
-	public BorderPane getCustomerWindow() {
+	public static BorderPane getCustomerWindow() {
 		Pane4Events eventPane = new Pane4Events();
 		MainMenu menuBar = new MainMenu();
 		MenuController controller = new MenuController(menuBar);
+		mainWindow.setRight(null);
 		mainWindow.setTop(menuBar.getCustomerMenuBar());
 		return mainWindow;
 	}
 	
-	public BorderPane getBusinessWindow() {
+	public static BorderPane getBusinessWindow() {
 		Pane4Events events = new Pane4Events();
 		MainMenu menuBar = new MainMenu();
 		MenuController controller = new MenuController(menuBar);
+		mainWindow.setRight(null);
 		mainWindow.setTop(menuBar.getBusinessMenuBar());
 		return mainWindow;
 	}
@@ -66,6 +68,5 @@ public class MainWindow {
 		return mainWindow;
 	}
 	
-
 
 }

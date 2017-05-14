@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.scene.control.Label; 
+
 import model.Event;
 import model.EventsBag;
 import model.model4Address.Address;
@@ -22,7 +23,6 @@ public class EventController {
 	public EventController(Pane4EventCreation view) {
 		this.view = view;
 
-		System.out.println("In the controller");
 		view.setEventsListener(new EventsListener() {
 			@Override
 			public void createButtonClicked(CreateButtonEvent ev) {
@@ -55,9 +55,10 @@ public class EventController {
 				modelBag.save();
 				
 				// change mainpain.setcenter 
+				
 				emptyPane();
 				showEvent();
-
+				IO.saveAll();
 			
 		
 			

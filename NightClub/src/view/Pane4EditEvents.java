@@ -112,8 +112,6 @@ public class Pane4EditEvents {
 			
 //			eventsBag.add(ev.getEvent());
 //			eventsBag.save();
-			
-			
 
 		});
 		return createEventButton;

@@ -15,8 +15,10 @@ import view.PrimaryView;
 
 public class SignInUp {
 
-	public SignInUp() {
+	private static TableListener tableListener;
 
+	public SignInUp() {
+		
 	}
 
 	public static void login(String username, String password) throws ClassNotFoundException {
@@ -26,9 +28,20 @@ public class SignInUp {
 			if (logger.getPasswordHash() == hash(password)) {
 				Current.setUser(logger);
 				if (Current.getUser() instanceof Business) {
-					showBusinessMainMenu();
+					if(tableListener!= null){
+						System.out.println("not Null for login");
+						tableListener.allEventsLogin();
+					}
+					PrimaryView.changePane(MainWindow.getBusinessWindow());
+					//showBusinessMainMenu();
 				} else if (Current.getUser() instanceof Customer) {
-					showCustomerMainMenu();
+					if(tableListener!= null){
+						System.out.println("not Null for login");
+						tableListener.allEventsLogin();
+					}
+					PrimaryView.changePane(MainWindow.getCustomerWindow());
+
+					//showCustomerMainMenu();
 				}
 			} else {
 				System.out.println("wrong password");
@@ -45,6 +58,10 @@ public class SignInUp {
 		created.setAddress(getAddress());
 		
 		saveUser(created);
+		if(tableListener!= null){
+			System.out.println("not Null for login");
+			tableListener.allEventsLogin();
+		}
 		showBusinessMainMenu();
 	}
 
@@ -58,6 +75,10 @@ public class SignInUp {
 		created.setAge(getAge());
 		created.setAddress(getAddress());
 		saveUser(created);
+		if(tableListener!= null){
+			System.out.println("not Null for login");
+			tableListener.allEventsLogin();
+		}
 		showCustomerMainMenu();
 	}
 
@@ -78,13 +99,11 @@ public class SignInUp {
 	}
 
 	private static void showCustomerMainMenu() {
-		MainWindow mainWindow = new MainWindow();
-		PrimaryView.changePane(mainWindow.getCustomerWindow());
+		PrimaryView.changePane(MainWindow.getCustomerWindow());
 	}
 
 	private static void showBusinessMainMenu() {
-		MainWindow mainWindow = new MainWindow();
-		PrimaryView.changePane(mainWindow.getBusinessWindow());
+		PrimaryView.changePane(MainWindow.getBusinessWindow());
 	}
 
 	public static int getAge() throws NumberFormatException {
@@ -105,5 +124,10 @@ public class SignInUp {
 		}
 		return hash;
 	}
-}
+	
+	public void setTableListener(TableListener login){
+		this.tableListener = login;
+		}
+	}
+
 

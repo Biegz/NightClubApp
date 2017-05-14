@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.Event;
+import model.EventsBag;
 import model.Genre;
 import model.model4Address.Address;
 
@@ -57,13 +58,14 @@ public class Pane4EventCreation {
 	List<String> stateList = new ArrayList<String>(Arrays.asList(stateArr));
 	public Pane4EventCreation(){
 		eventCreationPane = new Pane(); 
+		
 	}
 	
 	
 	//-----------------------------Data Panes--------------------------------------------------------------
 	
 	public VBox getCreatePane() {
-		 Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
+		// Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
 		 //EventController controller = new EventController(pane4EditEvents);
 		
 
@@ -97,8 +99,6 @@ public class Pane4EventCreation {
 	public Button getCreateEventButton(){
 		//myEvents = FXCollections.observableArrayList(EventsBag.events);//Could not get the current business' events list to print (tried getEventsList from business model)
 
-		
-	
 		createEventButton = new Button("Create Event");
 		createEventButton.setOnAction(e ->{
 			CreateButtonEvent ev = new CreateButtonEvent(this, new Event(
@@ -110,8 +110,8 @@ public class Pane4EventCreation {
 				eventsListener.createButtonClicked(ev);
 			}
 			
-//			eventsBag.add(ev.getEvent());
-//			eventsBag.save();
+			EventsBag.add(ev.getEvent());
+			EventsBag.save();
 			
 			
 

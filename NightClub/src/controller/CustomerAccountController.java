@@ -2,9 +2,12 @@ package controller;
 
 import controller.tableEvents.PastEvent;
 import controller.tableEvents.UpcomingEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import model.model4User.model4Customer.Customer;
 import view.CustomerHLPane;
 import view.MainWindow;
@@ -30,13 +33,15 @@ public class CustomerAccountController {
 		public void upcomingEventsClicked(UpcomingEvent ev) {
 			modelCustomer = ev.getCustomer();
 			view2.setMyEventsTable(translator.getMyUpcomingEvents(modelCustomer));
-			displayEvents(view2.getMyEventsTable());
+			Label upcoming = new Label("My Upcoming Events");
+			displayEvents(view2.getMyEventsTable(), upcoming);
 		}
 		
 		public void pastEventsClicked(PastEvent ev){
 			modelCustomer = ev.getCustomer();
 			view2.setMyEventsTable(translator.getMyPastEvents(modelCustomer));
-			displayEvents(view2.getMyEventsTable());
+			Label past = new Label("My Past Events");
+			displayEvents(view2.getMyEventsTable(), past);
 		}
 		
 //		public void editAccountClicked(EditAccountEvent ev){
@@ -50,10 +55,18 @@ public class CustomerAccountController {
 	
 }	
 
-public void displayEvents(Node temp) {
+public void displayEvents(Node temp, Label temp2) {
 	VBox pane = new VBox();
-	pane.getChildren().add(temp);
-	pane.setAlignment(Pos.TOP_LEFT);
+	VBox headerPane = new VBox();
+	
+	temp2.setFont(new Font(32));
+	headerPane.getChildren().addAll(temp2);
+	headerPane.setAlignment(Pos.TOP_CENTER);
+	pane.setSpacing(5);
+	pane.setPadding(new Insets(7.5, 0, 0, 0));
+	pane.getChildren().addAll(headerPane, temp);
+	
+	
 	MainWindow.setLeft(pane);
 }
 

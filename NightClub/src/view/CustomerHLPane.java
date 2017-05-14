@@ -1,6 +1,6 @@
 package view;
 
-import controller.Current;
+import controller.Current; 
 import controller.TableListener;
 import controller.tableEvents.PastEvent;
 import controller.tableEvents.UpcomingEvent;
@@ -25,13 +25,15 @@ public class CustomerHLPane {
 	private TableListener tableListener;
 
 	public Pane getHyperlinkPane() {
+		pane1.getChildren().clear();
 		pane1.getChildren().addAll(getEditAccountHl(), getUpcomingEventsHl(), getPastEventsHl());
-		main.getChildren().addAll(pane1);
+//		MainWindow.setCenter(null);
+//		main.getChildren().add(pane1);
+//
+//		main.setBorder(
+//				new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
 
-		main.setBorder(
-				new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
-
-		return main;
+		return pane1;
 
 	}
 	
@@ -89,7 +91,7 @@ public class CustomerHLPane {
 		return pastEventsHl;
 	}
 	
-	public void setTableListener(TableListener hl){
+	public void setTableListener(TableListener hl) {
 		this.tableListener = hl;
 	}
 	
