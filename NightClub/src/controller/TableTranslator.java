@@ -16,6 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.Event;
 import model.EventsBag;
+import model.model4User.model4Customer.Customer;
+import model.model4User.model4Establishment.Business;
 import view.MainWindow;
 import view.Pane4Table;
 
@@ -26,30 +28,68 @@ public class TableTranslator {
 	private Pane4EventListener pane4EventListener;
 	private Pane4Table view;
 	private EventsBag eventsBag;
+	private Customer customer;
+	public ArrayList<Event> masterList;
 	// private PaneForTable pane;
 
 	public TableTranslator() {
-
 	}
 
-	public void getAllEvents(Pane4Table view) {
-		this.view = view;
-		view.Pane4Table(eventsBag.events);
-		// MainWindow.setCenter(pane.show(eventsTable));
+	public ArrayList<Event> getAllEvents() {
+		masterList = EventsBag.events;
+		return masterList;
 	}
 
-	public void getMyEvents(Pane4Table view) {
-		this.view = view;
-		view.Pane4Table(eventsBag.getCurrentBusinessEvents());
+	public ArrayList<Event>  getMyEvents(Business business) {
+		masterList = new ArrayList<>();
+		for(Event ev : eventsBag.events){
+			if(ev.getBusiness().getUsername().equals(business.getUsername())){
+				masterList.add(ev);
+			}
+		}
+		return masterList;
 	}
 
-	public void getByZip15(Pane4Table view) {
-		this.view = view;
-		view.Pane4Table(eventsBag.getEventsWithin15());
+	public ArrayList<Event>  getByZip15(Customer customer) {
+		masterList = new ArrayList<>();
+		for(Event e : eventsBag.events){
+			if(e.getAddress().getZipcode().charAt(2) == customer.getAddress().getZipcode().charAt(2)){
+				masterList.add(e);			
+				}
+		}
+		return masterList;
 	}
 	
-	public void getByZip50(Pane4Table view) {
-		this.view = view;
-		view.Pane4Table(eventsBag.getEventsWithin50());
+	public ArrayList<Event>  getByZip50(Customer customer) {
+		masterList = new ArrayList<>();
+		for(Event e: eventsBag.events){
+			if(e.getAddress().getZipcode().charAt(1) == customer.getAddress().getZipcode().charAt(1)){
+				masterList.add(e);
+			}
+		}
+		return masterList;
+	}
+	
+	
+	
+	
+	public ArrayList<Event> getMyUpcomingEvents(Customer customer) {
+		masterList = new ArrayList<>();
+		for(Event e: customer.getEventList()) {
+			if(e.getDate().isAfter(LocalDate.now())) {
+				masterList.add(e);
+			}
+		}
+		return masterList;
+	}
+	
+	public ArrayList<Event> getMyPastEvents(Customer customer) {
+		masterList = new ArrayList<>();
+		for(Event e: customer.getEventList()) {
+			if(e.getDate().isBefore(LocalDate.now())) {
+				masterList.add(e);
+			}
+		}
+		return masterList;
 	}
 }

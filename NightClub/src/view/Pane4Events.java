@@ -1,5 +1,6 @@
 package view;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import controller.TableController;
 import controller.TableTranslator;
@@ -19,7 +20,7 @@ public class Pane4Events {
 		
 	}
 	
-	public Pane getPane4AllEvents(){
+	public Pane getPane4AllEvents(Node temp){
 		pane1 = new HBox();
 		pane2 = new VBox();
 		VBox headerPane = new VBox();
@@ -27,16 +28,16 @@ public class Pane4Events {
 		Pane4Table table = new Pane4Table();
 		TableTranslator filter = new TableTranslator();
 		TableController controller = new TableController(table);
+		
 		Label header = new Label("All Events");
 		header.setFont(new Font(32));
 		headerPane.getChildren().addAll(header);
 		headerPane.setAlignment(Pos.TOP_CENTER);
 		
 		
-		filter.getAllEvents(table);
 		
 		pane2.setSpacing(5);
-		pane2.getChildren().addAll(headerPane, table.getTable());
+		pane2.getChildren().addAll(headerPane, table.getTable(temp));
 		pane1.getChildren().addAll(pane2);
 		pane1.setPadding(new Insets(7.5,0,0,0));
 		
@@ -52,13 +53,13 @@ public class Pane4Events {
 		Pane4Table table = new Pane4Table();
 		TableTranslator filter = new TableTranslator();
 		TableController controller = new TableController(table);
-		Label header = new Label("MY Events");
+		Label header = new Label("My Events");
 		header.setFont(new Font(32));
 		headerPane.getChildren().addAll(header);
 		headerPane.setAlignment(Pos.TOP_CENTER);
 		
 		
-		filter.getMyEvents(table);
+		//filter.getMyEvents(table);
 		
 		pane2.setSpacing(5);
 		pane2.getChildren().addAll(headerPane, table.getTable(), delete.getDeleteButton());
@@ -82,7 +83,7 @@ public class Pane4Events {
 		headerPane.setAlignment(Pos.TOP_CENTER);
 		
 		
-		filter.getByZip15(table);
+		//filter.getByZip15(table);
 		
 		pane2.setSpacing(5);
 		pane2.getChildren().addAll(headerPane, table.getTable());
@@ -106,7 +107,7 @@ public class Pane4Events {
 		headerPane.setAlignment(Pos.TOP_CENTER);
 		
 		
-		filter.getByZip50(table);
+		//filter.getByZip50(table);
 		
 		pane2.setSpacing(5);
 		pane2.getChildren().addAll(headerPane, table.getTable());

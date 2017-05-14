@@ -53,10 +53,10 @@ public class Pane4Event {
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
 		gridPane.setPadding(new Insets(10,10,10,10));
-		gridPane.add(eventName, 0, 0);
-		gridPane.add(date,0,2);
+		gridPane.add(getEventName(), 0, 0);
+		gridPane.add(getDate(),0,2);
 		gridPane.add(genre(), 0, 4);
-		gridPane.add(image, 0, 6);
+		gridPane.add(getImage(), 0, 6);
 		gridPane.add(ticketPane(n1), 0, 6);
 		return gridPane;
 	}
@@ -114,13 +114,13 @@ public class Pane4Event {
 	}
 	
 	public ImageView getImage() {
-		ImageView image = new ImageView(new Image("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg"));
+		//ImageView image = new ImageView(new Image("http://www.thegarden.com/content/dam/msg/eventImg3/Liberty_201718_328x253.jpg"));
 		return image;
 	}
 
-	public void setImageView(String st) {
-		this.image = new ImageView(new Image(st));
-	}
+//	public void setImageView(String st) {
+//		this.image = new ImageView(new Image(st));
+//	}
 	
 	public void setImage(Image image){
 		this.image = new ImageView(image);
