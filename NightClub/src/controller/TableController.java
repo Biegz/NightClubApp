@@ -3,9 +3,16 @@ package controller;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Event;
+import model.EventsBag;
 import model.model4User.model4Customer.Customer;
 import view.MainWindow;
 import view.Pane4Event;
@@ -16,7 +23,11 @@ public class TableController implements Observer{
 
 	private Pane4Table view;
 	private Pane4Event view2;
+	
+	private TableListener tableListener;
+	
 	private Event modelEvent;
+	private EventsBag modelBag;
 	private ExpandEventController expandEventController;
 	
 	
@@ -24,6 +35,7 @@ public class TableController implements Observer{
 		public TableController(Pane4Table view) {
 			this.view = view;
 			this.view2 = new Pane4Event();
+			
 			expandEventController = new ExpandEventController(view2);
 			
 			view.setPane4EventListener(new Pane4EventListener() {
@@ -38,7 +50,7 @@ public class TableController implements Observer{
 						if(Current.getBusiness().getUsername().equals(modelEvent.getBusiness().getUsername())){
 							//if user is a business and owns the event
 							ownerSelectedTheEvent();
-							
+	
 						} else {
 							//if user is a business and does NOT own the event
 							businessSelectedTheEvent();
@@ -67,6 +79,7 @@ public class TableController implements Observer{
 		private void ownerSelectedTheEvent(){
 			modelEvent.addObserver(this);
 			Pane4EventCreation pane = new Pane4EventCreation();
+			MenuController controller = new MenuController(pane);
 			MainWindow.setCenter(pane.getUpdatePane());
 
 		}
@@ -84,9 +97,9 @@ public class TableController implements Observer{
 			view2.setGenre(modelEvent.getGenre());
 			displayEvent(new Text(""));
 
-
-
 		}
+		
+
 		
 		private void displayEvent(Node n1) {
 			MainWindow.setCenter(view2.gridPane(n1));
@@ -113,5 +126,4 @@ public class TableController implements Observer{
 				}
 			}
 		}
-		
 }

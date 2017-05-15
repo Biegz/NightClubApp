@@ -2,6 +2,7 @@ package view;
 
 import java.util.List;
 
+import controller.CustomerAccountController;
 import controller.EventController;
 import controller.EventsListener;
 import controller.ExpandEventController;

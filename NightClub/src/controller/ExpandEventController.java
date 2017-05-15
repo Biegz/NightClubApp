@@ -22,6 +22,7 @@ import model.Ticket;
 import model.model4User.model4Customer.Customer;
 import model.model4User.model4Establishment.Business;
 import view.CustomerHLPane;
+import view.MainMenu;
 import view.MainWindow;
 import view.Pane4Event;
 import view.Pane4MyItems;
@@ -44,18 +45,19 @@ public class ExpandEventController implements Observer{
 	private Pane4Table view7;
 	//private Pane4TicketsView view7;
 	private Pane4MyItems view8;
-	private CustomerHLPane view9;
+	private MainMenu view9;
 
 	DecimalFormat df = new DecimalFormat("#.##");
 	 
 	public ExpandEventController(Pane4Event view3) {
 		this.view3 = view3;
+		this.view = new Pane4Table();
 		this.view4 = new Pane4TablesTickets();
 		this.view5 = new Pane4Payment();
 		this.view6 = new Pane4Receipt();
 		//this.view7 = new Pane4TicketsView();
 		this.view8 = new Pane4MyItems();
-		this.view9 = new CustomerHLPane();
+		this.view9 = new MainMenu();
 
 		
 		view3.setPane4EventListener(new Pane4EventListener() {
@@ -155,12 +157,14 @@ public class ExpandEventController implements Observer{
 			
 			public void myOrdersClicked(MyOrderEvent ev) {
 				modelCustomer = ev.getCustomer();
-				CustomerAccountController hlController = new CustomerAccountController(view9);
-				for (Event e: modelCustomer.getEventList()) {
-					System.out.println(e.getEventName());
-				}
-				//view7.setMyEventsTable(modelCustomer.getEventList());
-				displayMyAccount();
+//				CustomerAccountController hlController = new CustomerAccountController(view9);
+//				for (Event e: modelCustomer.getEventList()) {
+//					System.out.println(e.getEventName());
+//				}
+//				//view7.setMyEventsTable(modelCustomer.getEventList());
+//				displayMyAccount();
+				Label upcoming = new Label("My Upcoming Events");
+				displayEvents(view.getMyEventsTable(), upcoming);
 			}
 			
 		});
@@ -196,7 +200,7 @@ public class ExpandEventController implements Observer{
 		public ExpandEventController(Pane4MyItems view8) {
 			this.view = new Pane4Table();
 			this.view8 = view8;
-			ExpandEventController event = new ExpandEventController(view);
+			
 			
 		view8.setPane4EventListener(new Pane4EventListener() {
 			
@@ -207,6 +211,7 @@ public class ExpandEventController implements Observer{
 				System.out.println("In ticket control");
 				modelCustomer = ev.getCustomer();
 				modelEvent = ev.getEvent();
+				ExpandEventController event = new ExpandEventController(view);
 				CustomerTicketProcessing ticketProcessor = new CustomerTicketProcessing(modelEvent);				
 				// --------- Removing Selected Event tickets from Customer ticketList
 				ArrayList<Ticket> tempList = modelCustomer.getTicketList();
@@ -266,7 +271,7 @@ public class ExpandEventController implements Observer{
 	public ExpandEventController(Pane4Table view){
 		this.view = view;
 		view8 = new Pane4MyItems();
-		//ExpandEventController control = new ExpandEventController(view8);
+		ExpandEventController control = new ExpandEventController(view8);
 
 		view.setPane4EventListener(new Pane4EventListener() {
 			
@@ -316,7 +321,7 @@ public class ExpandEventController implements Observer{
 	
 	private void displayMyAccount() {
 		MainWindow.setLeft(null);
-		MainWindow.setCenter(view9.getHyperlinkPane());
+		//MainWindow.setCenter(view9.getHyperlinkPane());
 	}
 	
 	private void displayMyItems(Node n1) {
@@ -341,6 +346,22 @@ public class ExpandEventController implements Observer{
 	@Override
 	public void update(Observable event, Object arg) {
 		new ExpandEventController(new Pane4Event());
+	}
+	
+	public void displayEvents(Node temp, Label temp2) {
+		VBox pane = new VBox();
+		VBox headerPane = new VBox();
+		
+		temp2.setFont(new Font(32));
+		headerPane.getChildren().addAll(temp2);
+		headerPane.setAlignment(Pos.TOP_CENTER);
+		pane.setSpacing(5);
+		pane.setPadding(new Insets(7.5, 0, 0, 0));
+		pane.getChildren().addAll(headerPane, temp);
+		
+		
+		MainWindow.setLeft(pane);
+		MainWindow.setRight(null);
 	}
 	
 }

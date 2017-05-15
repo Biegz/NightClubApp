@@ -8,6 +8,8 @@ import controller.MenuController;
 import controller.TableListener;
 import controller.TableTranslator;
 import controller.tableEvents.MyEventsMenuEvent;
+import controller.tableEvents.PastEvent;
+import controller.tableEvents.UpcomingEvent;
 import controller.tableEvents.ZipWithin15MenuEvent;
 import controller.tableEvents.ZipWithin50MenuEvent;
 import javafx.scene.control.Menu;
@@ -85,7 +87,7 @@ public class MainMenu {
 	
 	private Menu getCustomerEvents(){
 		Menu events = new Menu("Events");
-		events.getItems().addAll(getAllEvents(), getNearMe(),getSearchByVenue());
+		events.getItems().addAll(getAllEvents(),getMyCustomerEvents(), getNearMe(),getSearchByVenue());
 		return events;
 	}
 	
@@ -94,7 +96,7 @@ public class MainMenu {
 	//-------------------------Menu Items------------------------------------
 
 	private MenuItem simulate(){
-		MenuItem simulate = new MenuItem("Simulate Ticket Being Bought");
+		MenuItem simulate = new MenuItem("  Simulate Ticket Being Bought ");
 
 		simulate.setOnAction(e -> {
 			CustomerTicketProcessing pro = new CustomerTicketProcessing(Current.getEvent());
@@ -144,22 +146,22 @@ public class MainMenu {
 		
 		allEvents.setOnAction(e ->{
 			if(tableListener!= null){
-				System.out.println("is not null");
 				tableListener.allEventsMenuClicked();
 			}
 		});
 		return allEvents;
 		
 	}
+	
+	//-----------------------Menu Items For Customer----------------------------------------
 
 	private MenuItem customerEditAccount() {
-		CustomerHLPane pane = new CustomerHLPane();
-		CustomerAccountController controller = new CustomerAccountController(pane);
+
 		MenuItem editAccount = new MenuItem("  My Account ");
 
-		editAccount.setOnAction(e -> {
-			MainWindow.setCenter(pane.getHyperlinkPane());
-		});
+//		editAccount.setOnAction(e -> {
+//			MainWindow.setCenter(pane.getHyperlinkPane());
+//		});
 
 		return editAccount;
 	}
@@ -215,12 +217,46 @@ public class MainMenu {
 	private MenuItem getSearchByVenue(){
 		Pane4Events events = new Pane4Events();
 		MenuController controller = new MenuController(events);
-		MenuItem searchByVenue = new MenuItem("  Search By Venue ");
+		MenuItem searchByVenue = new MenuItem("  Search By Venue/Zipcode ");
 		searchByVenue.setOnAction(e ->{
 			MainWindow.setCenter(events.getSearchByVenuePane());
 		});
 		return searchByVenue;
 	}
+	
+	private Menu getMyCustomerEvents(){
+		Menu getMyCustomerEvents = new Menu("  My Events ");
+		getMyCustomerEvents.getItems().addAll(getUpcomingEvents(), getPastEvents());
+		return getMyCustomerEvents;
+	}
+	
+	private MenuItem getUpcomingEvents(){
+
+		MenuItem searchByVenue = new MenuItem("  My Upcoming Events ");
+		searchByVenue.setOnAction(e ->{
+			UpcomingEvent ev = new UpcomingEvent(this, Current.getCustomer());
+			if(tableListener!= null){
+				tableListener.upcomingEventsClicked(ev);
+			}
+		});
+		return searchByVenue;
+	}
+	
+
+	private MenuItem getPastEvents(){
+
+		MenuItem searchByVenue = new MenuItem("  My Past Events ");
+		searchByVenue.setOnAction(e ->{
+
+			PastEvent ev = new PastEvent(this, Current.getCustomer());
+			if(tableListener!= null){
+				tableListener.pastEventsClicked(ev);
+			}
+		});
+		return searchByVenue;
+	}
+	
+	
 	
 	
 	
@@ -264,7 +300,7 @@ public class MainMenu {
 	
 	private MenuItem getCreateEvent() {
 		pane4EventCreation = new Pane4EventCreation();
-		EventController controller = new EventController(pane4EventCreation);
+		MenuController controller = new MenuController(pane4EventCreation);
 
 		MenuItem createEvent = new MenuItem("  Create Event ");
 		createEvent.setOnAction(e -> {

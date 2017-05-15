@@ -8,8 +8,11 @@ import java.util.List;
 
 import controller.CreateButtonEvent;
 import controller.Current;
+import controller.DeleteButtonEvent;
 import controller.EventController;
 import controller.EventsListener;
+import controller.Pane4EventEvent;
+import controller.TableListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -26,9 +29,10 @@ import model.model4Address.Address;
 public class Pane4EventCreation {
 
 
-	
 	private Button createEventButton;
-	private EventsListener eventsListener;
+	private Button deleteEventButton;
+	private Button updateEventButton;
+	private TableListener tableListener;
 
 	private Pane eventCreationPane;
 	public static TextField nameField;
@@ -65,10 +69,6 @@ public class Pane4EventCreation {
 	//-----------------------------Data Panes--------------------------------------------------------------
 	
 	public VBox getCreatePane() {
-		// Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
-		 //EventController controller = new EventController(pane4EditEvents);
-		
-
 		VBox updateView = new VBox(5);
 		updateView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), getCreateEventButton());
 		return updateView;
@@ -76,9 +76,8 @@ public class Pane4EventCreation {
 	
 	public VBox getUpdatePane(){
 		 Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
-		 //EventController controller = new EventController(pane4EditEvents);		
 		 VBox editView = new VBox();
-		editView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), pane4EditEvents.getUpdateEventButton());
+		editView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), pane4EditEvents.getUpdateEventButton(), getDeleteEventButton());
 		return editView;
 	}
 	
@@ -92,10 +91,8 @@ public class Pane4EventCreation {
 		return deleteView;
 	}
 	
+	//--------------------------Capture Buttons------------------------------------------------------
 
-	
-	
-	
 	public Button getCreateEventButton(){
 		//myEvents = FXCollections.observableArrayList(EventsBag.events);//Could not get the current business' events list to print (tried getEventsList from business model)
 
@@ -105,20 +102,42 @@ public class Pane4EventCreation {
 					Current.getBusiness(),
 					getName(), getGenre(), getDescription(), new Address(getAddress(), null, getZip(), getState(), getCity()),
 					getDate(), getTotalTickets(), getTicketPrice(), getTotalTables(), getTablePrice()));
-			if(eventsListener != null){
+			if(tableListener != null){
 				System.out.println("Hit the if statement within getCreateEventButton method!");
-				eventsListener.createButtonClicked(ev);
+				tableListener.createButtonClicked(ev);
 			}
-			
-			EventsBag.add(ev.getEvent());
-			EventsBag.save();
-			
-			
-
 		});
 		return createEventButton;
 		
 	}
+
+	public Button getDeleteEventButton(){
+		deleteEventButton = new Button("Cancel Event");
+		deleteEventButton.setOnAction(e ->{
+			DeleteButtonEvent ev = new DeleteButtonEvent(this, Current.getEvent());	
+			if(tableListener != null){
+				tableListener.deleteButtonClicked(ev);
+			}
+		});
+		
+		return deleteEventButton;
+		
+	}
+	
+	public Button getUpdateEventButton(){
+		updateEventButton = new Button("Update Event");
+     	updateEventButton.setOnAction(e ->{
+//			UpdateButtonEvent ev = new UpdateButtonEvent(e);
+//			
+//			if(eventsListener != null){
+//				System.out.println("not null");
+//				eventsListener.updateButtonClicked(ev);
+//			}
+			System.out.println("I can create an event!");
+		});
+		return updateEventButton;
+	}
+	
 	
 	
 	
@@ -272,9 +291,8 @@ public class Pane4EventCreation {
 	}
 	
 	
-	public void setEventsListener(EventsListener eventsListener) {
-		System.out.println("Hit the setCreateEventListener method!");
-		this.eventsListener = eventsListener;
+	public void setTableListener(TableListener menu){
+		this.tableListener = menu;
 	}
 	
 

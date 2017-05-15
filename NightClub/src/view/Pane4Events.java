@@ -30,7 +30,7 @@ public class Pane4Events {
 	public Pane getSearchByVenuePane(){
 		VBox pane = new VBox();
 		
-		Label searchLbl = new Label("Search Events By Venue:");
+		Label searchLbl = new Label("Search Events By Venue/Zipcode:");
 		TextField searchTF = new TextField();
 		searchTF.setMaxWidth(240);
 		Button searchButton = new Button("Search");

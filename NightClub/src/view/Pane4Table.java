@@ -10,6 +10,7 @@ import controller.Pane4EventEvent;
 import controller.Pane4EventListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -66,6 +67,7 @@ public class Pane4Table {
 		eventsTable.setEditable(false);
 		eventsTable.setMaxHeight(400);
 		eventsTable.setMaxWidth(250);
+		eventsTable.setPlaceholder(new Label("No Events"));
 
 		eventsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		eventsTable.getColumns().addAll(getDateColumn(), getEventNameColumn());
@@ -99,6 +101,7 @@ public class Pane4Table {
 		myEventsTable.setEditable(false);
 		myEventsTable.setMaxHeight(400);
 		myEventsTable.setMaxWidth(250);
+		myEventsTable.setPlaceholder(new Label("No Events"));
 		myEventsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		myEventsTable.getColumns().addAll(getDateColumn(), getEventNameColumn());//, getCostColumn());
 		myEventsTable.setItems(myEvents);

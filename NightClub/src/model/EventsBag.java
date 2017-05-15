@@ -89,6 +89,7 @@ public class EventsBag implements Serializable {
 	public static void delete(Event event) {
 		events.remove(event);
 	}
+
 	
 	public static void save() {
 		try {

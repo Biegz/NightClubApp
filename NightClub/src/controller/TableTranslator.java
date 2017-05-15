@@ -36,7 +36,12 @@ public class TableTranslator {
 	}
 
 	public ArrayList<Event> getAllEvents() {
-		masterList = EventsBag.events;
+		masterList = new ArrayList<>();
+		for(Event e: eventsBag.events){
+			if(e.getDate().isAfter(LocalDate.now())){
+				masterList.add(e);
+			}
+		}
 		return masterList;
 	}
 

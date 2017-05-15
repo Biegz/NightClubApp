@@ -45,4 +45,20 @@ public class TableListener implements EventListener {
     public void searchButtonClicked(SearchButtonEvent ev){
 		
 	}
+    
+    
+    //---------------------Event Creation-------------------------
+    
+	public void createButtonClicked(CreateButtonEvent ev){
+		
+	}
+	
+	public void deleteButtonClicked(DeleteButtonEvent ev){
+		
+	}
+	
+	public void updateButtonClicked(UpdateButtonEvent ev){
+		
+	}
+	
 }

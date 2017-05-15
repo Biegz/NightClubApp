@@ -10,19 +10,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.model4User.model4Customer.Customer;
 import view.CustomerHLPane;
+import view.MainMenu;
 import view.MainWindow;
 import view.Pane4Table;
 
 public class CustomerAccountController {
 
-	private CustomerHLPane view;
+	private MainMenu view;
 	private Pane4Table view2;
 	private TableTranslator translator;
 	private TableController tableController;
 	private Customer modelCustomer;
 	private ExpandEventController expandEventController;
 	
-	public CustomerAccountController(CustomerHLPane view) {
+	public CustomerAccountController(MainMenu view) {
 		this.view = view;
 		this.view2 = new Pane4Table();
 		translator = new TableTranslator();
@@ -68,10 +69,12 @@ public void displayEvents(Node temp, Label temp2) {
 	
 	
 	MainWindow.setLeft(pane);
+	MainWindow.setRight(null);
 }
 
 public void displayEditAccount(Node temp) {
 	MainWindow.setCenter(temp);
+	MainWindow.setRight(null);
 }
 
 }
