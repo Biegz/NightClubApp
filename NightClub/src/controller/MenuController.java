@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.Employee;
 import model.Event;
 import model.EventsBag;
 import model.Table;
@@ -24,14 +25,18 @@ import model.Ticket;
 import model.model4Address.Address;
 import model.model4User.model4Customer.Customer;
 import model.model4User.model4Establishment.Business;
+import view.EstablishmentHLPane;
 import view.MainMenu;
 import view.MainWindow;
+import view.Pane4EmployeeTable;
+import view.Pane4EmployeeView;
 import view.Pane4Event;
 import view.Pane4EventCreation;
 import view.Pane4Events;
 import view.Pane4Table;
 import view.PaneForBusiness;
 import view.PaneForCustomer;
+import view.PaneForEmployee;
 import view.PaneForLogin;
 import view.PrimaryView;
 
@@ -43,6 +48,10 @@ public class MenuController {
 	private Pane4Events view4;
 	private Pane4EventCreation view5;
 	private PaneForBusiness view6;
+	private PaneForEmployee view7;
+	private EstablishmentHLPane view8;
+	private Pane4EmployeeView view9;
+	private Pane4EmployeeTable view10;
 	
 
 	private SignInUp signInUp;
@@ -51,6 +60,7 @@ public class MenuController {
 	private TableView<Event> table;
 	private Business modelBusiness;
 	private Customer modelCustomer;
+	private Employee modelEmployee;
 	
 	
 	private TableController tableController;
@@ -283,6 +293,124 @@ public class MenuController {
 			}
 			
 		});
+	}
+	
+	public MenuController(PaneForEmployee view){
+		this.view7 = view;
+		this.view9 = new Pane4EmployeeView();
+		
+		
+		view.setTableListener(new TableListener(){
+			public void addEmployeeButtonClicked(EmployeeEvent ev){
+				MenuController controller = new MenuController(view7);
+				modelEmployee = ev.getEmployee();
+				
+				modelEmployee.setName(ev.getEmployee().getName());
+				modelEmployee.setTitle(ev.getEmployee().getTitle());
+				modelEmployee.setSsn(ev.getEmployee().getSsn());
+				modelEmployee.setSalary(ev.getEmployee().getSalary());
+				//modelEmployee.setAddress(ev.getEmployee().getAddress());
+				modelEmployee.setDateOfBirth(ev.getEmployee().getDateOfBirth());
+				modelEmployee.setEmail(ev.getEmployee().getEmail());
+				modelEmployee.setEmployed(ev.getEmployee().isEmployed());
+				modelEmployee.setPhoneNumber(ev.getEmployee().getPhoneNumber());
+				
+				modelBusiness = Current.getBusiness();
+				
+				modelBusiness.addEmployee(modelEmployee);
+				view.setEmployeeTable(modelBusiness.getEmployees());
+				displayMyEmployees(view.getEmployeeTable());
+				MainWindow.setCenter(null);
+				IO.saveAll();
+				
+				
+				
+			}
+			
+			public void rowSelected(EmployeeEvent ev){
+				modelEmployee = ev.getEmployee();
+				
+				view9.setName(modelEmployee.getName());
+				view9.setBirthDate(modelEmployee.getDateOfBirth());
+				view9.setEmail(modelEmployee.getEmail());
+				view9.setTitle(modelEmployee.getTitle());
+				view9.setPhoneNumber(modelEmployee.getPhoneNumber());
+				view9.setSsn(modelEmployee.getSsn());
+				view9.setStatus(modelEmployee.isEmployed());
+				view9.setSalary(modelEmployee.getSalary());
+				
+				displayEmployee(view9.employeePane());
+				System.out.println("heyyy");
+				
+				
+			}
+		});
+	}
+	
+
+	
+	public MenuController(EstablishmentHLPane view){
+		this.view8 = view;
+		view10 = new Pane4EmployeeTable();
+		MenuController controller = new MenuController(view10);
+		
+		view.setTableListener(new TableListener(){
+			public void viewEmployeeHlClicked(){
+				modelBusiness = Current.getBusiness();
+				view10.setEmployeeTable(modelBusiness.getEmployees());
+				displayMyEmployees(view10.getEmployeeTable());
+			}
+		});
+		
+		
+	}
+	
+	public MenuController(Pane4EmployeeTable view){
+		this.view10 = view;
+		this.view9 = new Pane4EmployeeView();
+		
+		view.setTableListener(new TableListener(){
+			
+			public void rowSelected(EmployeeEvent ev){
+				modelEmployee = ev.getEmployee();
+				
+				view9.setName(modelEmployee.getName());
+				view9.setBirthDate(modelEmployee.getDateOfBirth());
+				view9.setEmail(modelEmployee.getEmail());
+				view9.setTitle(modelEmployee.getTitle());
+				view9.setPhoneNumber(modelEmployee.getPhoneNumber());
+				view9.setSsn(modelEmployee.getSsn());
+				view9.setStatus(modelEmployee.isEmployed());
+				view9.setSalary(modelEmployee.getSalary());
+				
+				displayEmployee(view9.employeePane());
+				System.out.println("heyyy");
+				
+				
+			}
+		});
+		
+		
+	}
+	
+	public void displayEmployee(Node temp){
+		
+		MainWindow.setCenter(temp);
+		
+	}
+	public void displayMyEmployees(Node temp){
+		VBox pane = new VBox();
+		VBox headerPane = new VBox();
+		Label header = new Label("My Employees:");
+		header.setFont(new Font(32));
+		headerPane.getChildren().addAll(header);
+		headerPane.setAlignment(Pos.TOP_CENTER);
+		pane.setSpacing(5);
+		pane.setPadding(new Insets(7.5, 0, 0, 0));
+		pane.getChildren().addAll(headerPane, temp);
+		
+
+		MainWindow.setLeft(pane);
 	}
 	
 	public void displayEventsByVenue(Node temp){

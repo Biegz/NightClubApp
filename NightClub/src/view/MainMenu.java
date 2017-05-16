@@ -269,9 +269,11 @@ public class MainMenu {
 
 	private MenuItem businessEditAccount() {
 		MenuItem editAccount = new MenuItem("  My Account ");
+		
+		EstablishmentHLPane pane = new EstablishmentHLPane();
+		MenuController controller = new MenuController(pane);
 
 		editAccount.setOnAction(e -> {
-			EstablishmentHLPane pane = new EstablishmentHLPane();
 			MainWindow.setCenter(pane.getHyperlinkPane());
 		});
 

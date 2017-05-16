@@ -65,4 +65,17 @@ public class TableListener implements EventListener {
 		
 	}
 	
+	//---------------------Employee Creation---------------------------
+	public void addEmployeeButtonClicked(EmployeeEvent ev){
+		
+	}
+	
+	public void viewEmployeeHlClicked(){
+		
+	}
+	
+	public void rowSelected(EmployeeEvent ev){
+		
+	}
+	
 }

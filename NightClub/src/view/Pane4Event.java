@@ -157,9 +157,11 @@ public class Pane4Event {
 
 	}
 	
-	public void setDate(LocalDate date, Address a) {
-		this.date = new Label(date.getMonth()+" "+ date.getDayOfMonth()+", "+date.getYear() + "  @ "+ a.display());
+	public void setDate(LocalDate date, String address) {
+		this.date = new Label(date.getMonth()+" "+ date.getDayOfMonth()+", "+date.getYear() + " @ "+ address);
 	}
+	
+
 
 	public Label descriptionLabel() {
 		Label descriptionLabel = new Label();

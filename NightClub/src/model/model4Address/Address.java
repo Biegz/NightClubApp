@@ -68,7 +68,7 @@ public class Address implements Serializable{
 	
 	public String display(){
 		String display = null;
-		display = number + " " + street + " " + city + ", " + state + " " + zipcode + ".";
+		display = street + " " + city + ", " + state + " " + zipcode;
 		return display;
 	}
 

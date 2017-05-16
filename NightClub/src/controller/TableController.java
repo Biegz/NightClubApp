@@ -69,8 +69,8 @@ public class TableController implements Observer{
 			System.out.println(modelEvent.getTicketsAvailable());
 			view2.setTicketsLeft(modelEvent.getTicketsAvailable());
 			view2.setTablesLeft(modelEvent.getTablesAvailable());
-			view2.setDate(modelEvent.getDate(),modelEvent.getAddress());
-			view2.setEventName(modelEvent.getEventName());
+			view2.setDate(modelEvent.getDate(),modelEvent.getAddress().display());
+			view2.setEventName(modelEvent.getEventName()+" hosted by: "+ modelEvent.getBusiness().getName());
 			view2.setImage(Current.getEvent().getGenre().getImage());
 			view2.setGenre(modelEvent.getGenre());
 			displayEvent(view2.getBuyTicketBtn());
@@ -89,10 +89,10 @@ public class TableController implements Observer{
 			System.out.println("Im a business and id like to view my competitors event");
 			Current.setEvent(modelEvent);
 			System.out.println(modelEvent.getTicketsAvailable());
-			view2.setEventName(modelEvent.getEventName());
+			view2.setEventName(modelEvent.getEventName()+" hosted by: "+ modelEvent.getBusiness().getName());
 			view2.setTicketsLeft(modelEvent.getTicketsAvailable());
 			view2.setTablesLeft(modelEvent.getTablesAvailable());
-			view2.setDate(modelEvent.getDate(),modelEvent.getAddress());
+			view2.setDate(modelEvent.getDate(),modelEvent.getAddress().display());
 			view2.setImage(Current.getEvent().getGenre().getImage());
 			view2.setGenre(modelEvent.getGenre());
 			displayEvent(new Text(""));

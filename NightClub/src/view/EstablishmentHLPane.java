@@ -2,6 +2,7 @@ package view;
 
 import controller.Current;
 import controller.MenuController;
+import controller.TableListener;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -20,13 +21,16 @@ public class EstablishmentHLPane {
 	private VBox pane2 = new VBox();
 	private VBox employeePane = new VBox();
 	private HBox buttonsPane = new HBox();
+	
+	private TableListener tableListener;
 
 	
 	
 
 	public Pane getHyperlinkPane() {
-		Pane4Events pane4Events = new Pane4Events();
+		pane1.getChildren().clear();
 		pane1.getChildren().addAll(getEditAccount(), getFinanceHl(), getEmployeeHl());
+		main.getChildren().clear();
 		main.getChildren().addAll(pane1);
 
 		main.setBorder(
@@ -37,6 +41,7 @@ public class EstablishmentHLPane {
 	}
 	
 	public Hyperlink getEditAccount(){
+			
 		Hyperlink editAccount = new Hyperlink("Edit Account");
 		PaneForBusiness pane = new PaneForBusiness();
 		editAccount.setOnAction(e ->{
@@ -47,22 +52,35 @@ public class EstablishmentHLPane {
 
 	
 	public Hyperlink employeeAdd(){
+			
 		Hyperlink employeeAdd = new Hyperlink("Add Employee");
+		PaneForEmployee employees = new PaneForEmployee();
+		MenuController controller = new MenuController(employees);
 		
 		employeeAdd.setOnAction( e -> {
-			PaneForEmployee employee = new PaneForEmployee();
-			MainWindow.setCenter(employee.getCreatePane());
+			MainWindow.setCenter(employees.getCreatePane());
 		});
 		
 		return employeeAdd;
 	}
 	
 	public Hyperlink employeesView(){
+				
 		Hyperlink employeesView = new Hyperlink("View Employees");
 		
+		
 		employeesView.setOnAction( e -> {
-			PaneForEmployees employees = new PaneForEmployees();
-			MainWindow.setCenter(employees.getPane());
+			PaneForEmployee employees = new PaneForEmployee();
+			MenuController controller = new MenuController(employees);
+			
+			
+			//MainWindow.setCenter(employees.getPane());
+			//MainWindow.setCenter(employees.getEmployeeTable());
+			
+			if(tableListener!= null){
+				System.out.println("In hurr bithc");
+				tableListener.viewEmployeeHlClicked();
+			}
 		});
 		
 		return employeesView;
@@ -102,6 +120,10 @@ public class EstablishmentHLPane {
 
 		return financeHl;
 
+	}
+	
+	public void setTableListener(TableListener menu){
+		this.tableListener = menu;
 	}
 
 

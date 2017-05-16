@@ -29,6 +29,8 @@ public class Business extends User {
 			employees.add(employee);
 		}
 	}
+	
+	
 
 	public void removeEmployee(String name) {
 		Employee delete = null;

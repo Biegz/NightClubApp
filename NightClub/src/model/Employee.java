@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import model.model4Address.Address;
 
@@ -9,30 +10,45 @@ public class Employee implements Serializable{
 	private String title;
 	private String salary;
 	private String name;
-	private Address address =  new Address();
+	private Address address;
 	private String ssn;
 	private String phoneNumber;
-	private String dateOfBirth;
+	private LocalDate dateOfBirth;
 	private String email;
-	private boolean isEmployed;
-	private String isTemp;
+	private String isEmployed;
+	
 
-	public Employee() {
+	
+	
+	public Employee(String title, String salary, String name, String ssn, String phoneNumber,
+			LocalDate dateOfBirth, String email, String isEmployed) {
+		super();
+		this.title = title;
+		this.salary = salary;
+		this.name = name;
+		this.address = address;
+		this.ssn = ssn;
+		this.phoneNumber = phoneNumber;
+		this.dateOfBirth = dateOfBirth;
+		this.email = email;
+		this.isEmployed = isEmployed;
+		
 	}
 
-	public String isTemp() {
-		return isTemp;
-	}
+	
+//	public String isTemp() {
+//		return isTemp;
+//	}
 
-	public void setTemp(String isTemp) {
-		this.isTemp = isTemp;
-	}
+//	public void setTemp(String isTemp) {
+//		this.isTemp = isTemp;
+//	}
 
-	public boolean isEmployed() {
+	public String isEmployed() {
 		return isEmployed;
 	}
 
-	public void setEmployed(boolean isEmployed) {
+	public void setEmployed(String isEmployed) {
 		this.isEmployed = isEmployed;
 	}
 
@@ -84,11 +100,11 @@ public class Employee implements Serializable{
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
