@@ -38,7 +38,7 @@ public class Pane4MyItems {
 	public GridPane mainGrid(Node n1) {
 		GridPane mainGrid = new GridPane();
 		mainGrid.setPadding(new Insets(15,10,15,10));
-		mainGrid.addColumn(0, headerLabel(), getEventLabel(), new Label(), itemGrid(n1));
+		mainGrid.addColumn(0, headerLabel(), getEventLabel(), new Text(""), itemGrid(n1));
 		
 		return mainGrid;
 	}

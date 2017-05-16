@@ -57,7 +57,7 @@ public class Pane4Event {
 		gridPane.add(getDate(),0,2);
 		gridPane.add(genre(), 0, 4);
 		gridPane.add(getImage(), 0, 6);
-		gridPane.add(ticketPane(n1), 0, 6);
+		gridPane.add(ticketPane(n1), 0, 7);
 		return gridPane;
 	}
 

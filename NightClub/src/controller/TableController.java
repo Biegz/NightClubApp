@@ -49,7 +49,7 @@ public class TableController implements Observer{
 					} else {
 						if(Current.getBusiness().getUsername().equals(modelEvent.getBusiness().getUsername())){
 							//if user is a business and owns the event
-							ownerSelectedTheEvent();
+							businessSelectedTheEvent();
 	
 						} else {
 							//if user is a business and does NOT own the event

@@ -18,6 +18,10 @@ public class TableListener implements EventListener {
 		
 	}
 	
+	public void eventRecommendationLogin(){
+		
+	}
+	
 	public void allEventsMenuClicked(){
 		
 	}

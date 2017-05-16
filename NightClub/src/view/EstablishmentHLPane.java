@@ -1,6 +1,7 @@
 package view;
 
 import controller.Current;
+import controller.MenuController;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -25,7 +26,7 @@ public class EstablishmentHLPane {
 
 	public Pane getHyperlinkPane() {
 		Pane4Events pane4Events = new Pane4Events();
-		pane1.getChildren().addAll(getFinanceHl(), getEmployeeHl());
+		pane1.getChildren().addAll(getEditAccount(), getFinanceHl(), getEmployeeHl());
 		main.getChildren().addAll(pane1);
 
 		main.setBorder(
@@ -33,6 +34,15 @@ public class EstablishmentHLPane {
 
 		return main;
 
+	}
+	
+	public Hyperlink getEditAccount(){
+		Hyperlink editAccount = new Hyperlink("Edit Account");
+		PaneForBusiness pane = new PaneForBusiness();
+		editAccount.setOnAction(e ->{
+			MainWindow.setCenter(pane.getUpdatePane());
+		});
+		return editAccount;
 	}
 
 	
@@ -65,7 +75,7 @@ public class EstablishmentHLPane {
 			main.getChildren().clear();
 			pane2.getChildren().clear();
 			pane1.getChildren().clear();
-			pane1.getChildren().addAll(getFinanceHl(), getEmployeeHl());
+			pane1.getChildren().addAll(getEditAccount(), getFinanceHl(), getEmployeeHl());
 			pane2.getChildren().addAll(employeeAdd(), employeesView());
 			main.getChildren().addAll(pane1, pane2);
 		});
@@ -84,7 +94,7 @@ public class EstablishmentHLPane {
 			pane1.getChildren().clear();
 			pane2.getChildren().clear();
 			pane2.getChildren().addAll(info.getPane());
-			pane1.getChildren().addAll(getFinanceHl(), getEmployeeHl());
+			pane1.getChildren().addAll(getEditAccount(), getFinanceHl(), getEmployeeHl());
 
 			main.getChildren().addAll(pane1, pane2);
 

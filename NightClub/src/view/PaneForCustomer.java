@@ -166,8 +166,8 @@ public class PaneForCustomer {
 		updateButton.setOnAction(e ->{
 			if(testFields()){
 				saveIt();
-				MainWindow main = new MainWindow();
-				PrimaryView.changePane(main.getCustomerWindow());
+				MainWindow.setCenter(null);
+
 			}
 		});
 		

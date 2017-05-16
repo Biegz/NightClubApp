@@ -1,5 +1,6 @@
 package view;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,9 @@ import controller.EventController;
 import controller.EventsListener;
 import controller.Pane4EventEvent;
 import controller.TableListener;
+import controller.UpdateButtonEvent;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -21,6 +25,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import model.Event;
 import model.EventsBag;
 import model.Genre;
@@ -34,6 +40,7 @@ public class Pane4EventCreation {
 	private Button updateEventButton;
 	private TableListener tableListener;
 
+	private Label errorLabel = new Label();
 	private Pane eventCreationPane;
 	public static TextField nameField;
 	public static TextField descriptionField;
@@ -68,47 +75,79 @@ public class Pane4EventCreation {
 	
 	//-----------------------------Data Panes--------------------------------------------------------------
 	
-	public VBox getCreatePane() {
-		VBox updateView = new VBox(5);
-		updateView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), getCreateEventButton());
-		return updateView;
+	public VBox getCreatePane(Node n1) {
+		VBox createView = new VBox(5);
+		
+		createView.setPadding(new Insets(5,0,0,0));
+		createView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), getCreateEventButton(), n1 );
+		return createView;
 	}
 	
 	public VBox getUpdatePane(){
-		 Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
-		 VBox editView = new VBox();
-		editView.getChildren().addAll(name(),description(),date(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), pane4EditEvents.getUpdateEventButton(), getDeleteEventButton());
+		 VBox editView = new VBox(5);
+			editView.setPadding(new Insets(5,0,0,0));
+
+		editView.getChildren().addAll(description(),address(),cityStateZip(),genre(),ticketPrice(),tablePrice(),totalTables(),totalTickets(), getUpdateEventButton(), getDeleteEventButton());
 		return editView;
 	}
 	
-	public VBox getDeletePane(){
-		 Pane4EditEvents pane4EditEvents = new Pane4EditEvents();
-		 //EventController controller = new EventController(pane4EditEvents);
-		VBox deleteView = new VBox();
-		Label cancelLbl = new Label("*Select the event you would like to cancel on the table, then press 'Cancel Event' below*");
-		deleteView.getChildren().addAll(cancelLbl, pane4EditEvents.getDeleteEventButton());
-
-		return deleteView;
-	}
 	
 	//--------------------------Capture Buttons------------------------------------------------------
 
 	public Button getCreateEventButton(){
-		//myEvents = FXCollections.observableArrayList(EventsBag.events);//Could not get the current business' events list to print (tried getEventsList from business model)
 
 		createEventButton = new Button("Create Event");
 		createEventButton.setOnAction(e ->{
-			CreateButtonEvent ev = new CreateButtonEvent(this, new Event(
-					Current.getBusiness(),
-					getName(), getGenre(), getDescription(), new Address(getAddress(), null, getZip(), getState(), getCity()),
-					getDate(), getTotalTickets(), getTicketPrice(), getTotalTables(), getTablePrice()));
-			if(tableListener != null){
-				System.out.println("Hit the if statement within getCreateEventButton method!");
-				tableListener.createButtonClicked(ev);
-			}
+			
+			      if(getName().isEmpty()){
+				    MainWindow.setCenter(getCreatePane(new Label("Enter a name!")));
+				    
+			    } else if(getDate().isBefore(LocalDate.now())){
+					MainWindow.setCenter(getCreatePane(new Label("Enter a future date!")));
+					
+				} else if(getAddress().isEmpty() || getCity().isEmpty() || getZip().isEmpty()){
+					MainWindow.setCenter(getCreatePane(new Label("Enter address info!")));
+					
+				} else if(getTicketPrice() + getTablePrice() + getTotalTickets() + getTotalTables() <= 0){
+					MainWindow.setCenter(getCreatePane(new Label("Prices and Quantities must be greater than zero!")));
+					
+				} else if (testDoubles(ticketPriceField) || testDoubles(tablePriceField) 
+						|| testInts(totalTicketsField) || testInts(totalTablesField)){
+					MainWindow.setCenter(getCreatePane(new Label("Price and Quantities Must Be Numbers!")));
+				}
+			      
+				 else {
+					CreateButtonEvent ev = new CreateButtonEvent(this, new Event(
+							Current.getBusiness(),
+							getName(), getGenre(), getDescription(), new Address(getAddress(), null, getZip(), getState(), getCity()),
+							getDate(), getTotalTickets(), getTicketPrice(), getTotalTables(), getTablePrice()));
+					if(tableListener != null){
+						tableListener.createButtonClicked(ev);
+					}
+				}
+			      
+			
 		});
 		return createEventButton;
 		
+	}
+	
+	private boolean testInts(TextField text){
+		try {
+			Integer.parseInt(text.getText());
+		} catch (NumberFormatException e) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean testDoubles(TextField text){
+		try{
+			Double.parseDouble(text.getText());
+		}catch(NumberFormatException e){
+			return true;
+		}
+		return false;
 	}
 
 	public Button getDeleteEventButton(){
@@ -127,12 +166,11 @@ public class Pane4EventCreation {
 	public Button getUpdateEventButton(){
 		updateEventButton = new Button("Update Event");
      	updateEventButton.setOnAction(e ->{
-//			UpdateButtonEvent ev = new UpdateButtonEvent(e);
-//			
-//			if(eventsListener != null){
-//				System.out.println("not null");
-//				eventsListener.updateButtonClicked(ev);
-//			}
+			UpdateButtonEvent ev = new UpdateButtonEvent(this, Current.getEvent());
+			
+			if(tableListener != null){
+				tableListener.updateButtonClicked(ev);
+			}
 			System.out.println("I can create an event!");
 		});
 		return updateEventButton;
@@ -174,7 +212,7 @@ public class Pane4EventCreation {
 		HBox date = new HBox(5);
 		Label dateLabel = new Label("Date:");
 		dateField = new DatePicker();
-		dateField.setPromptText("Select a date");
+		dateField.setValue(LocalDate.now().plusWeeks(1));
 		date.getChildren().addAll(dateLabel, dateField);
 		return date;
 	}
@@ -183,26 +221,28 @@ public class Pane4EventCreation {
 		HBox address = new HBox(5);
 		Label addressLabel = new Label("Address:");
 		addressField = new TextField();
-		addressField.setText("Current Business's Address"); //(Current.getBusiness().getAddress().getNumber() + Current.getBusiness().getAddress().getStreet() );
+		addressField.setPromptText("Event location"); //(Current.getBusiness().getAddress().getNumber() + Current.getBusiness().getAddress().getStreet() );
 		address.getChildren().addAll(addressLabel, addressField);
 		return address;
 	}
 	
-	public HBox cityStateZip() {
+	public VBox cityStateZip() {
+		VBox pane = new VBox();
+		HBox pane2 = new HBox();
 		HBox cityStateZip = new HBox(5);
 		Label cityLabel = new Label("City:");
 		Label stateLabel = new Label("State:");
 		Label zipLabel = new Label("Zip Code:");
 		cityField = new TextField();
-		cityField.setText("Current Business's City"); // (Current.getBusiness().getAddress().getCity());
 		stateField = new ComboBox();
 		stateField.getItems().addAll(stateList);
-		stateField.getSelectionModel().select("New York"); //Current.getBusiness().getAddress().getCity());
-		stateField.setPromptText("State");
+		stateField.getSelectionModel().select("New York"); 
 		zipField = new TextField();
-		zipField.setText("Current Business's Zip"); // (Current.getBusiness().getAddress().getZip());
-		cityStateZip.getChildren().addAll(cityLabel, cityField, stateLabel, stateField, zipLabel, zipField);
-		return cityStateZip;
+		pane2.getChildren().addAll(zipLabel, zipField );
+		cityStateZip.getChildren().addAll(cityLabel, cityField, stateLabel, stateField);
+		pane.getChildren().addAll(cityStateZip, pane2);
+		pane.setSpacing(5);
+		return pane;
 	}
 	
 	public HBox ticketPrice(){
@@ -289,6 +329,11 @@ public class Pane4EventCreation {
 	public int getTotalTables(){
 		return Integer.parseInt(totalTablesField.getText());
 	}
+	
+	
+	
+
+	
 	
 	
 	public void setTableListener(TableListener menu){

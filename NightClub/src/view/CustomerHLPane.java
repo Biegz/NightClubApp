@@ -41,13 +41,14 @@ public class CustomerHLPane {
 		Hyperlink editAccountHl = new Hyperlink("Edit Account");
 		PaneForCustomer pane = new PaneForCustomer();
 		editAccountHl.setOnAction(e ->{
-			main.getChildren().clear();
-			pane1.getChildren().clear();
-			pane2.getChildren().clear();
-			
-			pane2.getChildren().addAll(pane.getUpdatePane());
-			pane1.getChildren().addAll(getEditAccountHl(), getUpcomingEventsHl(), getPastEventsHl());
-			main.getChildren().addAll(pane1);
+//			main.getChildren().clear();
+//			pane1.getChildren().clear();
+//			pane2.getChildren().clear();
+//			
+//			pane2.getChildren().addAll(pane.getUpdatePane());
+//			pane1.getChildren().addAll(getEditAccountHl(), getUpcomingEventsHl(), getPastEventsHl());
+//			main.getChildren().addAll(pane1);
+			MainWindow.setCenter(pane.getUpdatePane());
 		});
 		return editAccountHl;
 	}

@@ -34,6 +34,19 @@ public class TableTranslator {
 
 	public TableTranslator() {
 	}
+	
+	public ArrayList<Event> getRecommendedEvents(Customer customer){
+		masterList = new ArrayList<>();
+		for(Event e: eventsBag.events){
+			if(e.getDate().isAfter(LocalDate.now())){
+				if(e.getGenre().equals(customer.getFavGenre())){
+					masterList.add(e);
+				}
+			}
+			
+		}
+		return masterList;
+	}
 
 	public ArrayList<Event> getAllEvents() {
 		masterList = new ArrayList<>();
@@ -58,9 +71,12 @@ public class TableTranslator {
 	public ArrayList<Event>  getByZip15(Customer customer) {
 		masterList = new ArrayList<>();
 		for(Event e : eventsBag.events){
-			if(e.getAddress().getZipcode().charAt(2) == customer.getAddress().getZipcode().charAt(2)){
-				masterList.add(e);			
-				}
+			if(e.getDate().isAfter(LocalDate.now())){
+				if(e.getAddress().getZipcode().charAt(2) == customer.getAddress().getZipcode().charAt(2)){
+					masterList.add(e);			
+					}
+			}
+			
 		}
 		return masterList;
 	}
@@ -68,9 +84,12 @@ public class TableTranslator {
 	public ArrayList<Event>  getByZip50(Customer customer) {
 		masterList = new ArrayList<>();
 		for(Event e: eventsBag.events){
-			if(e.getAddress().getZipcode().charAt(1) == customer.getAddress().getZipcode().charAt(1)){
-				masterList.add(e);
+			if(e.getDate().isAfter(LocalDate.now())){
+				if(e.getAddress().getZipcode().charAt(1) == customer.getAddress().getZipcode().charAt(1)){
+					masterList.add(e);
+				}
 			}
+			
 		}
 		return masterList;
 	}

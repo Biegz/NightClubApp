@@ -16,14 +16,14 @@ import view.Pane4Table;
 
 public class CustomerAccountController {
 
-	private MainMenu view;
+	private CustomerHLPane view;
 	private Pane4Table view2;
 	private TableTranslator translator;
 	private TableController tableController;
 	private Customer modelCustomer;
 	private ExpandEventController expandEventController;
 	
-	public CustomerAccountController(MainMenu view) {
+	public CustomerAccountController(CustomerHLPane view) {
 		this.view = view;
 		this.view2 = new Pane4Table();
 		translator = new TableTranslator();

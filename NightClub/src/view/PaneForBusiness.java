@@ -116,8 +116,7 @@ public class PaneForBusiness {
 
 		updateButton.setOnAction(e -> {
 			saveIt();
-			MainWindow main = new MainWindow();
-			PrimaryView.changePane(main.getBusinessWindow());
+			MainWindow.setCenter(null);
 		});
 
 		return updateButton;

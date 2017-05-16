@@ -45,7 +45,7 @@ public class ExpandEventController implements Observer{
 	private Pane4Table view7;
 	//private Pane4TicketsView view7;
 	private Pane4MyItems view8;
-	private MainMenu view9;
+	private CustomerHLPane view9;
 
 	DecimalFormat df = new DecimalFormat("#.##");
 	 
@@ -57,7 +57,7 @@ public class ExpandEventController implements Observer{
 		this.view6 = new Pane4Receipt();
 		//this.view7 = new Pane4TicketsView();
 		this.view8 = new Pane4MyItems();
-		this.view9 = new MainMenu();
+		this.view9 = new CustomerHLPane();
 
 		
 		view3.setPane4EventListener(new Pane4EventListener() {
@@ -157,14 +157,14 @@ public class ExpandEventController implements Observer{
 			
 			public void myOrdersClicked(MyOrderEvent ev) {
 				modelCustomer = ev.getCustomer();
-//				CustomerAccountController hlController = new CustomerAccountController(view9);
-//				for (Event e: modelCustomer.getEventList()) {
-//					System.out.println(e.getEventName());
-//				}
-//				//view7.setMyEventsTable(modelCustomer.getEventList());
-//				displayMyAccount();
-				Label upcoming = new Label("My Upcoming Events");
-				displayEvents(view.getMyEventsTable(), upcoming);
+				CustomerAccountController hlController = new CustomerAccountController(view9);
+				for (Event e: modelCustomer.getEventList()) {
+					System.out.println(e.getEventName());
+				}
+				//view7.setMyEventsTable(modelCustomer.getEventList());
+				displayMyAccount();
+//				Label upcoming = new Label("My Upcoming Events");
+//				displayEvents(view.getMyEventsTable(), upcoming);
 			}
 			
 		});
@@ -321,7 +321,7 @@ public class ExpandEventController implements Observer{
 	
 	private void displayMyAccount() {
 		MainWindow.setLeft(null);
-		//MainWindow.setCenter(view9.getHyperlinkPane());
+		MainWindow.setCenter(view9.getHyperlinkPane());
 	}
 	
 	private void displayMyItems(Node n1) {
@@ -331,7 +331,7 @@ public class ExpandEventController implements Observer{
 	private void displayMyTickets() {
 		VBox pane = new VBox();
 		VBox headerPane = new VBox();
-		Label header = new Label("This Venue's Events:");
+		Label header = new Label("Upcoming Events:");
 		header.setFont(new Font(32));
 		headerPane.getChildren().addAll(header);
 		headerPane.setAlignment(Pos.TOP_CENTER);
@@ -340,6 +340,7 @@ public class ExpandEventController implements Observer{
 		pane.getChildren().addAll(headerPane, view.getMyEventsTable());
 		
 		MainWindow.setLeft(pane);
+		MainWindow.setCenter(null);
 		MainWindow.setRight(null);
 	}
 

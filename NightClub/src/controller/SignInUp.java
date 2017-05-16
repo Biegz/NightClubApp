@@ -3,6 +3,7 @@ package controller;
 import model.EventsBag; 
 import model.UsersBag;
 import controller.IO;
+import controller.tableEvents.ZipWithin15MenuEvent;
 import model.model4Address.Address;
 import model.model4User.User;
 import model.model4User.model4Customer.Customer;
@@ -29,15 +30,13 @@ public class SignInUp {
 				Current.setUser(logger);
 				if (Current.getUser() instanceof Business) {
 					if(tableListener!= null){
-						System.out.println("not Null for login");
 						tableListener.allEventsLogin();
 					}
 					PrimaryView.changePane(MainWindow.getBusinessWindow());
 					//showBusinessMainMenu();
 				} else if (Current.getUser() instanceof Customer) {
 					if(tableListener!= null){
-						System.out.println("not Null for login");
-						tableListener.allEventsLogin();
+						tableListener.eventRecommendationLogin();
 					}
 					PrimaryView.changePane(MainWindow.getCustomerWindow());
 

@@ -104,9 +104,9 @@ public class Pane4Payment {
 	public GridPane cartPane() {
 		Pane4TablesTickets prevPane = new Pane4TablesTickets();
 		GridPane cartPane = new GridPane();
-		cartPane.setVgap(15);
+		cartPane.setVgap(5);
 		cartPane.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-		cartPane.setPadding(new Insets(10,10,10,10));
+		cartPane.setPadding(new Insets(5,10,10,10));
 		cartPane.addColumn(0, cartLabel(),ticketsLabel(), tablesLabel(), taxLabel(), totalLabel());
 		cartPane.addColumn(1, new Label(),getTicketsDisplayLabel(), getTablesDisplayLabel(),getTaxDisplayLabel(),getTotalDisplayLabel(),modifyBtn());
 		return cartPane;
@@ -158,9 +158,9 @@ public class Pane4Payment {
 	// -------------------------------- Billing Address Pane (middle of VBox) ---------------------------------
 	public GridPane addressPane() {
 		GridPane addressPane = new GridPane();
-		addressPane.setVgap(10);
+		addressPane.setVgap(2);
 		addressPane.setHgap(10);
-		addressPane.setPadding(new Insets(10,10,10,10));
+		addressPane.setPadding(new Insets(2,10,10,2));
 
 		//Need billing title
 		
@@ -173,7 +173,7 @@ public class Pane4Payment {
 	//--------------------------------- Payment Info (bottom of VBox) ---------------------------------
 	public GridPane paymentPane(Node n2) {
 		GridPane paymentPane = new GridPane();
-		paymentPane.setVgap(10);
+		paymentPane.setVgap(5);
 		paymentPane.setHgap(10);
 		
 		//paymentPane.addRow(0, paymentInfoLabel());

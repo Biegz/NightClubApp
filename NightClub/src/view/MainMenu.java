@@ -16,6 +16,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class MainMenu {
 
@@ -31,13 +32,13 @@ public class MainMenu {
 	// Menu Bars
 	public MenuBar getCustomerMenuBar() {
 		MenuBar menuBar = new MenuBar();
-		menuBar.getMenus().addAll(customerHome(), customerMenu(), getCustomerEvents(), customerSettings());
+		menuBar.getMenus().addAll(customerHome(), getCustomerEvents(), customerSettings());
 		return menuBar;
 	}
 
 	public MenuBar getBusinessMenuBar() {
 		MenuBar menuBar = new MenuBar();
-		menuBar.getMenus().addAll(businessHome(), businessMenu(), getBusinessEvents(), businessSettings());
+		menuBar.getMenus().addAll(businessHome(), getBusinessEvents(), businessSettings());
 		return menuBar;
 	}
 
@@ -87,7 +88,7 @@ public class MainMenu {
 	
 	private Menu getCustomerEvents(){
 		Menu events = new Menu("Events");
-		events.getItems().addAll(getAllEvents(),getMyCustomerEvents(), getNearMe(),getSearchByVenue());
+		events.getItems().addAll(getAllEvents(),getNearMe(),getSearchByVenue());
 		return events;
 	}
 	
@@ -156,12 +157,13 @@ public class MainMenu {
 	//-----------------------Menu Items For Customer----------------------------------------
 
 	private MenuItem customerEditAccount() {
-
+		CustomerHLPane pane = new CustomerHLPane();
+		CustomerAccountController controller = new CustomerAccountController(pane);
 		MenuItem editAccount = new MenuItem("  My Account ");
 
-//		editAccount.setOnAction(e -> {
-//			MainWindow.setCenter(pane.getHyperlinkPane());
-//		});
+		editAccount.setOnAction(e -> {
+			MainWindow.setCenter(pane.getHyperlinkPane());
+		});
 
 		return editAccount;
 	}
@@ -170,8 +172,10 @@ public class MainMenu {
 		MenuItem goHome = new MenuItem("  Main Window ");
 
 		goHome.setOnAction(e -> {
-			MainWindow main = new MainWindow();
-			PrimaryView.changePane(main.getCustomerWindow());
+
+			if(tableListener!= null){
+				tableListener.eventRecommendationLogin();
+			}
 		});
 
 		return goHome;
@@ -278,8 +282,9 @@ public class MainMenu {
 		MenuItem goHome = new MenuItem("  Main Window ");
 
 		goHome.setOnAction(e -> {
-			MainWindow main = new MainWindow();
-			PrimaryView.changePane(main.getBusinessWindow());
+			if(tableListener!= null){
+				tableListener.allEventsMenuClicked();
+			}
 		});
 
 		return goHome;
@@ -305,7 +310,7 @@ public class MainMenu {
 		MenuItem createEvent = new MenuItem("  Create Event ");
 		createEvent.setOnAction(e -> {
 
-			MainWindow.setCenter(pane4EventCreation.getCreatePane());
+			MainWindow.setCenter(pane4EventCreation.getCreatePane(new Text()));
 		});
 		return createEvent;
 	}

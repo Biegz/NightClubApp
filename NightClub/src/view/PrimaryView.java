@@ -51,8 +51,8 @@ public class PrimaryView {
 		AnchorPane anchor = new AnchorPane();
 		Node temp = node;
 		anchor.getChildren().addAll(temp);
-		anchor.setTopAnchor(temp, height / 4.75);
-		anchor.setLeftAnchor(temp, width / 3.125);
+		anchor.setTopAnchor(temp, height / 5.75);
+		anchor.setLeftAnchor(temp, width / 3.5);
 		primaryPane.setCenter(anchor);
 	}
 	

@@ -51,7 +51,7 @@ public class PaneForLogin {
 	private VBox launchView(){
 		VBox launchView = new VBox();
 		Label singleSpace = new Label("\n");
-		launchView.getChildren().addAll(getLogo(), userInfoQuery(), passwordQuery(), buttonQuery());
+		launchView.getChildren().addAll(getTitle(),new Text(" "),  getLogo(),new Text("\n"), userInfoQuery(), passwordQuery(), buttonQuery());
 		launchView.setPadding(new Insets(10));
 		return launchView;
 	}
@@ -59,8 +59,9 @@ public class PaneForLogin {
 	//sets title
 	private HBox getTitle(){
 		HBox pane = new HBox();
-		Label title = new Label("Owlzzz");
-		title.setFont(Font.font ("Calibri",FontPosture.ITALIC, 32));
+		Label title = new Label("Owlz");
+		title.setFont(Font.font ("Calibri",FontPosture.ITALIC, 42));
+		pane.setPadding(new Insets(0,20,0,0));
 		pane.getChildren().add(title);
 		pane.setAlignment(Pos.BASELINE_CENTER);
 		

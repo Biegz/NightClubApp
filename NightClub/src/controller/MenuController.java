@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -29,6 +30,8 @@ import view.Pane4Event;
 import view.Pane4EventCreation;
 import view.Pane4Events;
 import view.Pane4Table;
+import view.PaneForBusiness;
+import view.PaneForCustomer;
 import view.PaneForLogin;
 import view.PrimaryView;
 
@@ -39,6 +42,7 @@ public class MenuController {
 	private PaneForLogin view3;
 	private Pane4Events view4;
 	private Pane4EventCreation view5;
+	private PaneForBusiness view6;
 	
 
 	private SignInUp signInUp;
@@ -97,12 +101,19 @@ public class MenuController {
 				Label past = new Label("My Past Events");
 				displayEvents(view2.getMyEventsTable(), past);
 			}
+			public void eventRecommendationLogin(){
+				modelCustomer = Current.getCustomer();
+				table = view2.getTable(translator.getRecommendedEvents(modelCustomer));
+				displayREvents(table);
+			}
 			
 			
 		});
 		
 		
 	}	
+	
+
 
 	public MenuController(SignInUp view3){
 		this.signInUp = view3;
@@ -110,6 +121,13 @@ public class MenuController {
 		translator = new TableTranslator();
 		tableController = new TableController(view2);
 		signInUp.setTableListener( new TableListener() {
+			
+			public void eventRecommendationLogin(){
+				modelCustomer = Current.getCustomer();
+				table = view2.getTable(translator.getRecommendedEvents(modelCustomer));
+				displayREvents(table);
+			}
+			
 			public void allEventsLogin() {
 				
 				table = view2.getTable(translator.getAllEvents());
@@ -120,6 +138,8 @@ public class MenuController {
 		
 	}
 	
+
+	
 	public MenuController(Pane4EventCreation view){
 		this.view5 = view;
 		
@@ -129,7 +149,6 @@ public class MenuController {
 		
 		view.setTableListener(new TableListener(){
 			public void createButtonClicked(CreateButtonEvent ev){
-				System.out.println("Im in boys");
 				modelEvent = ev.getEvent();
 				
 
@@ -166,8 +185,6 @@ public class MenuController {
 			}
 			
 			public void deleteButtonClicked(DeleteButtonEvent ev){
-				System.out.println("We out here");
-				
 				modelEvent = ev.getEvent();
 				EventsBag.delete(modelEvent);
 				
@@ -209,6 +226,31 @@ public class MenuController {
 				IO.saveAll();
 			}
 			
+			public void updateButtonClicked(UpdateButtonEvent ev){
+				modelEvent = ev.getEvent();
+				
+				modelEvent.setGenre(ev.getEvent().getGenre());
+				modelEvent.setDescription(ev.getEvent().getDescription());
+
+				modelEvent.setAddress(ev.getEvent().getAddress());
+				
+				modelEvent.setTotalTickets(ev.getEvent().getTotalTickets());
+				modelEvent.setTicketPrice(ev.getEvent().getTicketPrice());
+				modelEvent.setTotalTables(ev.getEvent().getTotalTables());
+				modelEvent.setTablePrice(ev.getEvent().getTablePrice());
+				
+				//EventsBag.add(modelEvent);
+				EventsBag.save();
+				
+				modelBusiness = Current.getBusiness();
+				table = view2.getTable(translator.getMyEvents(modelBusiness));
+				displayMyEvents(table);
+				
+				emptyPane();
+				IO.saveAll();
+				
+			}
+			
 			
 		});
 		
@@ -225,11 +267,14 @@ public class MenuController {
 			public void searchButtonClicked(SearchButtonEvent ev){
 				ArrayList<Event> temp = new ArrayList<>();
 				for(Event e: EventsBag.events){
-					if(ev.getVenueSearch().equals(e.getBusiness().getName())){
-						temp.add(e);
-					}else if(ev.getVenueSearch().equals(e.getAddress().getZipcode())){
-						temp.add(e);
+					if(e.getDate().isAfter(LocalDate.now())){
+						if(ev.getVenueSearch().equals(e.getBusiness().getName())){
+							temp.add(e);
+						}else if(ev.getVenueSearch().equals(e.getAddress().getZipcode())){
+							temp.add(e);
+						}
 					}
+					
 				}
 				
 				table = view2.getTable(temp);
@@ -267,6 +312,23 @@ public class MenuController {
 		pane.getChildren().addAll(headerPane, temp);
 		
 		MainWindow.setLeft(pane);
+		MainWindow.setCenter(null);
+	}
+	
+	public void displayREvents(Node temp) {
+		VBox pane = new VBox();
+		VBox headerPane = new VBox();
+		Label header = new Label("Recommended Events");
+		header.setFont(new Font(32));
+		headerPane.getChildren().addAll(header);
+		headerPane.setAlignment(Pos.TOP_CENTER);
+		pane.setSpacing(5);
+		pane.setPadding(new Insets(7.5, 0, 0, 0));
+		pane.getChildren().addAll(headerPane, temp);
+		
+		MainWindow.setLeft(pane);
+		MainWindow.setRight(null);
+		MainWindow.setBottom(null);
 		MainWindow.setCenter(null);
 	}
 	

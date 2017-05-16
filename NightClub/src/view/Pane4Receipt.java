@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class Pane4Receipt {
 	private Label receiptLabel;
@@ -39,7 +40,7 @@ public class Pane4Receipt {
 		GridPane receiptGrid = new GridPane(); 
 		receiptGrid.setVgap(10);
 		receiptGrid.setPadding(new Insets(15,10,10,15));
-		receiptGrid.addColumn(0, getReceiptLabel(),new Label(), orderLabel(), getEventLabel(), getDateLabel(), orderGrid(), new Label(), myOrdersBtn());
+		receiptGrid.addColumn(0, getReceiptLabel(),new Text(""), orderLabel(), getEventLabel(), getDateLabel(), orderGrid(), new Text(""), myOrdersBtn());
 		return receiptGrid;
 	}
 	
@@ -70,33 +71,32 @@ public class Pane4Receipt {
 	//------------------------------ Static Labels ----------------------------------
 	
 	public Label orderLabel() {
-		Label orderLabel = new Label("Order Summary:");
-		orderLabel.setPadding(new Insets(10,10,10,0));
+		Label orderLabel = new Label(" Order Summary: ");
 		orderLabel.setFont(Font.font("Arial", FontWeight.MEDIUM, 20));
 		orderLabel.setUnderline(true);
 		return orderLabel;
 	}
 	
 	public Label ticketHeaderLabel() {
-		Label ticketHeaderLabel = new Label("Tickets");
+		Label ticketHeaderLabel = new Label(" Tickets ");
 		ticketHeaderLabel.setFont(Font.font("Arial", FontWeight.MEDIUM,16));
 		return ticketHeaderLabel;
 	}
 	
 	public Label tableHeaderLabel() {
-		Label tableHeaderLabel = new Label("Tables");
+		Label tableHeaderLabel = new Label(" Tables ");
 		tableHeaderLabel.setFont(Font.font("Arial", FontWeight.MEDIUM,16));
 		return tableHeaderLabel;
 	}
 	
 	public Label taxHeaderLabel() {
-		Label taxHeaderLabel = new Label("Tax:");
+		Label taxHeaderLabel = new Label(" Tax: ");
 		taxHeaderLabel.setFont(Font.font("Arial", FontWeight.MEDIUM,16));
 		return taxHeaderLabel;
 	}
 	
 	public Label totalHeaderLabel() {
-		Label totalHeaderLabel = new Label("Total:");
+		Label totalHeaderLabel = new Label(" Total: ");
 		totalHeaderLabel.setFont(Font.font("Arial", FontWeight.MEDIUM,16));
 		return totalHeaderLabel;
 	}
@@ -109,7 +109,7 @@ public class Pane4Receipt {
 	}
 
 	public void setReceiptLabel(String customer) {
-		this.receiptLabel = new Label("Thanks for your order, "+ customer);
+		this.receiptLabel = new Label(" Thanks for your order, "+ customer+" ");
 		receiptLabel.setFont(Font.font("Arial", FontWeight.SEMI_BOLD,28));
 	}
 
@@ -162,9 +162,9 @@ public class Pane4Receipt {
 	}
 
 	public void setDateLabel(LocalDate date) {
-		this.dateLabel = new Label("Ordered on: " + date.getMonth() +" "+ date.getDayOfMonth()+ ", "+ date.getYear());
+		this.dateLabel = new Label(" Ordered on: " + date.getMonth() +" "+ date.getDayOfMonth()+ ", "+ date.getYear());
 		dateLabel.setFont(Font.font("Arial", FontWeight.MEDIUM,16));
-		dateLabel.setPadding(new Insets(0,0,15,0));
+		//dateLabel.setPadding(new Insets(0,0,15,0));
 	}
 
 	public Label getEventLabel() {
@@ -172,7 +172,7 @@ public class Pane4Receipt {
 	}
 
 	public void setEventLabel(String eventName) {
-		this.eventLabel = new Label("Order for: " +eventName);
+		this.eventLabel = new Label(" Order for: " +eventName);
 		eventLabel.setFont(Font.font("Arial", FontWeight.MEDIUM,16));
 
 	}
