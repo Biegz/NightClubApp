@@ -14,7 +14,7 @@ public class Launch extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		IO.loadAll();
 		new PrimaryView(primaryStage);
-		 Application.setUserAgentStylesheet(getClass().getResource("BieglerStyleSheet2.css")
+		 Application.setUserAgentStylesheet(getClass().getResource("AdjustedStyleSheet.css")
 			        .toExternalForm());
 		
 		//Application.setUserAgentStylesheet(STYLESHEET_CASPIAN);
